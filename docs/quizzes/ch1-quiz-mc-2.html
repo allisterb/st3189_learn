@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ST3189 - Linear Regression Quiz (Part 2)</title>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <style>
+        body { font-family: sans-serif; margin: 2em; line-height: 1.6; }
+        .quiz-container { max-width: 800px; margin: auto; }
+        .question { border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.5em; margin-bottom: 2em; background-color: #fff; }
+        .options label { display: block; margin: 0.5em 0; padding: 0.5em; border-radius: 4px; cursor: pointer; }
+        .options label:hover { background-color: #f0f0f0; }
+        .explanation { border: 1px solid #ccc; padding: 1em; margin-top: 1em; background-color: #f9f9f9; border-radius: 4px; }
+        .correct-feedback { color: #28a745; font-weight: bold; }
+        .incorrect-feedback { color: #dc3545; font-weight: bold; }
+        .source { font-size: 0.8em; color: #6c757d; margin-top: 1em; }
+        #clear-button { margin-top: 2em; padding: 0.7em 1.5em; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        #clear-button:hover { background-color: #c82333; }
+        h1 { text-align: center; margin-bottom: 2em; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>ST3189 - Linear Regression Quiz (Part 2)</h1>
+
+        <!-- Question 51 -->
+        <div class="question" id="question-50">
+            <p class="question-text"><strong>51. Why is it important to standardize predictors before fitting Ridge or Lasso models?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q50" value="0"> <span>To ensure the intercept is correctly estimated.</span></label>
+                <label><input type="radio" name="q50" value="1"> <span>To ensure the penalty is applied fairly to all coefficients, regardless of their original scale.</span></label>
+                <label><input type="radio" name="q50" value="2"> <span>It is not important; the result is the same either way.</span></label>
+                <label><input type="radio" name="q50" value="3"> <span>To make the design matrix invertible.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The Ridge and Lasso penalties are based on the size of the coefficients. If predictors are on different scales, a coefficient for a variable with a large scale might be small, while a coefficient for a variable with a small scale might be large, just due to scaling. Standardizing (e.g., to have a standard deviation of one) puts all predictors on a common scale so the penalty is applied equitably.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 52 -->
+        <div class="question" id="question-51">
+            <p class="question-text"><strong>52. In the context of the bias-variance trade-off, a very complex model (e.g., a high-degree polynomial) is likely to have:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q51" value="0"> <span>Low bias and high variance.</span></label>
+                <label><input type="radio" name="q51" value="1"> <span>Low bias and low variance.</span></label>
+                <label><input type="radio" name="q51" value="2"> <span>High bias and low variance.</span></label>
+                <label><input type="radio" name="q51" value="3"> <span>High bias and high variance.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">0</div>
+            <div class="explanation-text" style="display:none;">Complex, flexible models make fewer assumptions about the true form of the function, so they tend to have low bias. However, they are very sensitive to the specific training data and can change dramatically with a new dataset, leading to high variance.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 53 -->
+        <div class="question" id="question-52">
+            <p class="question-text"><strong>53. What does a VIF (Variance Inflation Factor) value of 1 indicate for a predictor?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q52" value="0"> <span>The predictor is perfectly correlated with another predictor.</span></label>
+                <label><input type="radio" name="q52" value="1"> <span>The predictor is not correlated with any other predictors.</span></label>
+                <label><input type="radio" name="q52" value="2"> <span>The predictor is highly influential.</span></label>
+                <label><input type="radio" name="q52" value="3"> <span>The variance of the predictor's coefficient is inflated by 100%.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The VIF measures how much the variance of an estimated regression coefficient is increased because of collinearity. A VIF of 1 is the baseline, indicating that there is no correlation between this predictor and any others. Values greater than 5 or 10 are often considered problematic.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.3</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 54 -->
+        <div class="question" id="question-53">
+            <p class="question-text"><strong>54. When using polynomial regression, what is a major risk of choosing a very high degree for the polynomial?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q53" value="0"> <span>The model will be too biased.</span></label>
+                <label><input type="radio" name="q53" value="1"> <span>The model will be difficult to interpret.</span></label>
+                <label><input type="radio" name="q53" value="2"> <span>The model will overfit the data, showing strange behavior, especially at the boundaries.</span></label>
+                <label><input type="radio" name="q53" value="3"> <span>The R-squared will decrease.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">Using a high-degree polynomial allows the model to be extremely flexible, but this flexibility can lead to overfitting. The fitted curve may pass very close to the training data points but can exhibit wild oscillations and erratic behavior, particularly near the minimum and maximum values of the predictor.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 55 -->
+        <div class="question" id="question-54">
+            <p class="question-text"><strong>55. What is the primary advantage of using cross-validation to select the tuning parameter \(\lambda\) in Ridge or Lasso regression?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q54" value="0"> <span>It is computationally faster than using a single validation set.</span></label>
+                <label><input type="radio" name="q54" value="1"> <span>It provides a more robust estimate of the test error, making the choice of \(\lambda\) less dependent on the specific split of data into training and test sets.</span></label>
+                <label><input type="radio" name="q54" value="2"> <span>It guarantees that the chosen model will have no bias.</span></label>
+                <label><input type="radio" name="q54" value="3"> <span>It always selects the simplest possible model.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Cross-validation, particularly k-fold cross-validation, provides a more stable and less biased estimate of the test error compared to a single validation set. This leads to a more reliable selection of the optimal tuning parameter \(\lambda\).</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 56 -->
+        <div class="question" id="question-55">
+            <p class="question-text"><strong>56. If a residual plot (residuals vs. fitted values) shows a distinct U-shape, what does this suggest?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q55" value="0"> <span>The presence of multicollinearity.</span></label>
+                <label><input type="radio" name="q55" value="1"> <span>The presence of non-linearity in the data that the model is not capturing.</span></label>
+                <label><input type="radio" name="q55" value="2"> <span>The error terms are correlated.</span></label>
+                <label><input type="radio" name="q55" value="3"> <span>The variance of the error terms is not constant (heteroscedasticity).</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">A clear pattern, such as a U-shape or an inverted U-shape, in the residual plot indicates that the linear model is not capturing some non-linear relationship in the data. The model is systematically under-predicting for some ranges and over-predicting for others.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.3</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 57 -->
+        <div class="question" id="question-56">
+            <p class="question-text"><strong>57. Comparing model selection criteria, which of the following tends to select the most parsimonious (simplest) model?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q56" value="0"> <span>Adjusted R-squared</span></label>
+                <label><input type="radio" name="q56" value="1"> <span>AIC (Akaike Information Criterion)</span></label>
+                <label><input type="radio" name="q56" value="2"> <span>BIC (Bayesian Information Criterion)</span></label>
+                <label><input type="radio" name="q56" value="3"> <span>Mallows's Cp</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">BIC tends to favor simpler models more strongly than AIC, Adjusted R-squared, or Cp. This is because the penalty for the number of parameters in BIC (which is \(\log(n) \cdot p\)) is larger than the penalty in AIC (which is \(2p\)) for any reasonably sized dataset (n > 7).</div>
+            <div class="source-text" style="display:none;">Subset Selection Linear Regression(2).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 58 -->
+        <div class="question" id="question-57">
+            <p class="question-text"><strong>58. In Bayesian linear regression, what is a 'conjugate prior'?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q57" value="0"> <span>A prior that is difficult to compute.</span></label>
+                <label><input type="radio" name="q57" value="1"> <span>A prior that results in a posterior distribution that has the same functional form as the prior.</span></label>
+                <label><input type="radio" name="q57" value="2"> <span>A prior that is uninformative.</span></label>
+                <label><input type="radio" name="q57" value="3"> <span>A prior that is based on previous experimental results.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">A conjugate prior is a prior distribution that, when combined with the likelihood, yields a posterior distribution from the same family of distributions. For example, a Normal prior for the mean of a Normal likelihood results in a Normal posterior. This is computationally convenient.</div>
+            <div class="source-text" style="display:none;">Bayesian Inference Essentials Part 1(1).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 59 -->
+        <div class="question" id="question-58">
+            <p class="question-text"><strong>59. What is a potential issue with using p-values from hypothesis tests for variable selection?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q58" value="0"> <span>P-values are not valid for linear regression.</span></label>
+                <label><input type="radio" name="q58" value="1"> <span>They do not account for model complexity.</span></label>
+                <label><input type="radio" name="q58" value="2"> <span>When performing many tests (one for each variable), the probability of making a Type I error (falsely rejecting a true null hypothesis) increases.</span></label>
+                <label><input type="radio" name="q58" value="3"> <span>P-values can only be used for simple linear regression.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">This is the problem of multiple comparisons. If you test many predictors, it's likely that some will appear significant just by chance, even if they have no real relationship with the response. Methods like stepwise selection that rely on p-values can suffer from this issue.</div>
+            <div class="source-text" style="display:none;">Statistical Inference on Linear Regression Models.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 60 -->
+        <div class="question" id="question-59">
+            <p class="question-text"><strong>60. How does the degrees of freedom of a regression spline relate to its flexibility?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q59" value="0"> <span>Degrees of freedom are unrelated to flexibility.</span></label>
+                <label><input type="radio" name="q59" value="1"> <span>A higher number of degrees of freedom results in a more flexible, wigglier curve.</span></label>
+                <label><input type="radio" name="q59" value="2"> <span>A higher number of degrees of freedom results in a less flexible, smoother curve.</span></label>
+                <label><input type="radio" name="q59" value="3"> <span>Degrees of freedom only apply to polynomial regression.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The degrees of freedom of a spline are a measure of its flexibility. A higher number of degrees of freedom (which is related to the number of knots) allows the spline to bend more to fit the data, resulting in a more flexible but potentially overfit curve.</div>
+            <div class="source-text" style="display:none;">Spline-Based Methods.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 61 -->
+        <div class="question" id="question-60">
+            <p class="question-text"><strong>61. What is Cook's distance used to measure?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q60" value="0"> <span>The collinearity between two predictors.</span></label>
+                <label><input type="radio" name="q60" value="1"> <span>The overall fit of the regression model.</span></label>
+                <label><input type="radio" name="q60" value="2"> <span>The influence of a single data point on the regression coefficients.</span></label>
+                <label><input type="radio" name="q60" value="3"> <span>The non-linearity of the data.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">Cook's distance is a measure of the influence of an observation. It quantifies how much all of the fitted values in the model change when a particular observation is removed. Large values of Cook's distance indicate an influential point.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 62 -->
+        <div class="question" id="question-61">
+            <p class="question-text"><strong>62. What is the difference between an outlier and a high-leverage point?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q61" value="0"> <span>There is no difference; they are the same.</span></label>
+                <label><input type="radio" name="q61" value="1"> <span>An outlier has a large residual, while a high-leverage point has an unusual predictor value.</span></label>
+                <label><input type="radio" name="q61" value="2"> <span>An outlier has an unusual predictor value, while a high-leverage point has a large residual.</span></label>
+                <label><input type="radio" name="q61" value="3"> <span>High-leverage points are always outliers.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">An outlier is a point with an unusual Y value (i.e., a large residual), meaning it is far from the regression line. A high-leverage point is a point with an unusual X value. A point can be one, both, or neither. Points that are both outliers and have high leverage are often the most influential.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.3</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 63 -->
+        <div class="question" id="question-62">
+            <p class="question-text"><strong>63. What is the purpose of the 'hat matrix' H in linear regression?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q62" value="0"> <span>It transforms the response values Y into the coefficient estimates \(\hat{\beta}\).</span></label>
+                <label><input type="radio" name="q62" value="1"> <span>It is used to calculate the R-squared value.</span></label>
+                <label><input type="radio" name="q62" value="2"> <span>It transforms the response values Y into the fitted values \(\hat{Y}\) via the equation \(\hat{Y} = HY\).</span></label>
+                <label><input type="radio" name="q62" value="3"> <span>It contains the p-values for the hypothesis tests.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">The hat matrix, \(H = X(X^T X)^{-1}X^T\), is so named because it 'puts a hat on Y'. The diagonal elements of the hat matrix, \(h_{ii}\), are the leverages of each observation.</div>
+            <div class="source-text" style="display:none;">Statistical Inference on Linear Regression Models.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 64 -->
+        <div class="question" id="question-63">
+            <p class="question-text"><strong>64. In a simple linear regression, the leverage of an observation \(x_i\) increases as:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q63" value="0"> <span>\(x_i\) moves closer to the mean of X.</span></label>
+                <label><input type="radio" name="q63" value="1"> <span>The sample size n increases.</span></label>
+                <label><input type="radio" name="q63" value="2"> <span>\(x_i\) moves farther from the mean of X.</span></label>
+                <label><input type="radio" name="q63" value="3"> <span>The residual for \(x_i\) increases.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">For a simple linear regression model, the leverage of the ith observation is given by \(h_{ii} = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{j=1}^n (x_j - \bar{x})^2}\). This value increases as \(x_i\) moves farther from the mean \(\bar{x}\).</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.3</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 65 -->
+        <div class="question" id="question-64">
+            <p class="question-text"><strong>65. What is a key advantage of Principal Components Regression (PCR) over standard least squares?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q64" value="0"> <span>It produces a more interpretable model.</span></label>
+                <label><input type="radio" name="q64" value="1"> <span>It can handle situations with high multicollinearity by using a smaller number of uncorrelated principal components as predictors.</span></label>
+                <label><input type="radio" name="q64" value="2"> <span>It always results in a higher R-squared value.</span></label>
+                <label><input type="radio" name="q64" value="3"> <span>It can be used for categorical response variables.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">PCR is a dimension reduction technique. It first constructs principal components, which are linear combinations of the original predictors and are uncorrelated. By regressing the response on a small number of these components, PCR can reduce model variance and perform well in the presence of multicollinearity.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 66 -->
+        <div class="question" id="question-65">
+            <p class="question-text"><strong>66. What is a potential disadvantage of Principal Components Regression (PCR)?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q65" value="0"> <span>The principal components are chosen in an unsupervised way, so the components with the highest variance may not be the ones most strongly related to the response.</span></label>
+                <label><input type="radio" name="q65" value="1"> <span>It is more computationally expensive than best subset selection.</span></label>
+                <label><input type="radio" name="q65" value="2"> <span>It cannot be used when p > n.</span></label>
+                <label><input type="radio" name="q65" value="3"> <span>It does not perform any variable selection.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">0</div>
+            <div class="explanation-text" style="display:none;">PCR is an unsupervised dimension reduction technique. It identifies the principal components based only on the variance of the predictors (X), not their relationship with the response (Y). It's possible that the directions with the most variance in X are not the directions most predictive of Y.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 67 -->
+        <div class="question" id="question-66">
+            <p class="question-text"><strong>67. How does Partial Least Squares (PLS) differ from Principal Components Regression (PCR)?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q66" value="0"> <span>PLS is a shrinkage method, while PCR is a subset selection method.</span></label>
+                <label><input type="radio" name="q66" value="1"> <span>PLS is a supervised dimension reduction technique that uses the response Y to help find the new predictors.</span></label>
+                <label><input type="radio" name="q66" value="2"> <span>PLS can only be used for classification.</span></label>
+                <label><input type="radio" name="q66" value="3"> <span>There is no significant difference.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Unlike PCR, which finds components that explain the most variance in the predictors (unsupervised), PLS is a supervised method. It finds components that not only summarize the predictors but are also related to the response variable Y. This can lead to better predictive models.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 68 -->
+        <div class="question" id="question-67">
+            <p class="question-text"><strong>68. What is meant by a 'studentized residual'?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q67" value="0"> <span>A residual that has been divided by the mean of the residuals.</span></label>
+                <label><input type="radio" name="q67" value="1"> <span>A residual that has been divided by its estimated standard error, which can vary from point to point.</span></label>
+                <label><input type="radio" name="q67" value="2"> <span>A residual that is calculated from a model fit to a subset of the data.</span></label>
+                <label><input type="radio" name="q67" value="3"> <span>The absolute value of the residual.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Standard residuals all have different variances depending on the leverage of their corresponding observation. A studentized residual is calculated by dividing the raw residual by its estimated standard error. This gives residuals that should all have approximately the same variance, making it easier to identify outliers.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 69 -->
+        <div class="question" id="question-68">
+            <p class="question-text"><strong>69. If you have a categorical predictor with 4 levels, how many dummy variables should you include in the regression model?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q68" value="0"> <span>4</span></label>
+                <label><input type="radio" name="q68" value="1"> <span>3</span></label>
+                <label><input type="radio" name="q68" value="2"> <span>2</span></label>
+                <label><input type="radio" name="q68" value="3"> <span>1</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">For a categorical predictor with k levels, you should include k-1 dummy variables in the model. One level is chosen as the baseline or reference level, and its effect is captured by the intercept. The coefficients of the k-1 dummy variables represent the difference in the mean response between that level and the baseline level.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.1</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 70 -->
+        <div class="question" id="question-69">
+            <p class="question-text"><strong>70. What is a confounding variable?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q69" value="0"> <span>A variable that interacts with another predictor.</span></label>
+                <label><input type="radio" name="q69" value="1"> <span>A variable that is associated with both the predictor and the response, potentially creating a spurious relationship.</span></label>
+                <label><input type="radio" name="q69" value="2"> <span>A variable that has a non-linear relationship with the response.</span></label>
+                <label><input type="radio" name="q69" value="3"> <span>A variable that is not included in the model.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">A confounder is a variable that influences both the dependent variable (response) and independent variable (predictor), causing a spurious association. For example, if you find a correlation between ice cream sales and crime rates, the confounding variable is temperature, which affects both. Not accounting for confounders can lead to incorrect conclusions.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 71 -->
+        <div class="question" id="question-70">
+            <p class="question-text"><strong>71. In the context of GAMs, what does the 'additive' assumption mean?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q70" value="0"> <span>The model can only be used for predictors that are added together.</span></label>
+                <label><input type="radio" name="q70" value="1"> <span>The effect of each predictor on the response is independent of the other predictors.</span></label>
+                <label><input type="radio" name="q70" value="2"> <span>The response variable must be on an additive scale.</span></label>
+                <label><input type="radio" name="q70" value="3"> <span>The error terms must sum to zero.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The 'additive' nature of GAMs means that the model does not automatically include interactions between predictors. The effect of changing one predictor on the response is the same regardless of the values of the other predictors. This makes the model easier to interpret, but interactions can be added manually if needed.</div>
+            <div class="source-text" style="display:none;">Spline-Based Methods.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 72 -->
+        <div class="question" id="question-71">
+            <p class="question-text"><strong>72. What is the main benefit of the elastic net penalty over the lasso penalty?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q71" value="0"> <span>It is more sparse, selecting fewer variables.</span></label>
+                <label><input type="radio" name="q71" value="1"> <span>It is better at handling groups of highly correlated predictors, often selecting them together.</span></label>
+                <label><input type="radio" name="q71" value="2"> <span>It is computationally simpler.</span></label>
+                <label><input type="radio" name="q71" value="3"> <span>It does not require a tuning parameter.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The lasso penalty can be somewhat indifferent when faced with a group of highly correlated variables, often selecting just one of them arbitrarily. The elastic net, which includes a ridge-like component, is more stable in this situation and tends to select the entire group of correlated variables, which can be a more desirable outcome.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 73 -->
+        <div class="question" id="question-72">
+            <p class="question-text"><strong>73. A 95% confidence interval for a coefficient \(\beta_1\) is found to be [-0.1, 0.8]. What is the correct conclusion at the 5% significance level?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q72" value="0"> <span>The coefficient is statistically significant.</span></label>
+                <label><input type="radio" name="q72" value="1"> <span>The coefficient is not statistically significant.</span></label>
+                <label><input type="radio" name="q72" value="2"> <span>The model is a poor fit.</span></label>
+                <label><input type="radio" name="q72" value="3"> <span>The true effect of the predictor is 0.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Since the 95% confidence interval contains the value 0, we cannot reject the null hypothesis \(H_0: \beta_1 = 0\) at the \(\alpha = 0.05\) level. Therefore, the coefficient is not considered statistically significant.</div>
+            <div class="source-text" style="display:none;">Statistical Inference on Linear Regression Models.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 74 -->
+        <div class="question" id="question-73">
+            <p class="question-text"><strong>74. What does it mean if the error terms in a time series regression are positively autocorrelated?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q73" value="0"> <span>The model is biased.</span></label>
+                <label><input type="radio" name="q73" value="1"> <span>The variance of the errors is increasing over time.</span></label>
+                <label><input type="radio" name="q73" value="2"> <span>A positive error at one time point is likely to be followed by another positive error at the next time point.</span></label>
+                <label><input type="radio" name="q73" value="3"> <span>The model is a perfect fit.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">Positive autocorrelation (or serial correlation) means that the residuals are correlated with each other over time. Specifically, a positive residual (under-prediction) at time t is likely to be followed by another positive residual at time t+1. This violates the assumption of independent errors.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.3</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 75 -->
+        <div class="question" id="question-74">
+            <p class="question-text"><strong>75. In Bayesian inference, what is a 'non-informative' or 'vague' prior?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q74" value="0"> <span>A prior that contains no information and cannot be used.</span></label>
+                <label><input type="radio" name="q74" value="1"> <span>A prior that is intended to have minimal influence on the posterior distribution, letting the data speak for itself.</span></label>
+                <label><input type="radio" name="q74" value="2"> <span>A prior that is uniform over all possible values.</span></label>
+                <label><input type="radio" name="q74" value="3"> <span>A prior that leads to a biased posterior.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">A non-informative prior is one that is chosen to have as little impact as possible on the final posterior distribution. The idea is to allow the information from the data (via the likelihood) to be the dominant factor in the analysis. A flat or uniform prior is a common choice, but true non-informativity can be complex.</div>
+            <div class="source-text" style="display:none;">Bayesian Inference Essentials Part 1(1).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 76 -->
+        <div class="question" id="question-75">
+            <p class="question-text"><strong>76. What is the primary motivation for using a log transformation on the response variable Y?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q75" value="0"> <span>To handle categorical predictors.</span></label>
+                <label><input type="radio" name="q75" value="1"> <span>When the relationship between X and Y is multiplicative, or when the variance of the errors increases with the mean of Y.</span></label>
+                <label><input type="radio" name="q75" value="2"> <span>To increase the R-squared value.</span></label>
+                <label><input type="radio" name="q75" value="3"> <span>To simplify the interpretation of the coefficients.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">A log transformation of Y is often used when the data exhibits heteroscedasticity where the variance of residuals increases with the fitted values. It can also linearize a relationship of the form \(Y = \beta_0 e^{\beta_1 X}\), since \(\log(Y) = \log(\beta_0) + \beta_1 X\) is linear.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 77 -->
+        <div class="question" id="question-76">
+            <p class="question-text"><strong>77. If the goal of modeling is pure prediction, which of the following is generally more important?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q76" value="0"> <span>Having an interpretable model.</span></label>
+                <label><input type="radio" name="q76" value="1"> <span>Having a low test MSE (Mean Squared Error).</span></label>
+                <label><input type="radio" name="q76" value="2"> <span>Having statistically significant coefficients.</span></label>
+                <label><input type="radio" name="q76" value="3"> <span>Having a high training R-squared.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">If the primary goal is prediction, we are most concerned with the model's ability to accurately predict unseen data. The test MSE is a direct measure of this predictive performance. Interpretability and p-values are more important when the goal is inference.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.1.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 78 -->
+        <div class="question" id="question-77">
+            <p class="question-text"><strong>78. What is the 'irreducible error' in the context of a statistical learning model?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q77" value="0"> <span>The error that can be reduced by using a more flexible model.</span></label>
+                <label><input type="radio" name="q77" value="1"> <span>The error caused by a biased model.</span></label>
+                <label><input type="radio" name="q77" value="2"> <span>The random error inherent in the data-generating process, which cannot be eliminated by any model.</span></label>
+                <label><input type="radio" name="q77" value="3"> <span>The error on the training data.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">The irreducible error, \(Var(\epsilon)\), represents the inherent noise or variability in the data that cannot be captured by a model, no matter how good it is. It sets an upper bound on the achievable prediction accuracy.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.1.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 79 -->
+        <div class="question" id="question-78">
+            <p class="question-text"><strong>79. In backward stepwise selection, what is the starting point?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q78" value="0"> <span>The null model with only an intercept.</span></label>
+                <label><input type="radio" name="q78" value="1"> <span>A model with a random subset of predictors.</span></label>
+                <label><input type="radio" name="q78" value="2"> <span>The full model containing all available predictors.</span></label>
+                <label><input type="radio" name="q78" value="3"> <span>A model with only the most significant predictor.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">Backward stepwise selection starts with the full least squares model containing all p predictors. It then iteratively removes the least useful predictor, one at a time, until a stopping rule is reached.</div>
+            <div class="source-text" style="display:none;">Subset Selection Linear Regression(2).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 80 -->
+        <div class="question" id="question-79">
+            <p class="question-text"><strong>80. What is a major limitation of using traditional subset selection methods (best, forward, backward) when the number of predictors p is very large, especially when p > n?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q79" value="0"> <span>They are guaranteed to overfit.</span></label>
+                <label><input type="radio" name="q79" value="1"> <span>The initial least squares fit for the full model may not even be possible.</span></label>
+                <label><input type="radio" name="q79" value="2"> <span>They become computationally too simple.</span></label>
+                <label><input type="radio" name="q79" value="3"> <span>They tend to have high bias.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">When p > n (more predictors than observations), the standard least squares fit is not possible because the matrix \(X^T X\) is singular. This means that backward selection cannot be used, and even forward selection and best subset selection can run into issues of perfect fits and high variance. Shrinkage or dimension reduction methods are preferred here.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 81 -->
+        <div class="question" id="question-80">
+            <p class="question-text"><strong>81. The shape of the constraint region for Ridge regression is a ________, while for Lasso it is a ________.</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q80" value="0"> <span>Square; Circle</span></label>
+                <label><input type="radio" name="q80" value="1"> <span>Diamond (Rhombus); Circle</span></label>
+                <label><input type="radio" name="q80" value="2"> <span>Circle; Diamond (Rhombus)</span></label>
+                <label><input type="radio" name="q80" value="3"> <span>Triangle; Square</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">The L2 penalty in Ridge regression (\(\sum \beta_j^2 \le s\)) corresponds to a circular constraint region. The L1 penalty in Lasso (\(\sum |\beta_j| \le s\)) corresponds to a diamond-shaped (or rhombus in 2D) constraint region. The sharp corners of the diamond are why the Lasso solution can hit an axis and set a coefficient to exactly zero.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 82 -->
+        <div class="question" id="question-81">
+            <p class="question-text"><strong>82. In a Bayesian context, the posterior predictive distribution represents:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q81" value="0"> <span>The distribution of the parameters.</span></label>
+                <label><input type="radio" name="q81" value="1"> <span>The distribution of new, unseen data points, averaged over the posterior distribution of the parameters.</span></label>
+                <label><input type="radio" name="q81" value="2"> <span>The prior distribution updated with the data.</span></label>
+                <label><input type="radio" name="q81" value="3"> <span>The distribution of the training data.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The posterior predictive distribution is used for prediction in a Bayesian framework. It represents our uncertainty about a future observation by integrating the likelihood of the new data point over the entire posterior distribution of the model parameters.</div>
+            <div class="source-text" style="display:none;">Bayesian Linear Regression.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 83 -->
+        <div class="question" id="question-82">
+            <p class="question-text"><strong>83. What is the main purpose of a Q-Q (quantile-quantile) plot of the residuals?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q82" value="0"> <span>To check for heteroscedasticity.</span></label>
+                <label><input type="radio" name="q82" value="1"> <span>To check if the residuals are normally distributed.</span></label>
+                <label><input type="radio" name="q82" value="2"> <span>To check for multicollinearity.</span></label>
+                <label><input type="radio" name="q82" value="3"> <span>To check for influential points.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">A Q-Q plot is a graphical tool used to assess if a set of data plausibly came from some theoretical distribution, such as a normal distribution. In regression diagnostics, it is used to check the assumption that the error terms are normally distributed by plotting the quantiles of the residuals against the quantiles of a theoretical normal distribution.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 84 -->
+        <div class="question" id="question-83">
+            <p class="question-text"><strong>84. If the true relationship between X and Y is \(Y = X^2\), and you fit a simple linear model \(Y = \beta_0 + \beta_1 X\), the model will have:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q83" value="0"> <span>High variance and low bias.</span></label>
+                <label><input type="radio" name="q83" value="1"> <span>Low variance and low bias.</span></label>
+                <label><input type="radio" name="q83" value="2"> <span>High bias and low variance.</span></label>
+                <label><input type="radio" name="q83" value="3"> <span>High variance and high bias.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">The model has high bias because it is making a strong (and incorrect) assumption that the relationship is linear. It will systematically fail to capture the true quadratic nature. It has low variance because it is a simple model that will not change much if fit to a different sample of data.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 85 -->
+        <div class="question" id="question-84">
+            <p class="question-text"><strong>85. Which of the following is NOT a method for dealing with heteroscedasticity?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q84" value="0"> <span>Transforming the response variable (e.g., using log(Y)).</span></label>
+                <label><input type="radio" name="q84" value="1"> <span>Using weighted least squares.</span></label>
+                <label><input type="radio" name="q84" value="2"> <span>Using heteroscedasticity-consistent standard errors (robust standard errors).</span></label>
+                <label><input type="radio" name="q84" value="3"> <span>Using Variance Inflation Factors (VIFs).</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">3</div>
+            <div class="explanation-text" style="display:none;">VIFs are used to diagnose multicollinearity, not heteroscedasticity. The other three options are valid approaches: transforming Y can stabilize variance, weighted least squares gives less weight to high-variance observations, and robust standard errors correct the standard error estimates to account for the heteroscedasticity.</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 86 -->
+        <div class="question" id="question-85">
+            <p class="question-text"><strong>86. In a regression model with an interaction term between a quantitative predictor X and a binary dummy variable D, what does the coefficient of the interaction term (\(\beta_3\) in \(Y = \beta_0 + \beta_1 X + \beta_2 D + \beta_3 XD\)) represent?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q85" value="0"> <span>The intercept for the group where D=1.</span></label>
+                <label><input type="radio" name="q85" value="1"> <span>The difference in the slope of X between the group where D=1 and the group where D=0.</span></label>
+                <label><input type="radio" name="q85" value="2"> <span>The main effect of the dummy variable.</span></label>
+                <label><input type="radio" name="q85" value="3"> <span>The overall slope of X.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The interaction term allows the slope of X to be different for each level of the dummy variable. For D=0, the slope is \(\beta_1\). For D=1, the slope is \(\beta_1 + \beta_3\). Therefore, \(\beta_3\) represents the change in the slope of X when D changes from 0 to 1.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-3.pdf, Section 3.3.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 87 -->
+        <div class="question" id="question-86">
+            <p class="question-text"><strong>87. What is the main drawback of k-fold cross-validation?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q86" value="0"> <span>It produces a biased estimate of the test error.</span></label>
+                <label><input type="radio" name="q86" value="1"> <span>It is computationally expensive as it requires fitting the model k times.</span></label>
+                <label><input type="radio" name="q86" value="2"> <span>It can only be used for linear models.</span></label>
+                <label><input type="radio" name="q86" value="3"> <span>It does not provide an estimate of the variance of the test error.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The primary disadvantage of k-fold CV is computational cost. Since the model must be refit k times, it can be slow if the model fitting process itself is time-consuming. However, this cost is often considered a worthwhile trade-off for a more accurate estimate of test error.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 88 -->
+        <div class="question" id="question-87">
+            <p class="question-text"><strong>88. Leave-one-out cross-validation (LOOCV) is a special case of k-fold cross-validation where:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q87" value="0"> <span>k = 1</span></label>
+                <label><input type="radio" name="q87" value="1"> <span>k = 2</span></label>
+                <label><input type="radio" name="q87" value="2"> <span>k = n (the number of observations)</span></label>
+                <label><input type="radio" name="q87" value="3"> <span>k = p (the number of predictors)</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">LOOCV is simply k-fold cross-validation where k is set to the total number of observations, n. In each fold, one observation is held out for testing, and the model is trained on the remaining n-1 observations.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 89 -->
+        <div class="question" id="question-88">
+            <p class="question-text"><strong>89. Compared to 5-fold or 10-fold CV, LOOCV generally has:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q88" value="0"> <span>Lower bias but higher variance.</span></label>
+                <label><input type="radio" name="q88" value="1"> <span>Higher bias but lower variance.</span></label>
+                <label><input type="radio" name="q88" value="2"> <span>Lower bias and lower variance.</span></label>
+                <label><input type="radio" name="q88" value="3"> <span>Higher bias and higher variance.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">0</div>
+            <div class="explanation-text" style="display:none;">LOOCV provides an almost unbiased estimate of the test error because each training set is very large (n-1). However, the estimates from each fold are highly correlated since the training sets are so similar. This high correlation leads to higher variance in the overall test error estimate compared to k-fold CV with a smaller k.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 90 -->
+        <div class="question" id="question-89">
+            <p class="question-text"><strong>90. What is the primary risk of data dredging or p-hacking?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q89" value="0"> <span>Finding spurious relationships and reporting them as statistically significant.</span></label>
+                <label><input type="radio" name="q89" value="1"> <span>Using models that are too complex.</span></label>
+                <label><input type="radio" name="q89" value="2"> <span>Failing to check model assumptions.</span></label>
+                <label><input type="radio" name="q89" value="3"> <span>Using insufficient data.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">0</div>
+            <div class="explanation-text" style="display:none;">Data dredging (or p-hacking) is the practice of repeatedly testing different models and predictors until a statistically significant result (e.g., p < 0.05) is found. This dramatically increases the risk of finding false positives—relationships that appear significant in the sample data but do not exist in the population.</div>
+            <div class="source-text" style="display:none;">Statistical Inference on Linear Regression Models.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 91 -->
+        <div class="question" id="question-90">
+            <p class="question-text"><strong>91. In a Bayesian setting, if the prior and posterior distributions are very different, what does this imply?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q90" value="0"> <span>The model is incorrect.</span></label>
+                <label><input type="radio" name="q90" value="1"> <span>The prior was a poor choice.</span></label>
+                <label><input type="radio" name="q90" value="2"> <span>The data provided a lot of information to update our initial beliefs.</span></label>
+                <label><input type="radio" name="q90" value="3"> <span>The computation has failed.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">The posterior distribution is a combination of the prior and the likelihood (data). If the posterior is very different from the prior, it means the data was informative and had a strong influence, causing a significant update in our beliefs about the parameters.</div>
+            <div class="source-text" style="display:none;">Bayesian Inference Essentials Part 1(1).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 92 -->
+        <div class="question" id="question-91">
+            <p class="question-text"><strong>92. What is the main difference between prediction and inference?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q91" value="0"> <span>Prediction uses machine learning, while inference uses statistics.</span></label>
+                <label><input type="radio" name="q91" value="1"> <span>Prediction aims to estimate Y for new values of X, while inference aims to understand the relationship between X and Y.</span></label>
+                <label><input type="radio" name="q91" value="2"> <span>Prediction is easier than inference.</span></label>
+                <label><input type="radio" name="q91" value="3"> <span>There is no difference.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Prediction focuses on generating accurate outputs (Y) for new inputs (X), treating the model as a black box. Inference focuses on understanding how the inputs affect the output, interpreting the model's coefficients and their significance.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.1.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 93 -->
+        <div class="question" id="question-92">
+            <p class="question-text"><strong>93. A key assumption of linear regression is that the predictors are...</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q92" value="0"> <span>Normally distributed.</span></label>
+                <label><input type="radio" name="q92" value="1"> <span>Independent of each other.</span></label>
+                <label><input type="radio" name="q92" value="2"> <span>Considered fixed and are measured without error.</span></label>
+                <label><input type="radio" name="q92" value="3"> <span>Categorical.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">2</div>
+            <div class="explanation-text" style="display:none;">In the classical linear regression model, the predictors (X values) are treated as fixed constants, not random variables. It is also assumed they are measured perfectly, without any error. The randomness in the model comes from the error term \(\epsilon\).</div>
+            <div class="source-text" style="display:none;">The Linear Regression Model.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 94 -->
+        <div class="question" id="question-93">
+            <p class="question-text"><strong>94. If the tuning parameter \(\lambda\) in Ridge regression is set to 0, the resulting model is equivalent to:</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q93" value="0"> <span>The null model (intercept only).</span></label>
+                <label><input type="radio" name="q93" value="1"> <span>The least squares regression model.</span></label>
+                <label><input type="radio" name="q93" value="2"> <span>The Lasso regression model.</span></label>
+                <label><input type="radio" name="q93" value="3"> <span>Principal Components Regression.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">When \(\lambda = 0\), the penalty term in Ridge regression has no effect. The objective function reduces to simply minimizing the RSS (Residual Sum of Squares), which is exactly what standard least squares regression does.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 95 -->
+        <div class="question" id="question-94">
+            <p class="question-text"><strong>95. As the tuning parameter \(\lambda\) in Ridge regression approaches infinity, what happens to the coefficient estimates?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q94" value="0"> <span>They approach the least squares estimates.</span></label>
+                <label><input type="radio" name="q94" value="1"> <span>They all approach zero.</span></label>
+                <label><input type="radio" name="q94" value="2"> <span>They all approach infinity.</span></label>
+                <label><input type="radio" name="q94" value="3"> <span>Some coefficients are set to exactly zero, while others are not.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">As \(\lambda\) becomes very large, the penalty for having non-zero coefficients becomes overwhelming. To minimize the objective function, the model is forced to shrink the coefficients closer and closer to zero. In the limit, all coefficients (except the intercept) will be zero.</div>
+            <div class="source-text" style="display:none;">Shrinkage Methods(3).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 96 -->
+        <div class="question" id="question-95">
+            <p class="question-text"><strong>96. Which statement about the relationship between training error and test error is true?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q95" value="0"> <span>Training error is always a good estimate of test error.</span></label>
+                <label><input type="radio" name="q95" value="1"> <span>Training error is typically lower than test error.</span></label>
+                <label><input type="radio" name="q95" value="2"> <span>Training error is typically higher than test error.</span></label>
+                <label><input type="radio" name="q95" value="3"> <span>Training error and test error are unrelated.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">The model is fit on the training data, so it can achieve a lower error on that data than it can on new, unseen test data. The training error is often an overly optimistic estimate of the model's performance on new data.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.1.3</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 97 -->
+        <div class="question" id="question-96">
+            <p class="question-text"><strong>97. A simple linear regression model is fit to a dataset where the true relationship is not linear. The training RSS will be ________ and the test RSS will be ________.</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q96" value="0"> <span>low; high</span></label>
+                <label><input type="radio" name="q96" value="1"> <span>high; high</span></label>
+                <label><input type="radio" name="q96" value="2"> <span>low; low</span></label>
+                <label><input type="radio" name="q96" value="3"> <span>high; low</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Because the model is too simple (high bias), it will not be able to fit the training data well, resulting in a high training RSS. Since it fails to capture the true relationship, it will also perform poorly on the test data, resulting in a high test RSS.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 98 -->
+        <div class="question" id="question-97">
+            <p class="question-text"><strong>98. A very flexible model is fit to a dataset. The training RSS will be ________ and the test RSS will be ________.</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q97" value="0"> <span>very low; high</span></label>
+                <label><input type="radio" name="q97" value="1"> <span>high; high</span></label>
+                <label><input type="radio" name="q97" value="2"> <span>very low; low</span></label>
+                <label><input type="radio" name="q97" value="3"> <span>high; low</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">0</div>
+            <div class="explanation-text" style="display:none;">A very flexible model can fit the training data almost perfectly by following all the noise, leading to a very low training RSS. However, this is overfitting. When presented with new data, the model will perform poorly because it learned the noise, not the signal, leading to a high test RSS.</div>
+            <div class="source-text" style="display:none;">ISLP_website-1-pages-2.pdf, Section 2.2.2</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 99 -->
+        <div class="question" id="question-98">
+            <p class="question-text"><strong>99. What is the main advantage of using a smoothing spline over a polynomial or regression spline?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q98" value="0"> <span>It is more interpretable.</span></label>
+                <label><input type="radio" name="q98" value="1"> <span>It avoids the need to choose the number and location of knots by using a knot at every data point and regularizing the fit.</span></label>
+                <label><input type="radio" name="q98" value="2"> <span>It is always linear.</span></label>
+                <label><input type="radio" name="q98" value="3"> <span>It is computationally less expensive.</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">Smoothing splines elegantly sidestep the knot selection problem. They use a maximal number of knots (one at each unique data point) but add a penalty term that controls the roughness or wiggliness of the curve. The level of smoothness is then controlled by a single tuning parameter.</div>
+            <div class="source-text" style="display:none;">Spline-Based Methods.html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <!-- Question 100 -->
+        <div class="question" id="question-99">
+            <p class="question-text"><strong>100. In the context of Bayesian inference, what does MCMC stand for?</strong></p>
+            <div class="options">
+                <label><input type="radio" name="q99" value="0"> <span>Mean-Centered Model Comparison</span></label>
+                <label><input type="radio" name="q99" value="1"> <span>Markov Chain Monte Carlo</span></label>
+                <label><input type="radio" name="q99" value="2"> <span>Multiple-Choice Model Criterion</span></label>
+                <label><input type="radio" name="q99" value="3"> <span>Minimum Chi-squared Monte Carlo</span></label>
+            </div>
+            <div class="correct-answer" style="display:none;">1</div>
+            <div class="explanation-text" style="display:none;">MCMC (Markov Chain Monte Carlo) is a class of algorithms used to sample from a probability distribution. In Bayesian statistics, it is used to sample from the posterior distribution of the parameters when the distribution is too complex to calculate directly.</div>
+            <div class="source-text" style="display:none;">Bayesian Inference Essentials Part 2(1).html</div>
+            <div class="explanation" style="display:none;"></div>
+        </div>
+
+        <button id="clear-button">Clear All Answers</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = document.querySelectorAll('.question');
+            const clearButton = document.getElementById('clear-button');
+
+            // Function to check answer and show explanation
+            const checkAnswer = (radio) => {
+                const questionDiv = radio.closest('.question');
+                const selectedAnswer = parseInt(radio.value, 10);
+                const correctAnswer = parseInt(questionDiv.querySelector('.correct-answer').textContent, 10);
+                const explanationDiv = questionDiv.querySelector('.explanation');
+                const explanationText = questionDiv.querySelector('.explanation-text').innerHTML;
+                const sourceText = questionDiv.querySelector('.source-text').innerHTML;
+                const options = questionDiv.querySelectorAll('.options label');
+
+                let resultHTML = '';
+                if (selectedAnswer === correctAnswer) {
+                    resultHTML = `<p class="correct-feedback">Correct!</p>`;
+                } else {
+                    const correctOptionText = options[correctAnswer].querySelector('span').innerHTML;
+                    resultHTML = `<p class="incorrect-feedback">Incorrect.</p><p>The correct answer is: ${correctOptionText}</p>`;
+                }
+
+                resultHTML += `<p><strong>Explanation:</strong> ${explanationText}</p>`;
+                resultHTML += `<p class="source"><small>Source: ${sourceText}</small></p>`;
+
+                explanationDiv.innerHTML = resultHTML;
+                explanationDiv.style.display = 'block';
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub, explanationDiv]);
+
+                // Save to cookie
+                const questionId = questionDiv.id;
+                document.cookie = `quiz_st3189_ch1_2_${questionId}=${selectedAnswer};max-age=31536000;path=/`;
+            };
+
+            // Load answers from cookies
+            const loadAnswers = () => {
+                const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+                    const [name, value] = cookie.split('=');
+                    acc[name] = value;
+                    return acc;
+                }, {});
+
+                questions.forEach(question => {
+                    const questionId = question.id;
+                    const cookieName = `quiz_st3189_ch1_2_${questionId}`;
+                    if (cookies[cookieName]) {
+                        const answer = parseInt(cookies[cookieName], 10);
+                        const radio = question.querySelector(`input[value="${answer}"]`);
+                        if (radio) {
+                            radio.checked = true;
+                            checkAnswer(radio);
+                        }
+                    }
+                });
+            };
+
+            // Clear all answers
+            const clearAnswers = () => {
+                if (confirm("Are you sure you want to clear all your saved answers?")) {
+                    questions.forEach(question => {
+                        const questionId = question.id;
+                        const cookieName = `quiz_st3189_ch1_2_${questionId}`;
+                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                    });
+                    location.reload();
+                }
+            };
+
+            // Add event listeners
+            questions.forEach(question => {
+                const radios = question.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => {
+                    radio.addEventListener('change', () => checkAnswer(radio));
+                });
+            });
+
+            clearButton.addEventListener('click', clearAnswers);
+
+            // Initial load
+            loadAnswers();
+        });
+    </script>
+</body>
+</html>
