@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ST3189 Machine Learning - Bayesian Inference and Learning Quiz (Set 2)</title>
+  <meta charset="utf-8" />
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question-block {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .explanation {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #e9f7ef;
+      border-left: 4px solid #28a745;
+      display: none; /* Hidden by default */
+    }
+    .explanation .source {
+        font-style: italic;
+        font-size: 0.9em;
+        color: #555;
+        margin-top: 10px;
+    }
+    .feedback {
+        font-weight: bold;
+    }
+    .feedback.correct {
+        color: #28a745;
+    }
+    .feedback.incorrect {
+        color: #dc3545;
+    }
+    #clear-answers-btn {
+        padding: 10px 15px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    #clear-answers-btn:hover {
+        background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-container">
+  <h1>Bayesian Inference and Learning Quiz (Set 2)</h1>
+  <p>Select an answer for each question. Your progress will be saved.</p>
+
+  <div id="quiz">
+
+    <div class="question-block" id="q51" data-correct="b">
+        <p class="question">1. In the context of a linear model with Gaussian noise, the maximum likelihood estimate (MLE) for the noise variance \(\hat{\sigma}^2\) is biased. The expected value of the MLE, \(E[\hat{\sigma}^2]\), is:</p>
+        <div class="options">
+            <label><input type="radio" name="q51" value="a"> Equal to the true variance \(\sigma^2\).</label>
+            <label><input type="radio" name="q51" value="b"> Lower than the true variance \(\sigma^2\).</label>
+            <label><input type="radio" name="q51" value="c"> Higher than the true variance \(\sigma^2\).</label>
+            <label><input type="radio" name="q51" value="d"> Dependent on the prior distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The MLE for the variance is biased because the model parameters \(w\) are chosen to minimize the squared error on the training data, effectively fitting some of the noise. This leads to an underestimation of the true noise variance. The expected value is \(E[\hat{\sigma}^2] = \sigma^2(1 - D/N)\), which is always lower than \(\sigma^2\) for \(D>0\).</p>
+            <p class="source">Source: A First Course in Machine Learning, Section 2.10.2, Page 88.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q52" data-correct="c">
+        <p class="question">2. What is the primary characteristic of the Student's t-distribution that makes it more robust to outliers than the Gaussian distribution?</p>
+        <div class="options">
+            <label><input type="radio" name="q52" value="a"> It is always symmetric.</label>
+            <label><input type="radio" name="q52" value="b"> It has a lower variance.</label>
+            <label><input type="radio" name="q52" value="c"> It has heavier tails.</label>
+            <label><input type="radio" name="q52" value="d"> Its mean is always zero.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Student's t-distribution has heavier tails than a Gaussian. This means it assigns more probability to points far from the mean. As a result, outliers (which are far from the mean) have less influence on the parameter estimates, making the distribution more robust.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.4.2, Page 40.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q53" data-correct="a">
+        <p class="question">3. In Bayesian linear regression, if we use an infinitely broad prior for the weights (e.g., a Gaussian with infinite variance), the posterior mean of the weights will be equal to:</p>
+        <div class="options">
+            <label><input type="radio" name="q53" value="a"> The Maximum Likelihood Estimate (MLE).</label>
+            <label><input type="radio" name="q53" value="b"> The prior mean.</label>
+            <label><input type="radio" name="q53" value="c"> Zero.</label>
+            <label><input type="radio" name="q53" value="d"> A weighted average of the prior and the MLE.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>An infinitely broad prior (e.g., \(S_0 = \alpha^{-1}I\) with \(\alpha \to 0\)) represents a state of minimal prior information. In this case, the posterior mean \(m_N\) reduces to the maximum likelihood value \(w_{ML}\), as the data completely dominates the prior.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.3.1, Page 153.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q54" data-correct="d">
+        <p class="question">4. The posterior median is the Bayes estimator that minimizes which loss function?</p>
+        <div class="options">
+            <label><input type="radio" name="q54" value="a"> 0-1 loss</label>
+            <label><input type="radio" name="q54" value="b"> Squared error (L2) loss</label>
+            <label><input type="radio" name="q54" value="c"> Hinge loss</label>
+            <label><input type="radio" name="q54" value="d"> Absolute (L1) loss</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The posterior median is the optimal estimator for the absolute loss function, \(L(y, a) = |y - a|\). This loss function is less sensitive to outliers than the squared error loss, making the median a more robust estimator than the mean.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 5.7.1.4, Page 179.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q55" data-correct="b">
+        <p class="question">5. What is the key property of the Moore-Penrose pseudo-inverse \(\Phi^\dagger = (\Phi^T\Phi)^{-1}\Phi^T\)?</p>
+        <div class="options">
+            <label><input type="radio" name="q55" value="a"> It is only defined for square matrices.</label>
+            <label><input type="radio" name="q55" value="b"> It can be regarded as a generalization of the matrix inverse to non-square matrices.</label>
+            <label><input type="radio" name="q55" value="c"> It is used to calculate the prior distribution.</label>
+            <label><input type="radio" name="q55" value="d"> It is always equal to the transpose of the matrix.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Moore-Penrose pseudo-inverse provides a way to find a "best fit" solution to a system of linear equations that lacks a unique solution. It generalizes the concept of a matrix inverse to non-square matrices, which is essential for solving the normal equations in least squares regression where the design matrix \(\Phi\) is typically not square.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.1.1, Page 142.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q56" data-correct="c">
+        <p class="question">6. In the context of the Poisson-Gamma conjugate model, if the prior is Gamma(\(\alpha, \beta\)) and we observe \(n\) data points with sum \(\sum y_i\), the posterior for the rate \(\lambda\) is:</p>
+        <div class="options">
+            <label><input type="radio" name="q56" value="a"> Gamma(\(\alpha, \beta+n\))</label>
+            <label><input type="radio" name="q56" value="b"> Gamma(\(\alpha+\bar{y}, \beta+n\))</label>
+            <label><input type="radio" name="q56" value="c"> Gamma(\(\alpha+\sum y_i, \beta+n\))</label>
+            <label><input type="radio" name="q56" value="d"> Poisson(\(\alpha+\sum y_i\))</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The posterior is found by updating the prior's hyperparameters with the sufficient statistics from the data. For a Poisson likelihood, the sufficient statistic is the sum of the counts, \(\sum y_i\). The posterior is therefore \(\text{Gamma}(\alpha_{new}, \beta_{new}) = \text{Gamma}(\alpha+\sum y_i, \beta+n)\).</p>
+            <p class="source">Source: Bayesian Inference Essentials Part 1(1).html, Section: Examples: conjugate models.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q57" data-correct="a">
+        <p class="question">7. What is a key limitation of fixed basis function models in high-dimensional spaces?</p>
+        <div class="options">
+            <label><input type="radio" name="q57" value="a"> The number of basis functions often needs to grow exponentially with the dimensionality of the input space (curse of dimensionality).</label>
+            <label><input type="radio" name="q57" value="b"> They can only model linear relationships.</label>
+            <label><input type="radio" name="q57" value="c"> They are not compatible with Bayesian methods.</label>
+            <label><input type="radio" name="q57" value="d"> The basis functions must be orthogonal.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The main difficulty with fixed basis functions is the curse of dimensionality. To cover a high-dimensional space adequately with a grid of basis functions (like Gaussians), the number of functions required grows exponentially, making the model computationally intractable and prone to overfitting.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.6, Page 173.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q58" data-correct="d">
+        <p class="question">8. The Jeffreys prior for a location parameter \(\mu\) (like the mean of a Gaussian) is \(\pi(\mu) \propto 1\). This is an example of a:</p>
+        <div class="options">
+            <label><input type="radio" name="q58" value="a"> Scale invariant prior.</label>
+            <label><input type="radio" name="q58" value="b"> Proper prior.</label>
+            <label><input type="radio" name="q58" value="c"> Conjugate prior.</label>
+            <label><input type="radio" name="q58" value="d"> Translation invariant prior.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>A prior is translation invariant if it assigns the same probability mass to any interval of the same width, regardless of its location. The uniform prior \(\pi(\mu) \propto 1\) has this property. It means that our prior belief is not changed if we shift the origin of our coordinate system.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 5.4.2.2, Page 168.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q59" data-correct="b">
+        <p class="question">9. In the context of Bayesian linear regression, what does the term \(weight decay\) refer to?</p>
+        <div class="options">
+            <label><input type="radio" name="q59" value="a"> The weights are forced to increase over time.</label>
+            <label><input type="radio" name="q59" value="b"> The use of a quadratic regularizer that encourages weight values to decay towards zero.</label>
+            <label><input type="radio" name="q59" value="c"> The weights are discarded after each iteration.</label>
+            <label><input type="radio" name="q59" value="d"> The weights are updated using a non-linear function.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The quadratic regularization term \(\frac{\lambda}{2} w^T w\) is known as weight decay in machine learning literature. In sequential learning algorithms, this term encourages the weights to shrink towards zero unless supported by the data, thus controlling overfitting.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.1.4, Page 144.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q60" data-correct="c">
+        <p class="question">10. What is the primary difference between Quadratic Discriminant Analysis (QDA) and Linear Discriminant Analysis (LDA)?</p>
+        <div class="options">
+            <label><input type="radio" name="q60" value="a"> QDA uses a Gaussian likelihood, while LDA uses a Laplace likelihood.</label>
+            <label><input type="radio" name="q60" value="b"> QDA is a generative model, while LDA is a discriminative model.</label>
+            <label><input type="radio" name="q60" value="c"> QDA allows each class to have its own covariance matrix, while LDA assumes a shared covariance matrix for all classes.</label>
+            <label><input type="radio" name="q60" value="d"> QDA produces linear decision boundaries, while LDA produces quadratic ones.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The key difference is the assumption about the covariance matrices of the class-conditional Gaussians. QDA uses a separate \(\Sigma_c\) for each class, leading to quadratic boundaries. LDA assumes \(\Sigma_c = \Sigma\) for all classes, which simplifies the model and results in linear decision boundaries.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 4.2.2, Page 103.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q61" data-correct="a">
+        <p class="question">11. The posterior predictive mean in a Bayesian linear regression model, \(E[y|x, D]\), is given by:</p>
+        <div class="options">
+            <label><input type="radio" name="q61" value="a"> \(x^T E[w|D]\)</label>
+            <label><input type="radio" name="q61" value="b"> \(x^T w_{MLE}\)</label>
+            <label><input type="radio" name="q61" value="c"> \(x^T w_{MAP}\)</label>
+            <label><input type="radio" name="q61" value="d"> The prior mean of \(w\).</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The optimal estimate under squared error loss is the posterior mean. For a linear model, this means we should use the posterior mean of the parameters, \(E[w|D]\), to make predictions. This is \(E[y|x, D] = E[x^T w|D] = x^T E[w|D]\).</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 5.7.1.3, Page 179.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q62" data-correct="d">
+        <p class="question">12. What is a key property of the exponential family of distributions?</p>
+        <div class="options">
+            <label><input type="radio" name="q62" value="a"> They are all symmetric.</label>
+            <label><input type="radio" name="q62" value="b"> They only apply to discrete random variables.</label>
+            <label><input type="radio" name="q62" value="c"> They do not have sufficient statistics.</label>
+            <label><input type="radio" name="q62" value="d"> For any member of the exponential family, there exists a conjugate prior.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>A very important property of the exponential family is that for any likelihood function from this family, a conjugate prior can be constructed. This makes Bayesian inference analytically tractable for a wide range of models, including the Gaussian, Bernoulli, Poisson, and Gamma distributions.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.4.2, Page 117.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q63" data-correct="b">
+        <p class="question">13. In the context of Bayesian model selection, what does it mean if the Bayes Factor \(B_{10}\) is less than 1?</p>
+        <div class="options">
+            <label><input type="radio" name="q63" value="a"> The evidence for Model 1 is stronger than for Model 0.</label>
+            <label><input type="radio" name="q63" value="b"> The evidence for Model 0 is stronger than for Model 1.</label>
+            <label><input type="radio" name="q63" value="c"> The models are equally likely.</label>
+            <label><input type="radio" name="q63" value="d"> The prior for Model 1 was stronger than for Model 0.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Bayes Factor \(B_{10}\) is the ratio of the marginal likelihood of Model 1 to Model 0. If \(B_{10} < 1\), it means the denominator (marginal likelihood of Model 0) is larger, indicating that the data provides more evidence for Model 0.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 5.3.3, Page 163.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q64" data-correct="c">
+        <p class="question">14. What is a Parzen window?</p>
+        <div class="options">
+            <label><input type="radio" name="q64" value="a"> A method for visualizing high-dimensional data.</label>
+            <label><input type="radio" name="q64" value="b"> A type of prior distribution.</label>
+            <label><input type="radio" name="q64" value="c"> Another name for the kernel function used in kernel density estimation.</label>
+            <label><input type="radio" name="q64" value="d"> A method for calculating the marginal likelihood.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>In kernel density estimation, the density is estimated by placing a kernel function at each data point. This kernel function is also known as a Parzen window. Common choices include the Gaussian kernel or a uniform (boxcar) kernel.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.5.1, Page 123.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q65" data-correct="a">
+        <p class="question">15. In a hierarchical Bayesian model, what is a hyper-parameter?</p>
+        <div class="options">
+            <label><input type="radio" name="q65" value="a"> A parameter that controls the prior distribution of other parameters.</label>
+            <label><input type="radio" name="q65" value="b"> A parameter of the likelihood function.</label>
+            <label><input type="radio" name="q65" value="c"> The final output of the model.</label>
+            <label><input type="radio" name="q65" value="d"> A parameter estimated by maximum likelihood.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>In a hierarchical model, we place priors on the parameters, and these priors themselves have parameters. These are called hyper-parameters. For example, in \(\theta \sim \text{Beta}(\alpha, \beta)\), \(\alpha\) and \(\beta\) are hyper-parameters. We can place priors on them, which are called hyper-priors.</p>
+            <p class="source">Source: A First Course in Machine Learning, Section 3.5, Page 120.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q66" data-correct="d">
+        <p class="question">16. What is the main difference between kernel density estimation and the k-nearest-neighbor density estimation technique?</p>
+        <div class="options">
+            <label><input type="radio" name="q66" value="a"> Kernel density estimation is parametric, while k-NN is non-parametric.</label>
+            <label><input type="radio" name="q66" value="b"> k-NN can only be used for classification.</label>
+            <label><input type="radio" name="q66" value="c"> Kernel density estimation fixes the number of points \(K\) and varies the volume \(V\).</label>
+            <label><input type="radio" name="q66" value="d"> Kernel density estimation fixes the volume \(V\) (via the kernel width) and determines the number of points \(K\), while k-NN fixes \(K\) and determines \(V\).</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Both methods are based on the density estimate \(p(x) \approx K/(NV)\). The kernel approach fixes the volume \(V\) (the bandwidth \(h\) of the kernel) and counts the number of points \(K\) that fall within it. The k-NN approach fixes the number of points \(K\) and determines the volume \(V\) required to enclose them.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.5.1, Page 123.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q67" data-correct="b">
+        <p class="question">17. The trace trick, \(x^T A x = \text{tr}(A x x^T)\), is useful for:</p>
+        <div class="options">
+            <label><input type="radio" name="q67" value="a"> Inverting matrices.</label>
+            <label><input type="radio" name="q67" value="b"> Simplifying the derivation of the MLE for the covariance matrix of a Gaussian.</label>
+            <label><input type="radio" name="q67" value="c"> Calculating the determinant of a matrix.</label>
+            <label><input type="radio" name="q67" value="d"> Solving linear systems of equations.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The trace trick allows one to reorder matrix products inside a trace operator. This is particularly useful when taking derivatives of matrix expressions with respect to a matrix. It is used to simplify the log-likelihood of a multivariate Gaussian, which facilitates finding the MLE for the covariance matrix.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 4.1.3.1, Page 100.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q68" data-correct="c">
+        <p class="question">18. In the context of Bayesian linear regression, what is the effect of the prior precision parameter \(\alpha\) on the model complexity?</p>
+        <div class="options">
+            <label><input type="radio" name="q68" value="a"> A large \(\alpha\) leads to a more complex model.</label>
+            <label><input type="radio" name="q68" value="b"> \(\alpha\) has no effect on model complexity.</label>
+            <label><input type="radio" name="q68" value="c"> A large \(\alpha\) leads to a less complex model by shrinking weights towards zero.</label>
+            <label><input type="radio" name="q68" value="d"> A small \(\alpha\) always leads to underfitting.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The prior is \(p(w|\alpha) = N(w|0, \alpha^{-1}I)\). A large \(\alpha\) means a small variance, forcing the weights \(w\) to be close to zero. This is a form of regularization that penalizes complex models, leading to smoother functions and preventing overfitting.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.3.1, Page 153.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q69" data-correct="a">
+        <p class="question">19. What is a key property of the Dirichlet distribution?</p>
+        <div class="options">
+            <label><input type="radio" name="q69" value="a"> It is a distribution over the probability simplex, making it a suitable prior for the parameters of a multinomial distribution.</label>
+            <label><input type="radio" name="q69" value="b"> It is a distribution for negative real-valued random variables.</label>
+            <label><input type="radio" name="q69" value="c"> It is a conjugate prior for the Gaussian likelihood.</label>
+            <label><input type="radio" name="q69" value="d"> It always has a uniform density.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Dirichlet distribution is defined over the probability simplex, which is the set of vectors \(\theta\) where \(\theta_k \ge 0\) and \(\sum_k \theta_k = 1\). This makes it the natural choice as a conjugate prior for the parameters of a multinomial or categorical distribution.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.5.4, Page 47.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q70" data-correct="d">
+        <p class="question">20. The sequential update property of Bayesian inference means that:</p>
+        <div class="options">
+            <label><input type="radio" name="q70" value="a"> The order of the data points does not matter.</label>
+            <label><input type="radio" name="q70" value="b"> You must process the entire dataset in one batch.</label>
+            <label><input type="radio" name="q70" value="c"> The prior must be re-evaluated after each data point.</label>
+            <label><input type="radio" name="q70" value="d"> The posterior after observing \(N\) data points can be used as the prior for observing the \((N+1)\)-th data point.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Bayesian updating is naturally sequential. The posterior distribution after seeing some data can be treated as the prior for the next piece of data. This makes Bayesian methods well-suited for online learning, where data arrives one point at a time.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.3.1, Page 153.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q71" data-correct="b">
+        <p class="question">21. What is the primary reason for using Monte Carlo methods in Bayesian inference?</p>
+        <div class="options">
+            <label><input type="radio" name="q71" value="a"> To find the exact analytical form of the posterior distribution.</label>
+            <label><input type="radio" name="q71" value="b"> To approximate integrals (like posterior expectations) that are analytically intractable.</label>
+            <label><input type="radio" name="q71" value="c"> To find the maximum likelihood estimate.</label>
+            <label><input type="radio" name="q71" value="d"> To specify the prior distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Many integrals required in Bayesian inference, such as the marginal likelihood or posterior expectations of complex functions, do not have a closed-form solution. Monte Carlo methods provide a way to approximate these integrals by drawing samples from the relevant distribution and computing an empirical average.</p>
+            <p class="source">Source: Bayesian Inference Essentials Part 2(1).html, Section: Monte Carlo Integration.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q72" data-correct="c">
+        <p class="question">22. In a hierarchical model for cancer rates across different cities, why is it beneficial to treat the parameters of the prior (hyperparameters) as unknown random variables?</p>
+        <div class="options">
+            <label><input type="radio" name="q72" value="a"> It makes the model simpler.</label>
+            <label><input type="radio" name="q72" value="b"> It ensures all cities are treated as independent.</label>
+            <label><input type="radio" name="q72" value="c"> It allows data-poor cities to "borrow statistical strength" from data-rich ones.</label>
+            <label><input type="radio" name="q72" value="d"> It guarantees a closed-form solution for the posterior.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>By inferring the hyperparameters from the data, information is shared across all groups (cities). The cancer rate estimate for a city with a small population (data-poor) will be shrunk towards the overall population mean, which is heavily influenced by cities with large populations (data-rich). This leads to more stable and reliable estimates for all cities.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 5.5.1, Page 171.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q73" data-correct="a">
+        <p class="question">23. The entropy of a discrete random variable is maximized when:</p>
+        <div class="options">
+            <label><input type="radio" name="q73" value="a"> The distribution is uniform.</label>
+            <label><input type="radio" name="q73" value="b"> The distribution is a delta function (all mass on one state).</label>
+            <label><input type="radio" name="q73" value="c"> The distribution is Gaussian.</label>
+            <label><input type="radio" name="q73" value="d"> The variance is zero.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Entropy measures uncertainty. A uniform distribution, where all outcomes are equally likely, represents the state of maximum uncertainty. A delta function, where the outcome is certain, has zero entropy.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.8.1, Page 56.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q74" data-correct="d">
+        <p class="question">24. What is the "bag of words" model in the context of document classification?</p>
+        <div class="options">
+            <label><input type="radio" name="q74" value="a"> A model that considers the grammatical structure of sentences.</label>
+            <label><input type="radio" name="q74" value="b"> A model that uses the physical location of words on the page.</label>
+            <label><input type="radio" name="q74" value="c"> A model where each document is represented by a single, most frequent word.</label>
+            <label><input type="radio" name="q74" value="d"> A model that assumes the words in a document are sampled independently, ignoring their order.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The bag of words model simplifies a document by treating it as an unordered collection (a "bag") of words. It assumes that each word is drawn independently from a class-conditional distribution, which makes it a suitable application for the Naive Bayes classifier.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.4.4.1, Page 81.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q75" data-correct="b">
+        <p class="question">25. The value of the Kullback-Leibler (KL) divergence \(KL(p||q)\) is zero if and only if:</p>
+        <div class="options">
+            <label><input type="radio" name="q75" value="a"> \(p\) and \(q\) are both Gaussian.</label>
+            <label><input type="radio" name="q75" value="b"> \(p = q\).</label>
+            <label><input type="radio" name="q75" value="c"> \(p\) and \(q\) have the same mean.</label>
+            <label><input type="radio" name="q75" value="d"> \(p\) is a uniform distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The KL divergence is a measure of dissimilarity between two probability distributions. It is always non-negative and is only zero when the two distributions are identical. It is not a true distance metric because it is not symmetric (i.e., \(KL(p||q) \neq KL(q||p)\)).</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.8.2, Page 58.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q76" data-correct="c">
+        <p class="question">26. In the context of linear models, if the basis functions are global (like polynomials), what is a major consequence?</p>
+        <div class="options">
+            <label><input type="radio" name="q76" value="a"> The model can only fit linear data.</label>
+            <label><input type="radio" name="q76" value="b"> The model is very robust to outliers.</label>
+            <label><input type="radio" name="q76" value="c"> Changes in one region of the input space affect the function in all other regions.</label>
+            <label><input type="radio" name="q76" value="d"> The model is computationally very efficient.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Global basis functions, like powers of \(x\), have support across the entire input space. This means that adjusting the model to fit a data point in one area will change the function's value everywhere, which can be a limitation. Local basis functions, like Gaussians or splines, resolve this by only having influence in a specific region.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.1, Page 139.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q77" data-correct="a">
+        <p class="question">27. What is the effect of the temperature parameter \(T\) in a softmax function \(S(\eta/T)_c\)?</p>
+        <div class="options">
+            <label><input type="radio" name="q77" value="a"> As \(T \to 0\), the distribution becomes a delta function on the largest element; as \(T \to \infty\), it becomes uniform.</label>
+            <label><input type="radio" name="q77" value="b"> As \(T \to 0\), the distribution becomes uniform; as \(T \to \infty\), it becomes a delta function.</label>
+            <label><input type="radio" name="q77" value="c"> It shifts the mean of the distribution.</label>
+            <label><input type="radio" name="q77" value="d"> It has no effect on the distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The temperature parameter controls the "peakedness" of the softmax distribution. A low temperature (\(T \to 0\)) makes the output approximate a one-hot vector corresponding to the maximum value (like an argmax function). A high temperature (\(T \to \infty\)) makes the output approach a uniform distribution.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 4.2.2, Page 104.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q78" data-correct="d">
+        <p class="question">28. The "base rate fallacy" occurs when one:</p>
+        <div class="options">
+            <label><input type="radio" name="q78" value="a"> Uses a prior that is too strong.</label>
+            <label><input type="radio" name="q78" value="b"> Incorrectly calculates the likelihood.</label>
+            <label><input type="radio" name="q78" value="c"> Confuses the posterior with the prior.</label>
+            <label><input type="radio" name="q78" value="d"> Ignores the prior probability of an event when interpreting a conditional probability.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The base rate fallacy is the error of confusing \(p(A|B)\) with \(p(B|A)\) and ignoring the base rate, or prior probability, \(p(B)\). For example, in medical diagnosis, confusing the probability of a positive test given the disease with the probability of having the disease given a positive test, while ignoring the low prevalence (prior probability) of the disease.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.2.3.1, Page 30.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q79" data-correct="b">
+        <p class="question">29. In the context of the Dirichlet-multinomial model, what is the purpose of the Dirichlet prior?</p>
+        <div class="options">
+            <label><input type="radio" name="q79" value="a"> To model the number of trials.</label>
+            <label><input type="radio" name="q79" value="b"> To act as a conjugate prior for the multinomial parameter vector \(\theta\), allowing for Bayesian smoothing.</label>
+            <label><input type="radio" name="q79" value="c"> To model the data directly.</label>
+            <label><input type="radio" name="q79" value="d"> To ensure the likelihood is Gaussian.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Dirichlet distribution is the conjugate prior for the multinomial likelihood. Using it allows for an analytical posterior distribution. The posterior mean provides a smoothed estimate of the multinomial probabilities, which is particularly useful for handling the zero-count problem in language models.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.4, Page 79.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q80" data-correct="c">
+        <p class="question">30. What is a key advantage of Bayesian model averaging over using a single MAP estimate for prediction?</p>
+        <div class="options">
+            <label><input type="radio" name="q80" value="a"> It is computationally simpler.</label>
+            <label><input type="radio" name="q80" value="b"> It always results in a point estimate.</label>
+            <label><input type="radio" name="q80" value="c"> It accounts for model uncertainty, leading to less overconfident predictions.</label>
+            <label><input type="radio" name="q80" value="d"> It does not require a prior distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Bayesian model averaging (BMA) computes the posterior predictive distribution by averaging the predictions of all hypotheses, weighted by their posterior probabilities. This incorporates uncertainty about which hypothesis is correct. A single MAP estimate ignores this uncertainty, which can lead to overconfident predictions, especially when the data is ambiguous.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.2.4, Page 71.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q81" data-correct="a">
+        <p class="question">31. The Wishart distribution is a multivariate generalization of which distribution?</p>
+        <div class="options">
+            <label><input type="radio" name="q81" value="a"> Gamma distribution</label>
+            <label><input type="radio" name="q81" value="b"> Beta distribution</label>
+            <label><input type="radio" name="q81" value="c"> Normal distribution</label>
+            <label><input type="radio" name="q81" value="d"> Poisson distribution</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Wishart distribution is a distribution over positive definite matrices. It is a multivariate generalization of the Gamma distribution and serves as a conjugate prior for the precision matrix of a multivariate Gaussian.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 4.5, Page 125.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q82" data-correct="d">
+        <p class="question">32. What is the effect of a small bandwidth \(h\) in kernel density estimation?</p>
+        <div class="options">
+            <label><input type="radio" name="q82" value="a"> The resulting density estimate will be very smooth.</label>
+            <label><input type="radio" name="q82" value="b"> The resulting density estimate will be unimodal.</label>
+            <label><input type="radio" name="q82" value="c"> The resulting density estimate will be zero everywhere.</label>
+            <label><input type="radio" name="q82" value="d"> The resulting density estimate will be very "spiky" or noisy.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>A small bandwidth \(h\) means the kernels are very narrow. This results in a density estimate that is very spiky, with a peak at each data point. This corresponds to high variance and low bias, and can be seen as overfitting the data.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.5.1, Page 124.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q83" data-correct="b">
+        <p class="question">33. In the context of linear models, what is sequential learning (or online learning)?</p>
+        <div class="options">
+            <label><input type="radio" name="q83" value="a"> A method that requires processing the entire training set at once.</label>
+            <label><input type="radio" name="q83" value="b"> An algorithm where data points are considered one at a time, and model parameters are updated after each one.</label>
+            <label><input type="radio" name="q83" value="c"> A method for selecting the best sequence of basis functions.</label>
+            <label><input type="radio" name="q83" value="d"> A method that is only applicable to Bayesian models.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Sequential or online learning algorithms process data points one by one, updating the model parameters after each presentation. This is useful for large datasets where batch processing is computationally expensive, and for real-time applications where data arrives in a continuous stream. Stochastic gradient descent is a common technique for sequential learning.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.1.3, Page 143.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q84" data-correct="c">
+        <p class="question">34. The posterior predictive distribution for a Normal-Normal model with unknown mean and variance (using a Normal-gamma prior) is a:</p>
+        <div class="options">
+            <label><input type="radio" name="q84" value="a"> Gaussian distribution.</label>
+            <label><input type="radio" name="q84" value="b"> Gamma distribution.</label>
+            <label><input type="radio" name="q84" value="c"> Student's t-distribution.</label>
+            <label><input type="radio" name="q84" value="d"> Laplace distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>When both the mean and variance of a Gaussian are unknown, the conjugate prior is a Normal-gamma distribution. Integrating out both unknown parameters results in a posterior predictive distribution that is a Student's t-distribution. This accounts for the uncertainty in both the mean and the variance, resulting in heavier tails than a Gaussian.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.3.2, Page 158.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q85" data-correct="a">
+        <p class="question">35. What is the main purpose of the "add-one smoothing" (Laplace smoothing) technique in language models?</p>
+        <div class="options">
+            <label><input type="radio" name="q85" value="a"> To avoid the zero-count problem by ensuring no word has a zero probability.</label>
+            <label><input type="radio" name="q85" value="b"> To make the model more complex.</label>
+            <label><input type="radio" name="q85" value="c"> To decrease the probability of frequent words.</label>
+            <label><input type="radio" name="q85" value="d"> To speed up the training process.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>Add-one smoothing is a Bayesian technique that corresponds to using a uniform Dirichlet prior (or Beta prior in the binary case). By adding a pseudo-count of 1 to every word, it ensures that even words not seen in the training data are assigned a small non-zero probability, thus avoiding the zero-count problem where the model would otherwise predict unseen words are impossible.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.3.4.1, Page 77.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q86" data-correct="d">
+        <p class="question">36. The decision boundaries of a multi-class linear discriminant analysis (LDA) are always:</p>
+        <div class="options">
+            <label><input type="radio" name="q86" value="a"> Quadratic.</label>
+            <label><input type="radio" name="q86" value="b"> Circular.</label>
+            <label><input type="radio" name="q86" value="c"> Parallel to the axes.</label>
+            <label><input type="radio" name="q86" value="d"> Linear.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>In LDA, the decision boundary between any two classes \(c\) and \(c'\) is the set of points where \(p(y=c|x) = p(y=c'|x)\). Because of the shared covariance matrix assumption, the quadratic terms in \(x\) cancel out, leaving a linear equation in \(x\). This results in linear decision boundaries (hyperplanes).</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 4.2.2, Page 104.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q87" data-correct="b">
+        <p class="question">37. What is the effect of a large regularization coefficient \(\lambda\) in ridge regression?</p>
+        <div class="options">
+            <label><input type="radio" name="q87" value="a"> It leads to a more complex model that fits the training data perfectly.</label>
+            <label><input type="radio" name="q87" value="b"> It leads to a simpler model with smaller weights, increasing bias but decreasing variance.</label>
+            <label><input type="radio" name="q87" value="c"> It has no effect on the model's complexity.</label>
+            <label><input type="radio" name="q87" value="d"> It forces many of the weights to be exactly zero.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>A large \(\lambda\) places a heavy penalty on the magnitude of the weights (\(\lambda w^T w\)). This forces the weights to be small, resulting in a simpler, smoother function. This increases the model's bias (it may not fit the training data as well) but reduces its variance (it is less sensitive to noise in the data), which can improve generalization.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.1.4, Page 144.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q88" data-correct="c">
+        <p class="question">38. The posterior mean of the Beta(\(\alpha, \beta\)) distribution is \(\frac{\alpha}{\alpha+\beta}\). The posterior mode is:</p>
+        <div class="options">
+            <label><input type="radio" name="q88" value="a"> \(\frac{\alpha}{\alpha+\beta}\)</label>
+            <label><input type="radio" name="q88" value="b"> \(\frac{\alpha-1}{\alpha+\beta}\)</label>
+            <label><input type="radio" name="q88" value="c"> \(\frac{\alpha-1}{\alpha+\beta-2}\)</label>
+            <label><input type="radio" name="q88" value="d"> \(\frac{\alpha+1}{\alpha+\beta+2}\)</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The mode of the Beta(\(\alpha, \beta\)) distribution is given by \(\frac{\alpha-1}{\alpha+\beta-2}\), provided \(\alpha, \beta > 1\). This is different from the mean, which is important as it shows that the MAP estimate (mode) and posterior mean estimate are not always the same.</p>
+            <p class="source">Source: A First Course in Machine Learning, Section 2.6, Page 128, Eq. 2.269.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q89" data-correct="a">
+        <p class="question">39. In the k-NN classification algorithm, what is a major drawback of choosing a very large value for \(K\) (e.g., \(K=N\))?</p>
+        <div class="options">
+            <label><input type="radio" name="q89" value="a"> The model becomes too simple and will underfit the data, always predicting the majority class.</label>
+            <label><input type="radio" name="q89" value="b"> The model becomes too complex and will overfit the data.</label>
+            <label><input type="radio" name="q89" value="c"> The computational cost becomes infinite.</label>
+            <label><input type="radio" name="q89" value="d"> The decision boundary becomes highly non-linear.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>If \(K=N\) (the size of the training set), the neighborhood for any test point is the entire dataset. The classifier will therefore always predict the majority class of the entire training set, regardless of the test point's location. This is a very simple, high-bias model that underfits the data.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 1.4.7, Page 22.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q90" data-correct="d">
+        <p class="question">40. The process of finding the hyperparameters that maximize the marginal likelihood is also known as:</p>
+        <div class="options">
+            <label><input type="radio" name="q90" value="a"> Type I Maximum Likelihood.</label>
+            <label><input type="radio" name="q90" value="b"> Maximum a Posteriori (MAP) estimation.</label>
+            <label><input type="radio" name="q90" value="c"> Cross-validation.</label>
+            <label><input type="radio" name="q90" value="d"> Empirical Bayes or Type II Maximum Likelihood.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>This approach, where the marginal likelihood \(p(D|\eta)\) is maximized to find the hyperparameters \(\eta\), is known by several names, including Empirical Bayes, Type II Maximum Likelihood, and the evidence procedure. It's a practical way to set hyperparameters without needing to specify hyper-priors or use cross-validation.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.5, Page 165.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q91" data-correct="b">
+        <p class="question">41. What is the primary difference between a generative and a discriminative classifier?</p>
+        <div class="options">
+            <label><input type="radio" name="q91" value="a"> Generative models are always linear.</label>
+            <label><input type="radio" name="q91" value="b"> Generative models learn the joint distribution \(p(x,y)\), while discriminative models learn the conditional distribution \(p(y|x)\) directly.</label>
+            <label><input type="radio" name="q91" value="c"> Discriminative models cannot handle missing data.</label>
+            <label><input type="radio" name="q91" value="d"> Generative models are always more accurate.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>A generative model learns a model of the joint probability \(p(x,y) = p(x|y)p(y)\). It can be used to generate new data. A discriminative model learns the posterior \(p(y|x)\) directly, focusing only on the decision boundary. LDA is generative, while logistic regression is discriminative.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 4.2.2, Page 104.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q92" data-correct="c">
+        <p class="question">42. The variance of a Beta(\(\alpha, \beta\)) distribution is given by:</p>
+        <div class="options">
+            <label><input type="radio" name="q92" value="a"> \(\frac{\alpha}{\alpha+\beta}\)</label>
+            <label><input type="radio" name="q92" value="b"> \(\frac{\alpha\beta}{\alpha+\beta}\)</label>
+            <label><input type="radio" name="q92" value="c"> \(\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\)</label>
+            <label><input type="radio" name="q92" value="d"> \(\frac{\alpha-1}{\alpha+\beta-2}\)</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The variance of a Beta distribution with parameters \(\alpha\) and \(\beta\) is \(\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\). This shows that the variance depends on both the sum of the parameters (the effective sample size) and their individual values.</p>
+            <p class="source">Source: A First Course in Machine Learning, Section 3.3.1, Page 105, Eq. 3.7.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q93" data-correct="a">
+        <p class="question">43. In Bayesian linear regression, as more data points are observed, what happens to the predictive uncertainty in regions far from the data points?</p>
+        <div class="options">
+            <label><input type="radio" name="q93" value="a"> It approaches the prior noise variance.</label>
+            <label><input type="radio" name="q93" value="b"> It approaches zero.</label>
+            <label><input type="radio" name="q93" value="c"> It becomes infinite.</label>
+            <label><input type="radio" name="q93" value="d"> It remains constant.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The predictive variance is \(\sigma_N^2(x) = \frac{1}{\beta} + \phi(x)^T S_N \phi(x)\). For localized basis functions like Gaussians, in regions far from the data, the basis functions \(\phi(x)\) go to zero. Consequently, the second term (parameter uncertainty) goes to zero, and the predictive variance reverts to the data noise variance, \(1/\beta\).</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.3.2, Page 158.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q94" data-correct="d">
+        <p class="question">44. What is the "one-hot encoding" of a categorical variable?</p>
+        <div class="options">
+            <label><input type="radio" name="q94" value="a"> Representing the variable as a single integer.</label>
+            <label><input type="radio" name="q94" value="b"> Representing the variable using its most frequent category.</label>
+            <label><input type="radio" name="q94" value="c"> Representing the variable using binary code.</label>
+            <label><input type="radio" name="q94" value="d"> Representing a variable with K states as a binary vector of length K with a single 1 and K-1 zeros.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>One-hot encoding is used for categorical variables in multinomial models. If a variable can take one of K states, it is represented as a vector of length K where the k-th element is 1 (or "hot") and all other elements are 0, indicating that the variable is in state k.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.3.2, Page 35.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q95" data-correct="b">
+        <p class="question">45. The Fisher Information matrix provides a measure of:</p>
+        <div class="options">
+            <label><input type="radio" name="q95" value="a"> The bias of an estimator.</label>
+            <label><input type="radio" name="q95" value="b"> The curvature of the log-likelihood function, indicating how much information the data provides about the parameters.</label>
+            <label><input type="radio" name="q95" value="c"> The marginal likelihood of the model.</label>
+            <label><input type="radio" name="q95" value="d"> The number of data points.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The Fisher Information is the expected value of the observed information (the negative Hessian of the log-likelihood). It measures the curvature of the likelihood peak. A high curvature (high information) means the peak is sharp and the parameter is well-determined by the data, leading to low posterior variance.</p>
+            <p class="source">Source: A First Course in Machine Learning, Section 2.9.1, Page 80.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q96" data-correct="c">
+        <p class="question">46. What is a major advantage of using Monte Carlo simulation to approximate a posterior distribution?</p>
+        <div class="options">
+            <label><input type="radio" name="q96" value="a"> It always gives the exact analytical solution.</label>
+            <label><input type="radio" name="q96" value="b"> It is faster than any other method.</label>
+            <label><input type="radio" name="q96" value="c"> It can be used even when the posterior distribution is not of a standard, analytically known form.</label>
+            <label><input type="radio" name="q96" value="d"> It eliminates the need for a prior distribution.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The great power of Monte Carlo methods is their generality. As long as we can draw samples from a distribution (even if we don't know its analytical form), we can approximate its properties, such as its mean, variance, and percentiles, by computing statistics on the generated samples.</p>
+            <p class="source">Source: Bayesian Inference Essentials Part 2(1).html, Section: Bayesian Inference using Monte Carlo.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q97" data-correct="a">
+        <p class="question">47. In the context of the number game, why does the hypothesis "powers of two" have a higher likelihood than "even numbers" after observing D = {16, 8, 2, 64}?</p>
+        <div class="options">
+            <label><input type="radio" name="q97" value="a"> Because the set of "powers of two" is much smaller than the set of "even numbers", making the observation of four such numbers a less likely coincidence under the "even numbers" hypothesis.</label>
+            <label><input type="radio" name="q97" value="b"> Because "powers of two" has a higher prior probability.</label>
+            <label><input type="radio" name="q97" value="c"> Because the numbers are all even.</label>
+            <label><input type="radio" name="q97" value="d"> Because the likelihood does not depend on the size of the hypothesis.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>This is a direct application of the size principle. The set of even numbers is large (50 members), while the set of powers of two is small (6 members). The likelihood of observing 4 specific numbers from the "even" set is \((1/50)^4\), which is much smaller than the likelihood of observing them from the "powers of two" set, \((1/6)^4\). The data seems too specific to have been drawn from the very general "even numbers" concept.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.2.1, Page 67.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q98" data-correct="d">
+        <p class="question">48. What is the relationship between the mean and mode for a symmetric, unimodal posterior distribution?</p>
+        <div class="options">
+            <label><input type="radio" name="q98" value="a"> The mean is always greater than the mode.</label>
+            <label><input type="radio" name="q98" value="b"> The mode is always greater than the mean.</label>
+            <label><input type="radio" name="q98" value="c"> There is no consistent relationship.</label>
+            <label><input type="radio" name="q98" value="d"> The mean, median, and mode are all equal.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>For any symmetric and unimodal distribution, such as a Gaussian, the point of symmetry is simultaneously the mean (center of mass), the median (50% point), and the mode (the peak).</p>
+            <p class="source">Source: General statistical knowledge.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q99" data-correct="b">
+        <p class="question">49. The "evidence framework" is a method for:</p>
+        <div class="options">
+            <label><input type="radio" name="q99" value="a"> Choosing the likelihood function.</label>
+            <label><input type="radio" name="q99" value="b"> Setting hyperparameters by maximizing the marginal likelihood.</label>
+            <label><input type="radio" name="q99" value="c"> Performing full Bayesian integration over all parameters.</label>
+            <label><input type="radio" name="q99" value="d"> Calculating frequentist confidence intervals.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>The evidence framework, also known as Type II Maximum Likelihood or Empirical Bayes, is a practical approach to setting hyperparameters. It involves integrating out the main model parameters to get the marginal likelihood (the "evidence"), and then maximizing this evidence with respect to the hyperparameters.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 3.5, Page 165.</p>
+        </div>
+    </div>
+
+    <div class="question-block" id="q100" data-correct="c">
+        <p class="question">50. If two random variables X and Y are independent, their covariance cov(X, Y) is:</p>
+        <div class="options">
+            <label><input type="radio" name="q100" value="a"> 1</label>
+            <label><input type="radio" name="q100" value="b"> -1</label>
+            <label><input type="radio" name="q100" value="c"> 0</label>
+            <label><input type="radio" name="q100" value="d"> Dependent on their means.</label>
+        </div>
+        <div class="explanation">
+            <p class="feedback"></p>
+            <p>If X and Y are independent, then \(E[XY] = E[X]E[Y]\). Since covariance is defined as \(\text{cov}(X, Y) = E[XY] - E[X]E[Y]\), their covariance is 0. The reverse is not always true: zero covariance (uncorrelated) does not imply independence, unless the variables are jointly Gaussian.</p>
+            <p class="source">Source: Machine Learning: A Probabilistic Perspective, Section 2.5.1, Page 46.</p>
+        </div>
+    </div>
+
+  </div>
+
+  <button id="clear-answers-btn">Clear Stored Answers</button>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const quiz = document.getElementById('quiz');
+    const questionBlocks = quiz.querySelectorAll('.question-block');
+
+    // --- Cookie Functions ---
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (JSON.stringify(value) || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) {
+            try {
+                return JSON.parse(c.substring(nameEQ.length, c.length));
+            } catch (e) {
+                return null;
+            }
+        }
+      }
+      return null;
+    }
+
+    function eraseCookie(name) {
+      document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    }
+
+    // --- Quiz Logic ---
+    const cookieName = 'bayesianQuizAnswers2'; // Use a different cookie for the second quiz
+
+    function handleAnswer(event) {
+      const selectedRadio = event.target;
+      const questionBlock = selectedRadio.closest('.question-block');
+      const questionId = questionBlock.id;
+      const selectedValue = selectedRadio.value;
+      const correctAnswer = questionBlock.dataset.correct;
+      const explanationDiv = questionBlock.querySelector('.explanation');
+      const feedbackP = explanationDiv.querySelector('.feedback');
+
+      // Show feedback
+      if (selectedValue === correctAnswer) {
+        feedbackP.textContent = 'Correct!';
+        feedbackP.className = 'feedback correct';
+      } else {
+        feedbackP.textContent = `Incorrect. The correct answer is ${correctAnswer.toUpperCase()}.`;
+        feedbackP.className = 'feedback incorrect';
+      }
+      explanationDiv.style.display = 'block';
+
+      // Save to cookie
+      let answers = getCookie(cookieName) || {};
+      answers[questionId] = selectedValue;
+      setCookie(cookieName, answers, 7); // Save for 7 days
+
+      // Radios remain enabled to allow changing answers.
+    }
+
+    function loadProgress() {
+      const answers = getCookie(cookieName);
+      if (!answers) return;
+
+      questionBlocks.forEach(block => {
+        const questionId = block.id;
+        if (answers[questionId]) {
+          const selectedValue = answers[questionId];
+          const radioToCheck = block.querySelector(`input[value="${selectedValue}"]`);
+          if (radioToCheck) {
+            radioToCheck.checked = true;
+            // Trigger the feedback logic as if it was just clicked
+            handleAnswer({ target: radioToCheck });
+          }
+        }
+      });
+    }
+
+    // Attach event listeners
+    questionBlocks.forEach(block => {
+      const radios = block.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        radio.addEventListener('change', handleAnswer);
+      });
+    });
+
+    function resetQuizState() {
+      questionBlocks.forEach(block => {
+        const radios = block.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+          radio.checked = false;
+          radio.disabled = false;
+        });
+        const explanationDiv = block.querySelector('.explanation');
+        if (explanationDiv) {
+          explanationDiv.style.display = 'none';
+        }
+        const feedbackP = block.querySelector('.feedback');
+        if (feedbackP) {
+          feedbackP.textContent = '';
+        }
+      });
+    }
+
+    // Clear answers button
+    const clearBtn = document.getElementById('clear-answers-btn');
+    clearBtn.addEventListener('click', () => {
+        if(confirm("Are you sure you want to clear all your saved answers and reset the quiz?")) {
+            eraseCookie(cookieName);
+            resetQuizState();
+        }
+    });
+
+    // Load saved answers on page load
+    loadProgress();
+
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ST3189 Machine Learning - Bayesian Inference and Learning Flashcards</title>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #f4f7f9;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+    h1 {
+        color: #005a9c;
+        margin-bottom: 20px;
+    }
+    .slideshow-container {
+        position: relative;
+        width: 800px;
+        height: 300px;
+        margin-bottom: 20px;
+    }
+    .flashcard {
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        perspective: 1000px;
+        position: absolute;
+        display: none;
+    }
+    .flashcard.active {
+        display: block;
+    }
+    .card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        border-radius: 15px;
+    }
+    .flashcard.flipped .card {
+        transform: rotateY(180deg);
+    }
+    .front, .back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 15px;
+    }
+    .front {
+        background-color: #ffffff;
+        color: #333;
+    }
+    .back {
+        background-color: #005a9c;
+        color: white;
+        transform: rotateY(180deg);
+    }
+    .card-content {
+        font-size: 1.1rem;
+    }
+    .card-number {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 0.9rem;
+        color: #999;
+    }
+    .back .card-number {
+        color: #e0e0e0;
+    }
+    .navigation {
+        display: flex;
+        justify-content: space-between;
+        width: 800px;
+        margin-bottom: 10px;
+    }
+    .nav-button, .flip-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .nav-button:hover, .flip-button:hover {
+        background-color: #0056b3;
+    }
+    .flip-button-container {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<h1>ST3189 - Bayesian Inference and Learning</h1>
+
+<div class="slideshow-container">
+    <div class="flashcard active">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">1/100</span>
+                <p class="card-content"><strong>Q:</strong> What is Bayes' theorem and what are its components in the context of statistical inference?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">1/100</span>
+                <p class="card-content"><strong>A:</strong> Bayes' theorem is given by \( p(\theta|D) = \frac{p(D|\theta)p(\theta)}{p(D)} \).
+                - \( p(\theta|D) \) is the <strong>posterior</strong> probability of the parameters \(\theta\) given the data \(D\).
+                - \( p(D|\theta) \) is the <strong>likelihood</strong> of the data given the parameters.
+                - \( p(\theta) \) is the <strong>prior</strong> probability of the parameters.
+                - \( p(D) \) is the <strong>marginal likelihood</strong> or evidence of the data.
+                <br><i>Source: Bishop, Chapter 1; Murphy, Chapter 2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">2/100</span>
+                <p class="card-content"><strong>Q:</strong> What is a conjugate prior?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">2/100</span>
+                <p class="card-content"><strong>A:</strong> A prior distribution is conjugate to a likelihood function if the resulting posterior distribution is in the same probability distribution family as the prior. This provides an analytical solution for the posterior, simplifying Bayesian analysis.<br><br><i>Source: Bishop, Section 2.1.1; Murphy, Section 3.3.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">3/100</span>
+                <p class="card-content"><strong>Q:</strong> Describe the Beta-Binomial conjugate pair.</p>
+            </div>
+            <div class="back">
+                <span class="card-number">3/100</span>
+                <p class="card-content"><strong>A:</strong> If the likelihood of observing \(m\) successes in \(N\) trials is Binomial, \(p(D|\mu) \propto \mu^m (1-\mu)^{N-m}\), and the prior on the probability of success \(\mu\) is a Beta distribution, \(\text{Beta}(\mu|a,b) \propto \mu^{a-1}(1-\mu)^{b-1}\), then the posterior is also a Beta distribution: \(\text{Beta}(\mu|m+a, N-m+b)\).<br><br><i>Source: Bishop, Section 2.1.1; Murphy, Section 3.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">4/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution and why is it important?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">4/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution gives the probability of a new data point, \(x_{new}\), given the observed data \(D\). It is calculated by integrating the likelihood of the new data point over the posterior distribution of the parameters: \( p(x_{new}|D) = \int p(x_{new}|\theta) p(\theta|D) d\theta \). It is important because it allows for prediction while accounting for parameter uncertainty.<br><br><i>Source: Bishop, Section 3.3.2; Murphy, Section 3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">5/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Maximum a Posteriori (MAP) estimate?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">5/100</span>
+                <p class="card-content"><strong>A:</strong> The MAP estimate is the mode of the posterior distribution, i.e., the value of the parameters \(\theta\) that maximizes the posterior probability \(p(\theta|D)\). It is often used as a point estimate of the parameters.<br><br><i>Source: Bishop, Section 1.2.6; Murphy, Section 5.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">6/100</span>
+                <p class="card-content"><strong>Q:</strong> How does the MAP estimate relate to the Maximum Likelihood Estimate (MLE)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">6/100</span>
+                <p class="card-content"><strong>A:</strong> The MAP estimate maximizes \(p(D|\theta)p(\theta)\), while the MLE maximizes \(p(D|\theta)\). If the prior \(p(\theta)\) is uniform, the MAP estimate is equivalent to the MLE. The log of the prior in the MAP estimation acts as a regularization term.<br><br><i>Source: Bishop, Section 1.2.6; Murphy, Section 5.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">7/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the marginal likelihood (or model evidence) and what is its role in Bayesian inference?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">7/100</span>
+                <p class="card-content"><strong>A:</strong> The marginal likelihood is the probability of the data given a model, \(p(D|m) = \int p(D|\theta, m) p(\theta|m) d\theta\). It is used for Bayesian model selection, typically by comparing the marginal likelihoods of different models (e.g., via Bayes factors).<br><br><i>Source: Bishop, Section 3.4; Murphy, Section 5.3.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">8/100</span>
+                <p class="card-content"><strong>Q:</strong> Explain the concept of the "Bayesian Occam's Razor".</p>
+            </div>
+            <div class="back">
+                <span class="card-number">8/100</span>
+                <p class="card-content"><strong>A:</strong> Bayesian model selection via the marginal likelihood naturally penalizes overly complex models. A complex model must spread its predictive probability over a wider range of possible datasets. If a simpler model can explain the observed data well, it will have a higher marginal likelihood and be favored.<br><br><i>Source: Bishop, Section 3.4; Murphy, Section 5.3.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">9/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Laplace approximation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">9/100</span>
+                <p class="card-content"><strong>A:</strong> The Laplace approximation is a method to approximate a posterior distribution with a Gaussian distribution. The Gaussian is centered at the mode of the posterior (the MAP estimate), and its covariance is the inverse of the negative Hessian matrix of the log posterior at the mode.<br><br><i>Source: Bishop, Section 4.4; Murphy, Section 4.4.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">10/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between Bayesian linear regression with a Gaussian prior and Ridge regression?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">10/100</span>
+                <p class="card-content"><strong>A:</strong> The MAP estimate of the coefficients in a Bayesian linear regression with a zero-mean Gaussian prior is equivalent to the Ridge regression estimate. The precision of the prior corresponds to the regularization parameter \(\lambda\).<br><br><i>Source: Bishop, Section 3.3; Rogers and Girolami, Chapter 3</i></p>
+            </div>
+        </div>
+    </div>
+    <!-- I will add the remaining 90 flashcards here, following the same structure -->
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">11/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between a credible interval and a confidence interval?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">11/100</span>
+                <p class="card-content"><strong>A:</strong> A 95% credible interval is a range for which there is a 95% probability that the true parameter value lies within it. A 95% confidence interval is a range that, if the experiment were repeated many times, would contain the true parameter in 95% of the repetitions. The Bayesian credible interval is a statement about the parameter, while the frequentist confidence interval is a statement about the interval.<br><br><i>Source: Murphy, Section 5.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">12/100</span>
+                <p class="card-content"><strong>Q:</strong> What is a Highest Posterior Density (HPD) region?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">12/100</span>
+                <p class="card-content"><strong>A:</strong> An HPD region is a type of credible interval that contains the required mass of the posterior probability, and where every point inside the region has a higher probability density than any point outside it. For a unimodal symmetric posterior, it's the same as the central interval.<br><br><i>Source: Murphy, Section 5.2.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">13/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "curse of dimensionality" in the context of density estimation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">13/100</span>
+                <p class="card-content"><strong>A:</strong> In high-dimensional spaces, the volume of the space grows so fast that the data becomes very sparse. This makes it very difficult to estimate probability densities accurately without an exponentially large amount of data.<br><br><i>Source: Bishop, Section 1.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">14/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between a parametric and a non-parametric model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">14/100</span>
+                <p class="card-content"><strong>A:</strong> A parametric model has a fixed number of parameters, regardless of the amount of training data. A non-parametric model's complexity (and number of parameters) can grow with the amount of training data.<br><br><i>Source: Murphy, Section 1.4.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">15/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the bias-variance tradeoff?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">15/100</span>
+                <p class="card-content"><strong>A:</strong> A fundamental concept in machine learning that describes the tradeoff between a model's ability to fit the training data well (low bias) and its ability to generalize to new data (low variance). Simple models have high bias and low variance, while complex models have low bias and high variance.<br><br><i>Source: Bishop, Section 3.2; Murphy, Section 6.4.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">16/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the exponential family of distributions?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">16/100</span>
+                <p class="card-content"><strong>A:</strong> A broad class of probability distributions that can be written in the form \( p(x|\eta) = h(x)g(\eta) \exp(\eta^T u(x)) \). Many common distributions, including the Gaussian, Bernoulli, and Poisson, are members of this family. They have useful properties, such as the existence of conjugate priors.<br><br><i>Source: Bishop, Section 2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">17/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "size principle" in Bayesian concept learning?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">17/100</span>
+                <p class="card-content"><strong>A:</strong> The size principle states that the model favors the simplest (smallest) hypothesis consistent with the data. This is a form of Occam's Razor, where the likelihood \(p(D|h)\) is inversely proportional to the size of the hypothesis space \(|h|\).<br><br><i>Source: Murphy, Section 3.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">18/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Dirichlet-multinomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">18/100</span>
+                <p class="card-content"><strong>A:</strong> A model for sequences of categorical data. It is derived by placing a Dirichlet prior on the parameters of a multinomial likelihood. It is often used in natural language processing for tasks like topic modeling.<br><br><i>Source: Murphy, Section 3.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">19/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "black swan paradox" and how does Bayesian inference address it?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">19/100</span>
+                <p class="card-content"><strong>A:</strong> It's the problem of making predictions about unseen events (e.g., predicting the probability of a "black swan" is zero if you've only ever seen white swans). Bayesian inference, through the use of priors (like Laplace's rule of succession), assigns a non-zero probability to unseen events, avoiding this issue.<br><br><i>Source: Murphy, Section 3.3.4.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">20/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Jeffreys-Lindley paradox?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">20/100</span>
+                <p class="card-content"><strong>A:</strong> A paradox in Bayesian hypothesis testing where using a vague (improper or very diffuse) prior for a parameter under an alternative hypothesis (M1) can lead to the Bayes factor always favoring the simpler null hypothesis (M0), regardless of the data.<br><br><i>Source: Murphy, Section 5.3.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">21/100</span>
+                <p class="card-content"><strong>Q:</strong> What is a "spike and slab" prior?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">21/100</span>
+                <p class="card-content"><strong>A:</strong> A type of prior used for Bayesian variable selection. It is a mixture of a "spike" (a distribution sharply peaked at zero, like a Dirac delta or a narrow Gaussian) and a "slab" (a diffuse, flat distribution).<br><br><i>Source: Murphy, Section 13.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">22/100</span>
+                <p class="card-content"><strong>Q:</strong> What is Bayesian Model Averaging (BMA)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">22/100</span>
+                <p class="card-content"><strong>A:</strong> An ensemble method that accounts for model uncertainty by averaging the predictions of multiple models, weighted by their posterior model probabilities.<br><br><i>Source: Bishop, Section 14.1; Murphy, Section 3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">23/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "log-sum-exp" trick?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">23/100</span>
+                <p class="card-content"><strong>A:</strong> A numerical stabilization technique used to compute the logarithm of a sum of exponentials, which is common in calculating log-likelihoods or log-posteriors, while avoiding numerical underflow or overflow.<br><br><i>Source: Murphy, Section 3.5.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">24/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Normal-Inverse-Wishart (NIW) distribution?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">24/100</span>
+                <p class="card-content"><strong>A:</strong> It is the conjugate prior for a multivariate Normal distribution N(&#956;, &#931;) when both the mean &#956; and the covariance matrix &#931; are unknown.<br><br><i>Source: Murphy, Section 4.6.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">25/100</span>
+                <p class="card-content"><strong>Q:</strong> What is shrinkage in the context of Bayesian estimation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">25/100</span>
+                <p class="card-content"><strong>A:</strong> It is the phenomenon where the posterior estimate is pulled away from the maximum likelihood estimate and towards a prior belief. It is a form of regularization that reduces variance.<br><br><i>Source: Murphy, Section 5.6.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">26/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior mean in a Normal-Normal model (inferring a mean with a Normal prior)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">26/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior mean is a precision-weighted average of the prior mean and the sample mean (the MLE). It represents a "shrinkage" of the sample mean towards the prior mean.<br><br><i>Source: Murphy, Section 4.4.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">27/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Jeffreys prior for a location parameter, like a Gaussian mean?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">27/100</span>
+                <p class="card-content"><strong>A:</strong> A uniform (improper) prior, p(&#956;) &#8733; 1. This is a translation-invariant prior.<br><br><i>Source: Murphy, Section 5.4.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">28/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Jeffreys prior for a scale parameter, like a Gaussian standard deviation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">28/100</span>
+                <p class="card-content"><strong>A:</strong> An improper prior proportional to 1/&#963;, i.e., p(&#963;) &#8733; 1/&#963;. This is a scale-invariant prior.<br><br><i>Source: Murphy, Section 5.4.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">29/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "evidence procedure"?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">29/100</span>
+                <p class="card-content"><strong>A:</strong> Another name for Empirical Bayes or type-II maximum likelihood, where hyperparameters are estimated by maximizing the marginal likelihood.<br><br><i>Source: Murphy, Section 5.6</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">30/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior mean of the precision in a Gamma-Poisson model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">30/100</span>
+                <p class="card-content"><strong>A:</strong> If the prior is \(\text{Ga}(\lambda|a,b)\) and we observe data \(D\), the posterior is \(\text{Ga}(\lambda|a+\sum y_i, b+n)\). The posterior mean is \((a+\sum y_i)/(b+n)\).<br><br><i>Source: fciml-pages-1.pdf, Chapter 2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">31/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Beta-Binomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">31/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution is the Beta-Binomial distribution. For a single new trial, the probability of success is the posterior mean of \(\theta\).<br><br><i>Source: Murphy, Section 3.3.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">32/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Dirichlet-Multinomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">32/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution is the Dirichlet-Multinomial distribution. For a single new trial, the probability of outcome \(j\) is the posterior mean of \(\theta_j\).<br><br><i>Source: Murphy, Section 3.4.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">33/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Gaussian-Gaussian model (known variance)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">33/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution for a new observation is a Gaussian distribution with mean equal to the posterior mean of \(\mu\) and variance equal to the sum of the posterior variance of \(\mu\) and the observation variance.<br><br><i>Source: Murphy, Section 4.4.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">34/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Bayesian linear regression model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">34/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution for a new observation is a Gaussian distribution with mean \(x_{new}^T E[w|D]\) and variance \(\sigma^2 + x_{new}^T \text{cov}[w|D] x_{new}\).<br><br><i>Source: Rogers and Girolami, Chapter 3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">35/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "plug-in" approximation for the posterior predictive distribution?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">35/100</span>
+                <p class="card-content"><strong>A:</strong> It involves finding a point estimate of the parameters (like MAP or MLE), and then "plugging" this estimate into the predictive distribution, \(p(y_{new}|\theta_{est})\), ignoring parameter uncertainty.<br><br><i>Source: Murphy, Section 3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">36/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the main advantage of Bayesian Model Averaging (BMA) over using a single model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">36/100</span>
+                <p class="card-content"><strong>A:</strong> BMA accounts for model uncertainty by averaging predictions across multiple models, weighted by their posterior probabilities. This typically leads to better predictive performance and more robust conclusions than relying on a single "best" model.<br><br><i>Source: Bishop, Section 14.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">37/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between the marginal likelihood and the BIC (Bayesian Information Criterion)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">37/100</span>
+                <p class="card-content"><strong>A:</strong> The BIC is an approximation to the log marginal likelihood. It is given by \(\log p(D|\hat{\theta}) - \frac{\text{dof}(\theta)}{2} \log N\), where the second term penalizes model complexity.<br><br><i>Source: Murphy, Section 5.3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">38/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between the BIC and AIC (Akaike Information Criterion)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">38/100</span>
+                <p class="card-content"><strong>A:</strong> Both are penalized likelihood measures for model selection. The BIC has a stronger penalty for model complexity (proportional to \(\log N\)) than the AIC (proportional to 2), and thus tends to favor simpler models.<br><br><i>Source: Murphy, Section 5.3.2.5</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">39/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "effective sample size" of a prior?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">39/100</span>
+                <p class="card-content"><strong>A:</strong> The effective sample size (e.g., \(\alpha + \beta\) in a Beta prior) represents the strength of the prior belief in terms of the number of "pseudo-observations" it contributes. A larger effective sample size means a stronger prior that will be less influenced by the data.<br><br><i>Source: Murphy, Section 3.3.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">40/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the connection between a Bayesian neural network and dropout?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">40/100</span>
+                <p class="card-content"><strong>A:</strong> Dropout, a regularization technique where neurons are randomly dropped during training, can be interpreted as an approximation to Bayesian inference in a deep Gaussian process model. It approximates the effect of averaging over many different network architectures.<br><br><i>Source: Bishop, Section 5.7.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">41/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Polya Urn scheme and how does it relate to the Dirichlet-multinomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">41/100</span>
+                <p class="card-content"><strong>A:</strong> The Polya Urn scheme is a process where a ball of a certain color is drawn from an urn, and then returned along with another ball of the same color. This "rich get richer" process is mathematically described by the Dirichlet-multinomial distribution, which is used in Bayesian models to capture burstiness in data (e.g., word counts).<br><br><i>Source: Murphy, Section 3.5</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">42/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the main idea behind Bayesian concept learning?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">42/100</span>
+                <p class="card-content"><strong>A:</strong> Bayesian concept learning models how humans can infer general rules or concepts from a small number of positive examples. It uses Bayes' rule to update beliefs over a hypothesis space of possible concepts, favoring simpler hypotheses that explain the data concisely (the size principle).<br><br><i>Source: Murphy, Section 3.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">43/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the purpose of a loss function in Bayesian decision theory?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">43/100</span>
+                <p class="card-content"><strong>A:</strong> A loss function \(L(y, a)\) quantifies the "cost" or "error" of taking an action 'a' when the true state of nature is 'y'. It is used to define the optimal action as the one that minimizes the expected loss over the posterior distribution.<br><br><i>Source: Murphy, Section 5.7</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">44/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between the posterior mean and squared error loss?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">44/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior mean is the Bayes estimator that minimizes the posterior expected loss when using a squared error (L2) loss function. It is also known as the Minimum Mean Squared Error (MMSE) estimate.<br><br><i>Source: Murphy, Section 5.7.1.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">45/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between the posterior median and absolute error loss?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">45/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior median is the Bayes estimator that minimizes the posterior expected loss when using an absolute error (L1) loss function. It is more robust to outliers than the posterior mean.<br><br><i>Source: Murphy, Section 5.7.1.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">46/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the main advantage of Bayesian Model Averaging (BMA)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">46/100</span>
+                <p class="card-content"><strong>A:</strong> BMA accounts for model uncertainty by averaging predictions across multiple models, weighted by their posterior probabilities. This typically leads to better predictive performance and more robust conclusions than relying on a single "best" model.<br><br><i>Source: Bishop, Section 14.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">47/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the role of the "effective sample size" of a prior?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">47/100</span>
+                <p class="card-content"><strong>A:</strong> The effective sample size (e.g., \(\alpha + \beta\) in a Beta prior) represents the strength of the prior belief in terms of the number of "pseudo-observations" it contributes. A larger effective sample size means a stronger prior that will be less influenced by the data.<br><br><i>Source: Murphy, Section 3.3.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">48/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the connection between a Bayesian neural network and dropout?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">48/100</span>
+                <p class="card-content"><strong>A:</strong> Dropout, a regularization technique where neurons are randomly dropped during training, can be interpreted as an approximation to Bayesian inference in a deep Gaussian process model. It approximates the effect of averaging over many different network architectures.<br><br><i>Source: Bishop, Section 5.7.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">49/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Polya Urn scheme and how does it relate to the Dirichlet-multinomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">49/100</span>
+                <p class="card-content"><strong>A:</strong> The Polya Urn scheme is a process where a ball of a certain color is drawn from an urn, and then returned along with another ball of the same color. This "rich get richer" process is mathematically described by the Dirichlet-multinomial distribution, which is used in Bayesian models to capture burstiness in data (e.g., word counts).<br><br><i>Source: Murphy, Section 3.5</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">50/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the main idea behind Bayesian concept learning?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">50/100</span>
+                <p class="card-content"><strong>A:</strong> Bayesian concept learning models how humans can infer general rules or concepts from a small number of positive examples. It uses Bayes' rule to update beliefs over a hypothesis space of possible concepts, favoring simpler hypotheses that explain the data concisely (the size principle).<br><br><i>Source: Murphy, Section 3.2</i></p>
+            </div>
+        </div>
+    </div>
+    <!-- Add 50 more flashcards from the provided PDFs -->
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">51/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the sum rule of probability?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">51/100</span>
+                <p class="card-content"><strong>A:</strong> The sum rule states that the marginal probability of a random variable can be obtained by summing (or integrating) the joint probability over all possible values of the other variables. \( p(X) = \sum_Y p(X, Y) \).<br><br><i>Source: Bishop, Section 1.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">52/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the product rule of probability?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">52/100</span>
+                <p class="card-content"><strong>A:</strong> The product rule states that the joint probability of two random variables can be expressed as the product of the conditional probability of one variable given the other, and the marginal probability of the other. \( p(X, Y) = p(Y|X)p(X) \).<br><br><i>Source: Bishop, Section 1.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">53/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between the posterior, likelihood, prior, and evidence?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">53/100</span>
+                <p class="card-content"><strong>A:</strong> posterior \(\propto\) likelihood \(\times\) prior. The posterior is proportional to the product of the likelihood and the prior. The evidence is the normalizing constant.<br><br><i>Source: Bishop, Section 1.2.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">54/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the likelihood function?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">54/100</span>
+                <p class="card-content"><strong>A:</strong> The likelihood function \(p(D|w)\) is the probability of the observed data \(D\) as a function of the parameters \(w\). It is not a probability distribution over \(w\).<br><br><i>Source: Bishop, Section 1.2.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">55/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between the Bayesian and frequentist views of parameters?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">55/100</span>
+                <p class="card-content"><strong>A:</strong> In the Bayesian view, parameters are random variables about which we can have uncertainty. In the frequentist view, parameters are fixed, unknown constants.<br><br><i>Source: Bishop, Section 1.2.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">56/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the expectation of a function \(f(x)\) under a probability distribution \(p(x)\)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">56/100</span>
+                <p class="card-content"><strong>A:</strong> The expectation is the weighted average of the function's values, where the weights are given by the probability of each value. For a discrete variable, \(E[f] = \sum_x p(x)f(x)\). For a continuous variable, \(E[f] = \int p(x)f(x)dx\).<br><br><i>Source: Bishop, Section 1.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">57/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the variance of a random variable \(x\)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">57/100</span>
+                <p class="card-content"><strong>A:</strong> The variance measures the spread of a distribution. It is defined as \(\text{var}[x] = E[(x - E[x])^2] = E[x^2] - (E[x])^2\).<br><br><i>Source: Bishop, Section 1.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">58/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the covariance of two random variables \(x\) and \(y\)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">58/100</span>
+                <p class="card-content"><strong>A:</strong> The covariance measures the extent to which two variables vary together. It is defined as \(\text{cov}[x, y] = E[(x - E[x])(y - E[y])] = E[xy] - E[x]E[y]\).<br><br><i>Source: Bishop, Section 1.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">59/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Gaussian (or normal) distribution?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">59/100</span>
+                <p class="card-content"><strong>A:</strong> A continuous probability distribution defined by its mean \(\mu\) and variance \(\sigma^2\). Its pdf is given by \( N(x|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right) \).<br><br><i>Source: Bishop, Section 1.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">60/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the multivariate Gaussian distribution?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">60/100</span>
+                <p class="card-content"><strong>A:</strong> A generalization of the Gaussian distribution to multiple dimensions. It is defined by a mean vector \(\mu\) and a covariance matrix \(\Sigma\).<br><br><i>Source: Bishop, Section 2.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">61/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the central limit theorem?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">61/100</span>
+                <p class="card-content"><strong>A:</strong> The central limit theorem states that the sum of a large number of independent and identically distributed random variables will be approximately normally distributed, regardless of the underlying distribution.<br><br><i>Source: Murphy, Section 2.6.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">62/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the principle of maximum entropy?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">62/100</span>
+                <p class="card-content"><strong>A:</strong> The principle of maximum entropy states that, subject to any known constraints, the distribution that best represents the current state of knowledge is the one with the largest entropy.<br><br><i>Source: Bishop, Section 1.6.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">63/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Kullback-Leibler (KL) divergence?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">63/100</span>
+                <p class="card-content"><strong>A:</strong> The KL divergence is a measure of the dissimilarity between two probability distributions \(p\) and \(q\). It is defined as \(KL(p||q) = \sum_x p(x) \log \frac{p(x)}{q(x)}\). It is not symmetric.<br><br><i>Source: Bishop, Section 1.6.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">64/100</span>
+                <p class="card-content"><strong>Q:</strong> What is mutual information?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">64/100</span>
+                <p class="card-content"><strong>A:</strong> Mutual information measures the mutual dependence between two random variables. It is the KL divergence between the joint distribution and the product of the marginal distributions: \(I(X;Y) = KL(p(X,Y)||p(X)p(Y))\).<br><br><i>Source: Bishop, Section 1.6.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">65/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between mutual information and entropy?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">65/100</span>
+                <p class="card-content"><strong>A:</strong> Mutual information can be expressed in terms of entropy as \(I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X)\). It represents the reduction in uncertainty about one variable given knowledge of the other.<br><br><i>Source: Bishop, Section 1.6.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">66/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "No Free Lunch" theorem?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">66/100</span>
+                <p class="card-content"><strong>A:</strong> The No Free Lunch theorem states that there is no universally best model or learning algorithm. A set of assumptions that works well in one domain may work poorly in another.<br><br><i>Source: Murphy, Section 1.4.9</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">67/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between overfitting and underfitting?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">67/100</span>
+                <p class="card-content"><strong>A:</strong> Overfitting occurs when a model is too complex and captures noise in the training data, leading to poor generalization. Underfitting occurs when a model is too simple and fails to capture the underlying structure of the data.<br><br><i>Source: Bishop, Section 1.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">68/100</span>
+                <p class="card-content"><strong>Q:</strong> What is regularization?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">68/100</span>
+                <p class="card-content"><strong>A:</strong> Regularization is a technique used to prevent overfitting by adding a penalty term to the error function. This penalty discourages complex models, such as those with large coefficient values.<br><br><i>Source: Bishop, Section 1.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">69/100</span>
+                <p class="card-content"><strong>Q:</strong> What is cross-validation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">69/100</span>
+                <p class="card-content"><strong>A:</strong> Cross-validation is a technique for assessing how the results of a statistical analysis will generalize to an independent data set. It is mainly used in settings where the goal is prediction, and one wants to estimate how accurately a predictive model will perform in practice.<br><br><i>Source: Bishop, Section 1.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">70/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "reject option" in classification?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">70/100</span>
+                <p class="card-content"><strong>A:</strong> The reject option is a choice to abstain from making a classification decision when the model is uncertain. This is useful in risk-averse applications where the cost of a misclassification is high.<br><br><i>Source: Bishop, Section 1.5.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">71/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between a generative and a discriminative classifier?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">71/100</span>
+                <p class="card-content"><strong>A:</strong> A generative classifier models the joint distribution \(p(x,y)\), often by modeling the class-conditional densities \(p(x|y)\) and the class priors \(p(y)\). A discriminative classifier models the posterior \(p(y|x)\) directly.<br><br><i>Source: Bishop, Section 1.5.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">72/100</span>
+                <p class="card-content"><strong>Q:</strong> What is a loss function in decision theory?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">72/100</span>
+                <p class="card-content"><strong>A:</strong> A loss function \(L(t, y(x))\) quantifies the cost of making a prediction \(y(x)\) when the true value is \(t\). The goal of decision theory is to choose a prediction that minimizes the expected loss.<br><br><i>Source: Bishop, Section 1.5.5</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">73/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the optimal prediction for a regression problem with a squared loss function?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">73/100</span>
+                <p class="card-content"><strong>A:</strong> The optimal prediction is the conditional mean of the target variable, \(E[t|x]\).<br><br><i>Source: Bishop, Section 1.5.5</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">74/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the optimal prediction for a regression problem with an absolute loss function?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">74/100</span>
+                <p class="card-content"><strong>A:</strong> The optimal prediction is the conditional median of the target variable.<br><br><i>Source: Bishop, Section 1.5.5</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">75/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "curse of dimensionality"?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">75/100</span>
+                <p class="card-content"><strong>A:</strong> In high-dimensional spaces, the volume of the space grows so fast that the data becomes very sparse. This makes it very difficult to estimate probability densities accurately without an exponentially large amount of data.<br><br><i>Source: Bishop, Section 1.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">76/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between a parametric and a non-parametric model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">76/100</span>
+                <p class="card-content"><strong>A:</strong> A parametric model has a fixed number of parameters, regardless of the amount of training data. A non-parametric model's complexity (and number of parameters) can grow with the amount of training data.<br><br><i>Source: Murphy, Section 1.4.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">77/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the bias-variance tradeoff?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">77/100</span>
+                <p class="card-content"><strong>A:</strong> A fundamental concept in machine learning that describes the tradeoff between a model's ability to fit the training data well (low bias) and its ability to generalize to new data (low variance). Simple models have high bias and low variance, while complex models have low bias and high variance.<br><br><i>Source: Bishop, Section 3.2; Murphy, Section 6.4.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">78/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the exponential family of distributions?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">78/100</span>
+                <p class="card-content"><strong>A:</strong> A broad class of probability distributions that can be written in the form \( p(x|\eta) = h(x)g(\eta) \exp(\eta^T u(x)) \). Many common distributions, including the Gaussian, Bernoulli, and Poisson, are members of this family. They have useful properties, such as the existence of conjugate priors.<br><br><i>Source: Bishop, Section 2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">79/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "size principle" in Bayesian concept learning?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">79/100</span>
+                <p class="card-content"><strong>A:</strong> The size principle states that the model favors the simplest (smallest) hypothesis consistent with the data. This is a form of Occam's Razor, where the likelihood \(p(D|h)\) is inversely proportional to the size of the hypothesis space \(|h|\).<br><br><i>Source: Murphy, Section 3.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">80/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Dirichlet-multinomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">80/100</span>
+                <p class="card-content"><strong>A:</strong> A model for sequences of categorical data. It is derived by placing a Dirichlet prior on the parameters of a multinomial likelihood. It is often used in natural language processing for tasks like topic modeling.<br><br><i>Source: Murphy, Section 3.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">81/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "black swan paradox" and how does Bayesian inference address it?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">81/100</span>
+                <p class="card-content"><strong>A:</strong> It's the problem of making predictions about unseen events (e.g., predicting the probability of a "black swan" is zero if you've only ever seen white swans). Bayesian inference, through the use of priors (like Laplace's rule of succession), assigns a non-zero probability to unseen events, avoiding this issue.<br><br><i>Source: Murphy, Section 3.3.4.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">82/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Jeffreys-Lindley paradox?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">82/100</span>
+                <p class="card-content"><strong>A:</strong> A paradox in Bayesian hypothesis testing where using a vague (improper or very diffuse) prior for a parameter under an alternative hypothesis (M1) can lead to the Bayes factor always favoring the simpler null hypothesis (M0), regardless of the data.<br><br><i>Source: Murphy, Section 5.3.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">83/100</span>
+                <p class="card-content"><strong>Q:</strong> What is a "spike and slab" prior?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">83/100</span>
+                <p class="card-content"><strong>A:</strong> A type of prior used for Bayesian variable selection. It is a mixture of a "spike" (a distribution sharply peaked at zero, like a Dirac delta or a narrow Gaussian) and a "slab" (a diffuse, flat distribution).<br><br><i>Source: Murphy, Section 13.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">84/100</span>
+                <p class="card-content"><strong>Q:</strong> What is Bayesian Model Averaging (BMA)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">84/100</span>
+                <p class="card-content"><strong>A:</strong> An ensemble method that accounts for model uncertainty by averaging the predictions of multiple models, weighted by their posterior model probabilities.<br><br><i>Source: Bishop, Section 14.1; Murphy, Section 3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">85/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "log-sum-exp" trick?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">85/100</span>
+                <p class="card-content"><strong>A:</strong> A numerical stabilization technique used to compute the logarithm of a sum of exponentials, which is common in calculating log-likelihoods or log-posteriors, while avoiding numerical underflow or overflow.<br><br><i>Source: Murphy, Section 3.5.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">86/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Normal-Inverse-Wishart (NIW) distribution?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">86/100</span>
+                <p class="card-content"><strong>A:</strong> It is the conjugate prior for a multivariate Normal distribution N(&#956;, &#931;) when both the mean &#956; and the covariance matrix &#931; are unknown.<br><br><i>Source: Murphy, Section 4.6.3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">87/100</span>
+                <p class="card-content"><strong>Q:</strong> What is shrinkage in the context of Bayesian estimation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">87/100</span>
+                <p class="card-content"><strong>A:</strong> It is the phenomenon where the posterior estimate is pulled away from the maximum likelihood estimate and towards a prior belief. It is a form of regularization that reduces variance.<br><br><i>Source: Murphy, Section 5.6.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">88/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior mean in a Normal-Normal model (inferring a mean with a Normal prior)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">88/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior mean is a precision-weighted average of the prior mean and the sample mean (the MLE). It represents a "shrinkage" of the sample mean towards the prior mean.<br><br><i>Source: Murphy, Section 4.4.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">89/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Jeffreys prior for a location parameter, like a Gaussian mean?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">89/100</span>
+                <p class="card-content"><strong>A:</strong> A uniform (improper) prior, p(&#956;) &#8733; 1. This is a translation-invariant prior.<br><br><i>Source: Murphy, Section 5.4.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">90/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the Jeffreys prior for a scale parameter, like a Gaussian standard deviation?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">90/100</span>
+                <p class="card-content"><strong>A:</strong> An improper prior proportional to 1/&#963;, i.e., p(&#963;) &#8733; 1/&#963;. This is a scale-invariant prior.<br><br><i>Source: Murphy, Section 5.4.2.2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">91/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "evidence procedure"?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">91/100</span>
+                <p class="card-content"><strong>A:</strong> Another name for Empirical Bayes or type-II maximum likelihood, where hyperparameters are estimated by maximizing the marginal likelihood.<br><br><i>Source: Murphy, Section 5.6</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">92/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior mean of the precision in a Gamma-Poisson model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">92/100</span>
+                <p class="card-content"><strong>A:</strong> If the prior is \(\text{Ga}(\lambda|a,b)\) and we observe data \(D\), the posterior is \(\text{Ga}(\lambda|a+\sum y_i, b+n)\). The posterior mean is \((a+\sum y_i)/(b+n)\).<br><br><i>Source: fciml-pages-1.pdf, Chapter 2</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">93/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Beta-Binomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">93/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution is the Beta-Binomial distribution. For a single new trial, the probability of success is the posterior mean of \(\theta\).<br><br><i>Source: Murphy, Section 3.3.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">94/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Dirichlet-Multinomial model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">94/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution is the Dirichlet-Multinomial distribution. For a single new trial, the probability of outcome \(j\) is the posterior mean of \(\theta_j\).<br><br><i>Source: Murphy, Section 3.4.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">95/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Gaussian-Gaussian model (known variance)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">95/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution for a new observation is a Gaussian distribution with mean equal to the posterior mean of \(\mu\) and variance equal to the sum of the posterior variance of \(\mu\) and the observation variance.<br><br><i>Source: Murphy, Section 4.4.2.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">96/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the posterior predictive distribution in a Bayesian linear regression model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">96/100</span>
+                <p class="card-content"><strong>A:</strong> The posterior predictive distribution for a new observation is a Gaussian distribution with mean \(x_{new}^T E[w|D]\) and variance \(\sigma^2 + x_{new}^T \text{cov}[w|D] x_{new}\).<br><br><i>Source: Rogers and Girolami, Chapter 3</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">97/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the "plug-in" approximation for the posterior predictive distribution?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">97/100</span>
+                <p class="card-content"><strong>A:</strong> It involves finding a point estimate of the parameters (like MAP or MLE), and then "plugging" this estimate into the predictive distribution, \(p(y_{new}|\theta_{est})\), ignoring parameter uncertainty.<br><br><i>Source: Murphy, Section 3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">98/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the main advantage of Bayesian Model Averaging (BMA) over using a single model?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">98/100</span>
+                <p class="card-content"><strong>A:</strong> BMA accounts for model uncertainty by averaging predictions across multiple models, weighted by their posterior probabilities. This typically leads to better predictive performance and more robust conclusions than relying on a single "best" model.<br><br><i>Source: Bishop, Section 14.1</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">99/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the relationship between the marginal likelihood and the BIC (Bayesian Information Criterion)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">99/100</span>
+                <p class="card-content"><strong>A:</strong> The BIC is an approximation to the log marginal likelihood. It is given by \(\log p(D|\hat{\theta}) - \frac{\text{dof}(\theta)}{2} \log N\), where the second term penalizes model complexity.<br><br><i>Source: Murphy, Section 5.3.2.4</i></p>
+            </div>
+        </div>
+    </div>
+    <div class="flashcard">
+        <div class="card">
+            <div class="front">
+                <span class="card-number">100/100</span>
+                <p class="card-content"><strong>Q:</strong> What is the difference between the BIC and AIC (Akaike Information Criterion)?</p>
+            </div>
+            <div class="back">
+                <span class="card-number">100/100</span>
+                <p class="card-content"><strong>A:</strong> Both are penalized likelihood measures for model selection. The BIC has a stronger penalty for model complexity (proportional to \(\log N\)) than the AIC (proportional to 2), and thus tends to favor simpler models.<br><br><i>Source: Murphy, Section 5.3.2.5</i></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="navigation">
+    <button class="nav-button" onclick="prevCard()">Previous</button>
+    <button class="nav-button" onclick="nextCard()">Next</button>
+</div>
+<div class="flip-button-container">
+    <button class="flip-button" onclick="flipCurrentCard()">Flip Card</button>
+</div>
+
+<script>
+    let currentCard = 0;
+    const cards = document.querySelectorAll('.flashcard');
+    const totalCards = cards.length;
+
+    function showCard(n) {
+        cards.forEach(card => card.classList.remove('active'));
+        cards[n].classList.add('active');
+    }
+
+    function nextCard() {
+        cards[currentCard].classList.remove('flipped');
+        currentCard = (currentCard + 1) % totalCards;
+        showCard(currentCard);
+    }
+
+    function prevCard() {
+        cards[currentCard].classList.remove('flipped');
+        currentCard = (currentCard - 1 + totalCards) % totalCards;
+        showCard(currentCard);
+    }
+
+    function flipCurrentCard() {
+        cards[currentCard].classList.toggle('flipped');
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+            nextCard();
+        } else if (e.key === 'ArrowLeft') {
+            prevCard();
+        } else if (e.key === ' ') {
+            e.preventDefault(); // Prevent space from scrolling the page
+            flipCurrentCard();
+        }
+    });
+
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+        });
+    });
+</script>
+
+</body>
+</html>

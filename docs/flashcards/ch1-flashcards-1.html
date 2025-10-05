@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ST3189 Machine Learning - Linear Regression Flashcards</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f0f0; margin: 0; }
+        .slideshow-container { display: flex; align-items: center; }
+        .flashcard-container { width: 800px; height: 500px; perspective: 1000px; display: none; }
+        .flashcard-container.active { display: block; }
+        .flashcard { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s; cursor: pointer; border: 1px solid #ccc; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .flashcard.is-flipped { transform: rotateY(180deg); }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; background-color: white; border-radius: 10px; text-align: center; }
+        .back { transform: rotateY(180deg); }
+        .question-title, .answer-title { font-weight: bold; font-size: 1.5em; margin-bottom: 20px; }
+        .question-content, .answer-content { font-size: 1.2em; }
+        .source { font-size: 0.8em; color: #666; position: absolute; bottom: 10px; right: 10px; }
+        .nav-button { background-color: #4CAF50; color: white; border: none; padding: 15px 30px; font-size: 1.5em; cursor: pointer; margin: 0 20px; border-radius: 5px; }
+        .nav-button:hover { background-color: #45a049; }
+        .flip-button { margin-top: 20px; padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .card-counter { position: absolute; top: 10px; left: 10px; font-size: 1em; color: #888; }
+    </style>
+</head>
+<body>
+
+<div class="slideshow-container">
+    <button id="prevBtn" class="nav-button">&lt;</button>
+    <div id="flashcard-viewport">
+        <!-- Card 1 -->
+<div class="flashcard-container active">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">1 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the fundamental assumption of simple linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">1 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Simple linear regression assumes that there is approximately a linear relationship between a single predictor variable \(X\) and a quantitative response \(Y\). Mathematically, this is expressed as \(Y \approx \beta_0 + \beta_1X\).</div>
+            <p class="source">ISLP, Chapter 3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 2 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">2 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How are the coefficients \(\beta_0\) and \(\beta_1\) in a simple linear regression model estimated?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">2 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The most common method for estimating the coefficients is the least squares method. This method chooses \(\hat{\beta}_0\) and \(\hat{\beta}_1\) to minimize the Residual Sum of Squares (RSS), which is the sum of the squared differences between the observed responses \(y_i\) and the predicted responses \(\hat{y}_i\). The formulas are: \(\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2}\) and \(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}\).</div>
+            <p class="source">ISLP, Chapter 3.1.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 3 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">3 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the Residual Sum of Squares (RSS)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">3 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The Residual Sum of Squares (RSS) is a measure of the discrepancy between the data and an estimation model. It is defined as the sum of the squared residuals (differences between observed and predicted values): \(RSS = \sum_{i=1}^n e_i^2 = \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \sum_{i=1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1x_i)^2\).</div>
+            <p class="source">ISLP, Chapter 3.1.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 4 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">4 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between the population regression line and the least squares line?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">4 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The population regression line, \(Y = \beta_0 + \beta_1X + \epsilon\), represents the true, unknown linear relationship in the population. The least squares line, \(\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x\), is an estimate of the population regression line, computed from the sample data. The least squares line is what we have access to, while the population line is unobservable.</div>
+            <p class="source">ISLP, Chapter 3.1.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 5 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">5 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What does the standard error of a regression coefficient, like SE(\(\hat{\beta}_1\)), measure?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">5 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The standard error of a coefficient estimate, SE(\(\hat{\beta}_1\)), measures the average amount that the estimate \(\hat{\beta}_1\) differs from the actual value of \(\beta_1\). It quantifies the accuracy of the coefficient estimate. A smaller standard error indicates a more precise estimate.</div>
+            <p class="source">ISLP, Chapter 3.1.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 6 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">6 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How is a confidence interval for a regression coefficient interpreted?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">6 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A 95% confidence interval for a coefficient \(\beta_1\) is a range of values that has a 95% probability of containing the true unknown value of \(\beta_1\). For example, if we were to repeatedly draw samples and construct confidence intervals, 95% of these intervals would contain the true value of the coefficient.</div>
+            <p class="source">ISLP, Chapter 3.1.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 7 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">7 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the null hypothesis in the context of testing the significance of a regression coefficient \(\beta_1\)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">7 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The most common null hypothesis (\(H_0\)) is that there is no relationship between the predictor \(X\) and the response \(Y\). Mathematically, this is stated as \(H_0: \beta_1 = 0\). The alternative hypothesis (\(H_a\)) is that there is some relationship, i.e., \(H_a: \beta_1 \neq 0\).</div>
+            <p class="source">ISLP, Chapter 3.1.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 8 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">8 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is a t-statistic and how is it used in linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">8 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The t-statistic is used to test the null hypothesis that a coefficient is zero. It is calculated as \(t = \frac{\hat{\beta}_1 - 0}{SE(\hat{\beta}_1)}\). It measures how many standard deviations \(\hat{\beta}_1\) is away from 0. A large absolute value for the t-statistic provides evidence against the null hypothesis.</div>
+            <p class="source">ISLP, Chapter 3.1.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 9 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">9 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the p-value in hypothesis testing for a regression coefficient?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">9 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The p-value is the probability of observing a t-statistic as large as or larger than the one computed, assuming the null hypothesis (\(\beta_1 = 0\)) is true. A small p-value (typically < 0.05) indicates that it is unlikely to observe such a strong association by chance, leading us to reject the null hypothesis.</div>
+            <p class="source">ISLP, Chapter 3.1.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 10 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">10 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What are the two main metrics used to assess the accuracy of a linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">10 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The two main metrics are the Residual Standard Error (RSE) and the R-squared (\(R^2\)) statistic. RSE measures the average deviation of the response from the true regression line, while \(R^2\) measures the proportion of variance in the response that is explained by the model.</div>
+            <p class="source">ISLP, Chapter 3.1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 11 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">11 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Define Residual Standard Error (RSE).</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">11 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The Residual Standard Error (RSE) is an estimate of the standard deviation of the error term \(\epsilon\). It is the average amount that the response will deviate from the true regression line. It is calculated as \(RSE = \sqrt{\frac{RSS}{n-2}}\).</div>
+            <p class="source">ISLP, Chapter 3.1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 12 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">12 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Define the R-squared (\(R^2\)) statistic.</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">12 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The \(R^2\) statistic measures the proportion of the total variance in the response \(Y\) that is explained by the model. It is calculated as \(R^2 = \frac{TSS - RSS}{TSS} = 1 - \frac{RSS}{TSS}\), where TSS is the Total Sum of Squares, \(\sum(y_i - \bar{y})^2\). It always takes a value between 0 and 1.</div>
+            <p class="source">ISLP, Chapter 3.1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 13 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">13 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the relationship between \(R^2\) and the correlation coefficient in simple linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">13 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">In simple linear regression, the \(R^2\) statistic is equal to the square of the correlation coefficient between the predictor \(X\) and the response \(Y\). That is, \(R^2 = r^2\), where \(r = Cor(X, Y)\).</div>
+            <p class="source">ISLP, Chapter 3.1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 14 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">14 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How does multiple linear regression differ from simple linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">14 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Multiple linear regression extends simple linear regression to accommodate multiple predictors. The model takes the form \(Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \dots + \beta_pX_p + \epsilon\). Each predictor has its own slope coefficient, and the model can assess the effect of each predictor while holding others constant.</div>
+            <p class="source">ISLP, Chapter 3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 15 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">15 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How do you interpret a coefficient \(\beta_j\) in a multiple linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">15 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">In multiple linear regression, \(\beta_j\) is interpreted as the average effect on \(Y\) of a one-unit increase in \(X_j\), holding all other predictors fixed. This allows for the separation of the individual effects of each predictor on the response.</div>
+            <p class="source">ISLP, Chapter 3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 16 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">16 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Why can the coefficient estimates for the same predictor be different in simple and multiple regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">16 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">This difference arises from correlation between predictors. In simple regression, the slope term represents the average effect of the predictor, ignoring all other predictors. In multiple regression, the coefficient represents the effect of the predictor while holding other predictors constant. If predictors are correlated, the simple regression coefficient can be misleading as it captures the effects of other correlated predictors.</div>
+            <p class="source">ISLP, Chapter 3.2.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 17 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">17 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the F-statistic used for in multiple linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">17 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The F-statistic is used to test the null hypothesis that all regression coefficients are zero (\(H_0: \beta_1 = \beta_2 = \dots = \beta_p = 0\)). This tests whether at least one predictor is useful in predicting the response. A large F-statistic provides evidence against the null hypothesis.</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 18 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">18 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Why is the overall F-statistic needed when individual p-values for each coefficient are available?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">18 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">When the number of predictors \(p\) is large, there is a high probability of observing a small p-value for an individual coefficient purely by chance, even if no variable is truly associated with the response (a problem of multiple testing). The F-statistic adjusts for the number of predictors and provides a single test for the overall significance of the model, avoiding this issue.</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 19 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">19 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is variable selection in multiple regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">19 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Variable selection is the task of identifying which predictors are significantly associated with the response, in order to fit a single, more interpretable model that includes only those important predictors. This helps to avoid overfitting and improves model interpretability.</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 20 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">20 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Name three classical approaches for variable selection.</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">20 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">1. <b>Forward Selection:</b> Start with a null model and add predictors one by one, at each step adding the predictor that gives the greatest additional improvement to the fit. <br>2. <b>Backward Selection:</b> Start with all predictors and remove the least useful predictor one by one. <br>3. <b>Mixed Selection:</b> A combination of forward and backward selection, where variables are added one by one, but can also be removed if they become insignificant.</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 21 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">21 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How does adding more variables to a model affect the \(R^2\) statistic?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">21 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The \(R^2\) statistic will always increase when more variables are added to the model, even if those variables are only weakly associated with the response. This is because adding a variable always allows the model to fit the training data at least as well, thus reducing the RSS. Therefore, \(R^2\) alone is not a good metric for model selection.</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 22 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">22 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between a confidence interval and a prediction interval?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">22 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A confidence interval quantifies the uncertainty around the average response \(f(X)\) for a given set of predictors. A prediction interval quantifies the uncertainty for a single individual response \(Y\). Prediction intervals are always wider because they incorporate both the reducible error (uncertainty in the coefficient estimates) and the irreducible error (\(\epsilon\)).</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 23 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">23 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How can qualitative predictors be included in a linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">23 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Qualitative predictors are included by creating dummy variables. For a predictor with two levels (e.g., male/female), a single dummy variable is created that takes on two numerical values (e.g., 0 and 1). For a predictor with more than two levels, one fewer dummy variables than the number of levels are created.</div>
+            <p class="source">ISLP, Chapter 3.3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 24 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">24 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the 'baseline' level in the context of dummy variables?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">24 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">When creating dummy variables for a qualitative predictor with \(k\) levels, we create \(k-1\) dummy variables. The level that does not have its own dummy variable is known as the baseline or reference level. The coefficients of the dummy variables are interpreted as the average difference in the response relative to this baseline level.</div>
+            <p class="source">ISLP, Chapter 3.3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 25 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">25 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is an interaction effect in a linear model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">25 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">An interaction effect occurs when the effect of one predictor variable on the response depends on the value of another predictor variable. It suggests that the predictors have a combined, synergistic effect. In a linear model, this is incorporated by adding a new predictor that is the product of the interacting variables (e.g., \(X_1 \times X_2\)).</div>
+            <p class="source">ISLP, Chapter 3.3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 26 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">26 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the hierarchical principle in modeling?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">26 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The hierarchical principle states that if an interaction term (e.g., \(X_1 \times X_2\)) is included in a model, the corresponding main effects (\(X_1\) and \(X_2\)) should also be included, even if their individual p-values are not significant. This is because the interaction term is correlated with the main effects, and omitting them can alter the meaning of the interaction.</div>
+            <p class="source">ISLP, Chapter 3.3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 27 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">27 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How can non-linear relationships be modeled using linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">27 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Non-linear relationships can be modeled by including transformed versions of the predictors in the model. A common approach is polynomial regression, where we add powers of a predictor (e.g., \(X^2, X^3\)) as new variables. The model is still linear in the coefficients, but the resulting function is non-linear with respect to the original predictor.</div>
+            <p class="source">ISLP, Chapter 3.3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 28 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">28 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is a residual plot and what is it used for?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">28 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A residual plot is a graph of the residuals (\(y_i - \hat{y}_i\)) versus the fitted values (\(\hat{y}_i\)). It is a key diagnostic tool for identifying potential problems with a linear regression model. Ideally, the plot should show no discernible pattern. Patterns, such as a U-shape, suggest non-linearity in the data.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 29 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">29 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is heteroscedasticity and how can it be identified?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">29 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Heteroscedasticity refers to the situation where the error terms have non-constant variance (i.e., \(Var(\epsilon_i)\) is not constant). It can be identified from a funnel shape in the residual plot, where the magnitude of the residuals tends to increase or decrease with the fitted values. A possible solution is to apply a concave transformation to the response variable, such as \(\log(Y)\) or \(\sqrt{Y}\).</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 30 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">30 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between an outlier and a high-leverage point?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">30 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">An outlier is an observation for which the response \(y_i\) is unusual given its predictor value \(x_i\). It has a large residual. A high-leverage point is an observation that has an unusual predictor value \(x_i\) (e.g., far from the mean of \(X\)). High-leverage points can have a substantial impact on the estimated regression line.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 31 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">31 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is collinearity?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">31 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Collinearity is a situation where two or more predictor variables are closely related to one another. High correlation between predictors makes it difficult to separate out their individual effects on the response, which increases the standard errors of the coefficient estimates and reduces the power of hypothesis tests.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 32 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">32 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How can collinearity be detected?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">32 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A simple way is to inspect the correlation matrix of the predictors. A more reliable method is to compute the Variance Inflation Factor (VIF) for each predictor. A VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 33 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">33 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the Variance Inflation Factor (VIF)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">33 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The VIF measures how much the variance of an estimated regression coefficient is inflated because of collinearity. It is calculated for each predictor by regressing it on all other predictors. The VIF is \(VIF(\hat{\beta}_j) = \frac{1}{1 - R^2_{X_j|X_{-j}}}\), where \(R^2_{X_j|X_{-j}}\)
+ is the \(R^2\) from that regression. A value close to 1 indicates no collinearity.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 34 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">34 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What are two simple solutions to the problem of collinearity?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">34 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">1. <b>Drop one of the problematic variables:</b> Since the information provided by collinear variables is redundant, one can often be dropped without much compromise to the model fit. <br>2. <b>Combine the collinear variables:</b> Create a new single predictor by combining the collinear variables, for example, by taking their average.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 35 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">35 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Why is linear regression considered a parametric method?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">35 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Linear regression is a parametric method because it assumes a specific functional form for the relationship between the predictors and the response, namely a linear one. The model is fully defined by a small number of parameters (the coefficients \(\beta_j\)) that are estimated from the data.</div>
+            <p class="source">ISLP, Chapter 3.5</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 36 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">36 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the 'curse of dimensionality' and how does it affect methods like KNN?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">36 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The curse of dimensionality refers to the fact that in high-dimensional spaces, data points become very sparse. For a given observation, its nearest neighbors can be very far away, making predictions based on them unreliable. This degrades the performance of non-parametric methods like K-Nearest Neighbors (KNN) much more quickly than parametric methods like linear regression as the number of predictors \(p\) increases.</div>
+            <p class="source">ISLP, Chapter 3.5</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 37 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">37 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">In what situation would a parametric method like linear regression outperform a non-parametric method like KNN?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">37 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A parametric approach will outperform a non-parametric one if the assumed parametric form is close to the true form of the relationship. If the true relationship between \(X\) and \(Y\) is actually linear, linear regression will achieve a lower test error than KNN because it has low variance and low bias. KNN, being more flexible, would have higher variance in this scenario without a corresponding reduction in bias.</div>
+            <p class="source">ISLP, Chapter 3.5</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 38 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">38 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the least squares solution for the coefficients \(\mathbf{w}\) in matrix notation?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">38 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The optimal parameter vector \(\mathbf{w}\) that minimizes the squared loss is given by the equation: \(\mathbf{\hat{w}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{t}\), where \(\mathbf{X}\) is the design matrix and \(\mathbf{t}\) is the vector of target values.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 1.3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 39 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">39 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the purpose of regularization in linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">39 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Regularization is a technique used to control overfitting by penalizing large coefficient values. It adds a penalty term to the error function, which discourages the model from becoming too complex and fitting the noise in the training data. This generally leads to better generalization performance on new data.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 1.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 40 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">40 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is ridge regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">40 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Ridge regression is a type of regularized least squares where the penalty term is the sum of the squares of the coefficients (an \(L_2\) penalty). The modified error function is \(L' = L + \lambda \mathbf{w}^T\mathbf{w}\). The solution is \(\mathbf{\hat{w}} = (\mathbf{X}^T\mathbf{X} + N\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{t}\).</div>
+            <p class="source">A First Course in Machine Learning, Chapter 1.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 41 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">41 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">From a probabilistic perspective, what does minimizing the sum-of-squares error function correspond to?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">41 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Minimizing the sum-of-squares error function is equivalent to maximizing the likelihood of the data under the assumption that the target variable has a Gaussian (normal) distribution around the model's prediction. That is, \(p(t|x, \mathbf{w}, \beta) = \mathcal{N}(t|y(x, \mathbf{w}), \beta^{-1})\).</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.5</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 42 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">42 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the relationship between ridge regression and Bayesian inference?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">42 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Ridge regression is equivalent to finding the Maximum A Posteriori (MAP) estimate for the coefficients \(\mathbf{w}\) when assuming a Gaussian prior distribution on the coefficients, centered at zero. The regularization parameter \(\lambda\) is related to the precision (inverse variance) of the prior.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 43 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">43 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the predictive distribution in a Bayesian linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">43 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The predictive distribution \(p(t|x, \mathbf{x}, \mathbf{t})\) gives the probability distribution over the target value \(t\) for a new input \(x\), after integrating out the uncertainty in the model parameters \(\mathbf{w}\). For a Gaussian likelihood and prior, the predictive distribution is also a Gaussian.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 44 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">44 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the key difference between the prediction from a maximum likelihood approach and a fully Bayesian approach?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">44 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The maximum likelihood approach gives a single point estimate for the parameters, leading to a point prediction. A fully Bayesian approach provides a posterior distribution over the parameters, and the prediction is a distribution (the predictive distribution) that averages over all possible parameter values, weighted by their posterior probability. This accounts for uncertainty in the parameters.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 45 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">45 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the bias-variance tradeoff?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">45 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The bias-variance tradeoff is a fundamental concept in supervised learning. The expected error of a model can be decomposed into bias and variance. Bias is the error from erroneous assumptions in the learning algorithm (underfitting). Variance is the error from sensitivity to small fluctuations in the training set (overfitting). Simple models have high bias and low variance, while complex models have low bias and high variance. The goal is to find a model that optimally balances the two.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 2.8</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 46 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">46 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the maximum likelihood estimate for the variance \(\sigma^2\) of the noise in a linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">46 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The maximum likelihood estimate for the noise variance is the average squared error: \(\hat{\sigma}^2 = \frac{1}{N} \sum_{n=1}^N (t_n - \mathbf{w}_{ML}^T\mathbf{x}_n)^2\). This estimator is known to be biased, as it systematically underestimates the true variance.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 2.7.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 47 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">47 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the covariance of the maximum likelihood weight vector, \(\text{cov}[\mathbf{\hat{w}}]\)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">47 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The covariance of the maximum likelihood weight vector \(\mathbf{\hat{w}}\
+ is given by \(\text{cov}[\mathbf{\hat{w}}] = \sigma^2(\mathbf{X}^T\mathbf{X})^{-1}\). This matrix quantifies the uncertainty in the parameter estimates. The diagonal elements give the variance of each coefficient, and the off-diagonal elements give their covariance.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 2.9.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 48 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">48 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the Fisher Information Matrix for the mean of a Gaussian distribution?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">48 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The Fisher Information Matrix, \(\mathcal{I}(\mathbf{w})\), is the expected value of the negative of the Hessian matrix of the log-likelihood. For a linear regression model with Gaussian noise, it is \(\mathcal{I}(\mathbf{w}) = \frac{1}{\sigma^2}\mathbf{X}^T\mathbf{X}\). Its inverse provides the Cramér-Rao lower bound on the variance of any unbiased estimator.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 2.9.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 49 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">49 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the variance of a prediction, \(\sigma^2_{new}\), in a linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">49 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The variance of a prediction for a new input \(\mathbf{x}_{new}\) has two components: one from the noise in the data (\(\sigma^2\)) and one from the uncertainty in the weight estimates. The total predictive variance is \(\sigma^2_{new} = \sigma^2 + \mathbf{x}_{new}^T \text{cov}[\mathbf{\hat{w}}] \mathbf{x}_{new} = \sigma^2 + \sigma^2 \mathbf{x}_{new}^T (\mathbf{X}^T\mathbf{X})^{-1} \mathbf{x}_{new}\).</div>
+            <p class="source">A First Course in Machine Learning, Chapter 2.10</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 50 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">50 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between the Additive and Linearity assumptions in linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">50 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The <b>additive</b> assumption means the effect of changing one predictor \(X_j\) on the response \(Y\) is independent of the values of other predictors. The <b>linearity</b> assumption means the change in the response \(Y\) for a one-unit change in \(X_j\) is constant, regardless of the value of \(X_j\).</div>
+            <p class="source">ISLP, Chapter 3.3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 51 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">51 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How can you use a residual plot to detect non-linearity?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">51 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">If there is a non-linear relationship between the predictors and the response, the residual plot (residuals vs. fitted values) will exhibit a discernible pattern. A common pattern is a U-shape, which indicates that the model is systematically under-predicting and over-predicting for different ranges of the response.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 52 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">52 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is 'tracking' in a residual plot and what does it indicate?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">52 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">'Tracking' refers to a pattern in a plot of residuals versus time (or observation number) where adjacent residuals have similar values. This pattern indicates that the error terms are correlated, which violates a key assumption of linear regression and can lead to underestimated standard errors and misleadingly small p-values.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 53 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">53 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is a studentized residual?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">53 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A studentized residual is computed by dividing each residual \(e_i\) by its estimated standard error. Plotting studentized residuals is a common way to identify outliers. Observations with studentized residuals greater than 3 in absolute value are often considered to be outliers.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 54 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">54 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the leverage statistic \(h_i\)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">54 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The leverage statistic \(h_i\) quantifies how much an observation's predictor value \(x_i\) deviates from the mean of the predictors. A large value indicates a high-leverage point. For simple linear regression, it is calculated as \(h_i = \frac{1}{n} + \frac{(x_i - \bar{x})^2}{\sum_{j=1}^n (x_j - \bar{x})^2}\).</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 55 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">55 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Why is an observation with both high leverage and a large residual particularly dangerous?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">55 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">An observation that is both an outlier (large residual) and has high leverage can have a disproportionately large effect on the fitted regression line. Removing such a point can cause the line to shift significantly, indicating that the entire fit may be driven by that single problematic observation.</div>
+            <p class="source">ISLP, Chapter 3.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 56 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">56 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the primary advantage of a parametric method over a non-parametric one?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">56 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Parametric methods are generally easier to fit because they only require estimating a small number of parameters. They also provide simple interpretations of the coefficients and allow for straightforward statistical significance testing. Non-parametric methods are more flexible but can be harder to interpret and more computationally intensive.</div>
+            <p class="source">ISLP, Chapter 3.5</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 57 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">57 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the primary disadvantage of a parametric method?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">57 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The main disadvantage is that they make strong assumptions about the functional form of the relationship between predictors and the response. If this assumed form is far from the true relationship, the model will have a high bias and will not perform well.</div>
+            <p class="source">ISLP, Chapter 3.5</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 58 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">58 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the general form of the exponential family of distributions?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">58 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The exponential family of distributions is a class of distributions that can be written in the form: \( p(\mathbf{x}|\boldsymbol{\eta}) = h(\mathbf{x})g(\boldsymbol{\eta})\exp\{\boldsymbol{\eta}^T\mathbf{u}(\mathbf{x})\} \). Here, \(\boldsymbol{\eta}\) are the natural parameters of the distribution.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 2.4</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 59 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">59 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is a sufficient statistic?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">59 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A sufficient statistic is a function of the data that contains all the information needed to compute a maximum likelihood estimate for a parameter. For a Gaussian distribution, the sufficient statistics are \(\sum_n x_n\) and \(\sum_n x_n^2\). For the Bernoulli distribution, it is \(\sum_n x_n\).</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 2.1.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 60 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">60 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is a conjugate prior?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">60 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A prior distribution is conjugate to a likelihood function if the resulting posterior distribution is in the same family as the prior. For example, the Beta distribution is the conjugate prior for the Bernoulli likelihood, and the Gaussian distribution is a conjugate prior for a Gaussian likelihood with a known variance.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 2.1.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 61 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">61 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the relationship between the least squares solution and the maximum likelihood solution in linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">61 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Minimizing the sum of squared errors (the least squares solution) is equivalent to maximizing the likelihood of the data under the assumption that the errors are independent and identically distributed according to a zero-mean Gaussian distribution.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 2.7.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 62 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">62 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the bias of the maximum likelihood estimator for the variance of a Gaussian?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">62 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The maximum likelihood estimator for the variance, \(\hat{\sigma}^2_{ML} = \frac{1}{N}\sum(x_n - \mu_{ML})^2\), is biased. Its expected value is \(E[\hat{\sigma}^2_{ML}] = \frac{N-1}{N}\sigma^2\), meaning it systematically underestimates the true variance \(\sigma^2\).</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.4</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 63 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">63 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the key idea behind Bayesian linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">63 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">In Bayesian linear regression, we treat the model parameters (coefficients \(\mathbf{w}\)) as random variables. We define a prior distribution over them, \(p(\mathbf{w})\), and combine it with the likelihood \(p(\mathbf{t}|\mathbf{w})\) using Bayes' theorem to obtain a posterior distribution \(p(\mathbf{w}|\mathbf{t})\). This posterior captures our updated beliefs about the parameters after observing the data.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 64 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">64 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the MAP estimate and how does it relate to regularized least squares?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">64 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The Maximum A Posteriori (MAP) estimate is the value of the parameters \(\mathbf{w}\) that maximizes the posterior distribution. If the likelihood is Gaussian and the prior on the weights is a zero-mean Gaussian, finding the MAP estimate is equivalent to minimizing a regularized sum-of-squares error function (ridge regression).</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 1.2.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 65 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">65 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the marginal likelihood and what is it used for?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">65 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The marginal likelihood, or model evidence, is the probability of the observed data given a model, with the parameters integrated out: \(p(\mathbf{t}|\text{model}) = \int p(\mathbf{t}|\mathbf{w})p(\mathbf{w})d\mathbf{w}\). It can be used for model selection, for example, to choose the optimal order of a polynomial or the best prior settings, by selecting the model with the highest marginal likelihood.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 3.4</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 66 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">66 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between bias and variance in the context of an estimator?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">66 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The bias of an estimator is the difference between its expected value and the true value of the parameter being estimated. An unbiased estimator has a bias of zero. The variance of an estimator measures the spread of its estimates around its expected value. A good estimator typically has low bias and low variance.</div>
+            <p class="source">ST3189 Subject Guide - Statistical Inference on Linear Regression Models</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 67 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">67 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the Cramér-Rao lower bound?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">67 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The Cramér-Rao lower bound provides a lower bound on the variance of any unbiased estimator of a deterministic parameter. The bound is the inverse of the Fisher information. An estimator that achieves this bound is said to be efficient.</div>
+            <p class="source">ST3189 Subject Guide - Statistical Inference on Linear Regression Models</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 68 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">68 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What are the asymptotic properties of Maximum Likelihood Estimators (MLEs)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">68 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">As the sample size \(n\) increases, MLEs are asymptotically unbiased, normally distributed, and have the minimum possible variance (they are efficient, achieving the Cramér-Rao lower bound). This makes them optimal estimators for large sample sizes.</div>
+            <p class="source">ST3189 Subject Guide - Statistical Inference on Linear Regression Models</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 69 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">69 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the purpose of the design matrix \(\mathbf{X}\) in linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">69 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The design matrix \(\mathbf{X}\) is an \(n \times (p+1)\) matrix that contains the predictor values for all \(n\) observations. Each row corresponds to an observation, and each column corresponds to a predictor variable. A column of ones is typically included to account for the intercept term \(\beta_0\).</div>
+            <p class="source">ST3189 Subject Guide - The Linear Regression Model</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 70 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">70 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is a confounding variable?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">70 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A confounding variable is a variable that is correlated with both the predictor variable and the response variable. Its presence can distort the relationship between the predictor and the response, potentially leading to spurious conclusions about causality or association.</div>
+            <p class="source">ST3189 Subject Guide - Using Linear Regression Models</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 71 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">71 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between interpolation and extrapolation?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">71 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Interpolation is making a prediction for a new observation whose predictor values fall within the range of the training data. Extrapolation is making a prediction for a new observation whose predictor values fall outside the range of the training data. Extrapolation is generally much less reliable as it assumes the model holds true in regions where no data has been observed.</div>
+            <p class="source">ST3189 Subject Guide - Using Linear Regression Models</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 72 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">72 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the purpose of using basis functions in linear regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">72 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Using basis functions \(h(x)\) allows us to model non-linear relationships within the linear regression framework. By transforming the original predictors (e.g., using polynomials, splines, or other functions), we create a new set of predictors. The model is still linear with respect to the coefficients of these new basis functions, but the resulting predictive function is non-linear with respect to the original input \(x\).</div>
+            <p class="source">ST3189 Subject Guide - The Linear Regression Model</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 73 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">73 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the key assumption about the error terms \(\epsilon_i\) in a standard linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">73 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The standard assumptions are that the error terms are independent and identically distributed (i.i.d.) with a mean of zero and constant variance \(\sigma^2\). Often, they are also assumed to follow a Normal (Gaussian) distribution, \(\epsilon_i \sim \mathcal{N}(0, \sigma^2)\).</div>
+            <p class="source">ST3189 Subject Guide - The Linear Regression Model</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 74 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">74 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the 'leaps and bounds' procedure used for?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">74 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The 'leaps and bounds' procedure is an efficient algorithm for performing best subset selection. It avoids having to fit all \(2^p\) possible models by identifying the best subset of predictors for each subset size \(k\) without exhaustively searching through every single combination.</div>
+            <p class="source">ST3189 Subject Guide - Subset Selection Methods in Linear Regression</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 75 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">75 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Why might a greedy approach like forward stepwise selection be preferred over best subset selection?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">75 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Forward stepwise selection is computationally much more efficient than best subset selection, especially for a large number of predictors \(p\). While best subset selection explores all possible models, forward selection follows a single path, making it feasible for high-dimensional problems where best subset is computationally intractable.</div>
+            <p class="source">ST3189 Subject Guide - Subset Selection Methods in Linear Regression</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 76 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">76 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the main drawback of backward stepwise selection?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">76 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The main drawback of backward stepwise selection is that it requires the number of samples \(n\) to be larger than the number of predictors \(p\). This is because it starts with the full model, which cannot be fit if \(p > n\).</div>
+            <p class="source">ISLP, Chapter 3.2.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 77 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">77 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Explain the concept of 'shrinking' coefficients in the context of Bayesian linear regression.</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">77 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">In Bayesian linear regression, the prior distribution on the coefficients (e.g., a Gaussian centered at zero) pulls the posterior estimates of the coefficients away from the maximum likelihood estimate and towards the prior mean (zero). This effect is called 'shrinkage'. It acts as a form of regularization, preventing coefficients from becoming too large and helping to control overfitting.</div>
+            <p class="source">ST3189 Subject Guide - Bayesian Linear Regression</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 78 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">78 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What prior distribution on the regression coefficients \(\beta\) corresponds to LASSO regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">78 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The LASSO (Least Absolute Shrinkage and Selection Operator) estimator corresponds to the posterior mode (MAP estimate) when a Laplace prior, \(\text{La}(0, 1/\gamma)\), is placed on the regression coefficients. The Laplace prior has a sharp peak at zero, which encourages some coefficients to be exactly zero, thus performing variable selection.</div>
+            <p class="source">ST3189 Subject Guide - Bayesian Linear Regression</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 79 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">79 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the primary motivation for using shrinkage methods like Ridge or LASSO over standard least squares?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">79 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The primary motivation is to improve prediction accuracy by reducing the variance of the model. Standard least squares can have high variance, especially when predictors are correlated or when \(p\) is large. Shrinkage methods introduce a small amount of bias but can lead to a substantial reduction in variance, resulting in a lower overall mean squared error.</div>
+            <p class="source">ST3189 Subject Guide - Bayesian Linear Regression</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 80 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">80 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the role of the hyperparameter \(\lambda\) in shrinkage methods?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">80 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The hyperparameter \(\lambda\) controls the amount of shrinkage. A larger \(\lambda\) results in greater shrinkage, pulling the coefficients more strongly towards zero and resulting in a simpler, less flexible model. A smaller \(\lambda\) results in less shrinkage, and as \(\lambda \to 0\), the solution approaches the standard least squares estimate.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 1.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 81 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">81 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How is the optimal value of the shrinkage parameter \(\lambda\) typically chosen?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">81 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The optimal value of \(\lambda\) is typically chosen using a validation method like cross-validation. The goal is to find the value of \(\lambda\) that results in the lowest test error on unseen data, balancing the bias-variance tradeoff.</div>
+            <p class="source">A First Course in Machine Learning, Chapter 1.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 82 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">82 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the matrix form of the sum-of-squares error function?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">82 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The sum-of-squares error function can be written in matrix form as: \( L = (\mathbf{t} - \mathbf{Xw})^T(\mathbf{t} - \mathbf{Xw}) \).</div>
+            <p class="source">A First Course in Machine Learning, Chapter 1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 83 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">83 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the purpose of the intercept term (\(\beta_0\)) in a linear regression model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">83 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The intercept term \(\beta_0\) represents the expected value of the response variable \(Y\) when all predictor variables are equal to zero. Geometrically, it is the value where the regression line or plane crosses the Y-axis.</div>
+            <p class="source">ISLP, Chapter 3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 84 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">84 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Can linear regression be used for classification problems?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">84 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">While it's possible to code a binary response variable as 0/1 and fit a linear regression, it's not recommended. The model can produce predictions outside the [0, 1] interval, which are difficult to interpret as probabilities. For responses with more than two classes, the arbitrary numerical coding implies a false ordering. Classification-specific methods like logistic regression are more appropriate.</div>
+            <p class="source">ISLP, Chapter 4.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 85 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">85 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the key difference in the assumptions of Linear Discriminant Analysis (LDA) and Quadratic Discriminant Analysis (QDA)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">85 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Both LDA and QDA assume that the observations within each class are drawn from a Gaussian distribution. The key difference is that LDA assumes all classes share a common covariance matrix (\(\Sigma\)), while QDA assumes that each class has its own covariance matrix (\(\Sigma_k\)). This makes QDA more flexible but requires estimating more parameters.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.4.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 86 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">86 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What kind of decision boundary does Linear Discriminant Analysis (LDA) produce?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">86 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">As its name implies, Linear Discriminant Analysis (LDA) produces linear decision boundaries between classes. This is a direct result of assuming a common covariance matrix for all classes.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.4.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 87 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">87 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What kind of decision boundary does Quadratic Discriminant Analysis (QDA) produce?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">87 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Quadratic Discriminant Analysis (QDA) produces quadratic decision boundaries. This allows for more flexible separation between classes compared to LDA, as it does not assume a common covariance matrix.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.4.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 88 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">88 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">When might LDA be a better choice than QDA?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">88 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">LDA is generally a better choice when the training set is small, as it has fewer parameters to estimate (it assumes a common covariance matrix). It is also preferred if the assumption of a common covariance matrix is reasonable. QDA's flexibility can lead to overfitting on small datasets.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.4.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 89 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">89 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">When might QDA be a better choice than LDA?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">89 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">QDA is a better choice when the training set is large and the assumption of a common covariance matrix for all classes is untenable. If the true decision boundary is non-linear, QDA's flexibility will allow it to achieve a better fit than LDA.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.4.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 90 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">90 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the 'naive' assumption in Naive Bayes classification?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">90 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The 'naive' assumption is that, within each class, the predictor variables are all conditionally independent of each other. This is a strong assumption that is often not true in reality, but it greatly simplifies the model and often works well in practice, especially for text classification.</div>
+            <p class="source">ST3189 Subject Guide - Statistical Inference on Linear Regression Models</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 91 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">91 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the difference between a generative and a discriminative model?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">91 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">A generative model (like LDA or Naive Bayes) models the joint probability distribution \(p(X, Y)\), often by modeling the class-conditional density \(p(X|Y)\) and the prior \(p(Y)\). A discriminative model (like logistic regression) directly models the posterior probability \(p(Y|X)\) without modeling the distribution of \(X\).</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 92 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">92 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the logistic function (or sigmoid function)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">92 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The logistic function is \(\sigma(\eta) = \frac{e^\eta}{1 + e^\eta} = \frac{1}{1 + e^{-\eta}}\). It takes any real-valued number and maps it to a value between 0 and 1, making it suitable for modeling probabilities in logistic regression.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.3.2</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 93 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">93 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How does logistic regression model the probability of a binary outcome?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">93 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">Logistic regression models the log-odds of the outcome as a linear function of the predictors: \(\log\left(\frac{p(X)}{1-p(X)}\right) = \beta_0 + \beta_1X_1 + \dots + \beta_pX_p\). This is equivalent to modeling the probability \(p(X)\) using the logistic function.</div>
+            <p class="source">ISLP, Chapter 4.3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 94 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">94 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">How are the coefficients in logistic regression estimated?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">94 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The coefficients in logistic regression are estimated using the maximum likelihood method. Unlike linear regression, there is no closed-form solution, so an iterative algorithm like gradient ascent or Newton-Raphson (often implemented as Iteratively Reweighted Least Squares) is used to find the estimates.</div>
+            <p class="source">Pattern Recognition and Machine Learning, Chapter 4.3.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 95 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">95 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the key difference between the interpretation of coefficients in linear vs. logistic regression?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">95 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">In linear regression, \(\beta_j\) is the change in the mean of \(Y\) for a one-unit change in \(X_j\). In logistic regression, \(\beta_j\) is the change in the log-odds of \(Y=1\) for a one-unit change in \(X_j\). Equivalently, exponentiating the coefficient, \(e^{\beta_j}\), gives the odds ratio.</div>
+            <p class="source">ISLP, Chapter 4.3.1</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 96 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">96 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the Total Sum of Squares (TSS)?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">96 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The Total Sum of Squares (TSS) measures the total variance in the response \(Y\) before the regression is performed. It is the sum of the squared differences between each observation and the overall mean of the response: \(TSS = \sum_{i=1}^n (y_i - \bar{y})^2\).</div>
+            <p class="source">ISLP, Chapter 3.1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 97 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">97 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What does an \(R^2\) value of 0.75 mean?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">97 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">An \(R^2\) value of 0.75 means that 75% of the variability in the response variable \(Y\) can be explained by the predictor variables included in the model. The remaining 25% of the variability is unexplained by the model.</div>
+            <p class="source">ISLP, Chapter 3.1.3</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 98 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">98 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">Can you have a negative \(R^2\) value?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">98 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">For a linear regression model fit by least squares, the \(R^2\) on the training data will always be between 0 and 1. However, when evaluating a model on a test set, it is possible to get a negative \(R^2\) if the model fits the test data worse than a simple horizontal line at the mean of the test response.</div>
+            <p class="source">General Knowledge</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 99 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">99 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the purpose of the `poly()` function in R or Python's `ISLP` library?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">99 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The `poly()` function is used to generate a basis matrix for polynomial regression. It creates columns representing polynomial functions of a predictor (e.g., \(x, x^2, x^3\)). By default, it often generates orthogonal polynomials, which are numerically more stable for fitting.</div>
+            <p class="source">ISLP, Chapter 3.6.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+<!-- Card 100 -->
+<div class="flashcard-container">
+    <div class="flashcard">
+        <div class="front">
+            <div class="card-counter">100 / 100</div>
+            <div class="question-title">Question</div>
+            <div class="question-content">What is the purpose of the `anova_lm()` function?</div>
+            <button class="flip-button">Flip to Answer</button>
+        </div>
+        <div class="back">
+            <div class="card-counter">100 / 100</div>
+            <div class="answer-title">Answer</div>
+            <div class="answer-content">The `anova_lm()` function (Analysis of Variance) is used to compare two or more nested linear regression models. It performs an F-test to determine if the larger model provides a statistically significant improvement in fit over the smaller model.</div>
+            <p class="source">ISLP, Chapter 3.6.6</p>
+            <button class="flip-button">Flip to Question</button>
+        </div>
+    </div>
+</div>
+    </div>
+    <button id="nextBtn" class="nav-button">&gt;</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.flashcard-container');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentCard = 0;
+
+    function showCard(index) {
+        cards.forEach((card, i) => {
+            card.classList.toggle('active', i === index);
+        });
+        currentCard = index;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        const nextCard = (currentCard + 1) % cards.length;
+        showCard(nextCard);
+    });
+
+    prevBtn.addEventListener('click', () => {
+        const prevCard = (currentCard - 1 + cards.length) % cards.length;
+        showCard(prevCard);
+    });
+
+    document.querySelectorAll('.flashcard').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // Prevent card from flipping if a button inside it was clicked
+            if (e.target.tagName !== 'BUTTON') {
+                card.classList.toggle('is-flipped');
+            }
+        });
+    });
+    
+    document.querySelectorAll('.flip-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent the card's own click listener from firing
+            button.closest('.flashcard').classList.toggle('is-flipped');
+        });
+    });
+
+    showCard(0);
+});
+</script>
+
+</body>
+</html>

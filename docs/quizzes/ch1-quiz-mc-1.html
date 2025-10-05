@@ -13,7 +13,9 @@
         .question { border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.5em; margin-bottom: 2em; background-color: #fff; }
         .options label { display: block; margin: 0.5em 0; padding: 0.5em; border-radius: 4px; cursor: pointer; }
         .options label:hover { background-color: #f0f0f0; }
-        .explanation { border: 1px solid #ccc; padding: 1em; margin-top: 1em; background-color: #f9f9f9; border-radius: 4px; }
+        .explanation { border: 1px solid #ccc; padding: 1em; margin-top: 1em; background-color: #f9f9f9; border-radius: 4px; border-left: 5px solid; } /* Added border-left */
+        .explanation.correct { border-color: #28a745; } /* Green border for correct */
+        .explanation.incorrect { border-color: #dc3545; } /* Red border for incorrect */
         .correct-feedback { color: #28a745; font-weight: bold; }
         .incorrect-feedback { color: #dc3545; font-weight: bold; }
         .source { font-size: 0.8em; color: #6c757d; margin-top: 1em; }
@@ -101,8 +103,6 @@
             <div class="explanation" style="display:none;"></div>
         </div>
 
-        <!-- ... (Continue for all 50 questions) ... -->
-        
         <!-- Question 6 -->
         <div class="question" id="question-5">
             <p class="question-text"><strong>6. In multiple linear regression, what is the null hypothesis for the F-statistic?</strong></p>
@@ -796,18 +796,19 @@
                 const sourceText = questionDiv.querySelector('.source-text').innerHTML;
                 const options = questionDiv.querySelectorAll('.options label');
 
-                let resultHTML = '';
+                let feedbackHTML = '';
+                explanationDiv.classList.remove('correct', 'incorrect'); // Remove previous state classes
+
                 if (selectedAnswer === correctAnswer) {
-                    resultHTML = `<p class="correct-feedback">Correct!</p>`;
+                    feedbackHTML = `<p class="correct-feedback">Correct!</p>`;
+                    explanationDiv.classList.add('correct'); // Add class for border color
                 } else {
                     const correctOptionText = options[correctAnswer].querySelector('span').innerHTML;
-                    resultHTML = `<p class="incorrect-feedback">Incorrect.</p><p>The correct answer is: ${correctOptionText}</p>`;
+                    feedbackHTML = `<p class="incorrect-feedback">Incorrect.</p><p>The correct answer is: ${correctOptionText}</p>`;
+                    explanationDiv.classList.add('incorrect'); // Add class for border color
                 }
 
-                resultHTML += `<p><strong>Explanation:</strong> ${explanationText}</p>`;
-                resultHTML += `<p class="source"><small>Source: ${sourceText}</small></p>`;
-
-                explanationDiv.innerHTML = resultHTML;
+                explanationDiv.innerHTML = feedbackHTML + `<p><strong>Explanation:</strong> ${explanationText}</p>` + `<p class="source"><small>Source: ${sourceText}</small></p>`;
                 explanationDiv.style.display = 'block';
                 MathJax.Hub.Queue(["Typeset", MathJax.Hub, explanationDiv]);
 
@@ -831,7 +832,7 @@
                         const radio = question.querySelector(`input[name="q${index}"][value="${answer}"]`);
                         if (radio) {
                             radio.checked = true;
-                            checkAnswer(radio);
+                            checkAnswer(radio); // Call checkAnswer to display feedback for loaded answers
                         }
                     }
                 });
@@ -841,7 +842,8 @@
             const clearAnswers = () => {
                 if (confirm("Are you sure you want to clear all your saved answers?")) {
                     questions.forEach((_, index) => {
-                        document.cookie = `quiz_st3189_ch1_q${index}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                        document.cookie = `quiz_st3189_ch1_q${index}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;
+`;
                     });
                     location.reload();
                 }
