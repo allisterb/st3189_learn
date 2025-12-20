@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Probability Theory Flashcards</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .card-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: white;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .card-face.card-back {
+            transform: rotateY(180deg);
+            background-color: #ecf0f1;
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .card-content {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .card-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            position: absolute;
+            top: 20px;
+        }
+
+        .source {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #555;
+            font-style: italic;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            width: 100%;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        /* Hide flashcard data */
+        .flashcard-data {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Machine Learning Probability Theory</h1>
+    <p>Exam Preparation Flashcards</p>
+</header>
+
+<div class="container">
+    <div class="card-container" onclick="flipCard()">
+        <div class="card" id="active-card">
+            <div class="card-face card-front">
+                <div class="card-label">Question</div>
+                <div class="card-content" id="card-question">Loading...</div>
+            </div>
+            <div class="card-face card-back">
+                <div class="card-label">Answer</div>
+                <div class="card-content" id="card-answer">Loading...</div>
+                <div class="source" id="card-source"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prev-btn" onclick="prevCard()">Previous</button>
+        <button id="flip-btn" onclick="flipCard()">Flip</button>
+        <button id="next-btn" onclick="nextCard()">Next</button>
+    </div>
+    
+    <div class="progress" id="progress-display">Card 1 of 100</div>
+</div>
+
+<!-- Flashcard Data Storage -->
+<div id="flashcards-store">
+    
+    <!-- 1. Basics & Rules -->
+    <div class="flashcard-data">
+        <div class="question">What are the <strong>Sum Rule</strong> and <strong>Product Rule</strong> of probability?</div>
+        <div class="answer">
+            <p>The <strong>Sum Rule</strong> states that the marginal probability of \(X\) is obtained by summing the joint probability over all states of \(Y\):
+            $$p(X) = \sum_Y p(X, Y)$$
+            The <strong>Product Rule</strong> states that the joint probability can be decomposed into a conditional and a marginal:
+            $$p(X, Y) = p(Y|X)p(X)$$
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Pattern Recognition and Machine Learning, Ch 1.2 "Probability Theory", Eq 1.10, 1.11; Murphy, Machine Learning: A Probabilistic Perspective, Ch 2.2.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">State <strong>Bayes' Theorem</strong> and explain the role of the denominator.</div>
+        <div class="answer">
+            <p>Bayes' Theorem is given by:
+            $$p(Y|X) = \frac{p(X|Y)p(Y)}{p(X)}$$
+            where \(p(Y|X)\) is the posterior, \(p(X|Y)\) is the likelihood, and \(p(Y)\) is the prior. The denominator \(p(X)\) acts as a normalization constant to ensure the posterior probabilities sum to 1. It can be computed using the sum rule:
+            $$p(X) = \sum_Y p(X|Y)p(Y)$$
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.3 "Bayesian probabilities", Eq 1.12, 1.13; Murphy, Ch 2.2.3 "Bayes rule".</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Define <strong>Probability Density Function (PDF)</strong>.</div>
+        <div class="answer">
+            <p>For a continuous random variable \(x\), the PDF \(p(x)\) is a function such that the probability of \(x\) falling in an infinitesimal interval \((x, x + \delta x)\) is given by \(p(x)\delta x\). It must satisfy \(p(x) \ge 0\) and \(\int_{-\infty}^{\infty} p(x)dx = 1\). The probability that \(x\) lies in an interval \((a, b)\) is \(\int_{a}^{b} p(x)dx\).</p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.1 "Probability densities", Eq 1.24-1.26; Murphy, Ch 2.2.5 "Continuous random variables".</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Cumulative Distribution Function (CDF)</strong>?</div>
+        <div class="answer">
+            <p>The CDF, denoted \(P(z)\) or \(F(z)\), is the probability that the random variable \(X\) takes a value less than or equal to \(z\):
+            $$P(z) = p(X \le z) = \int_{-\infty}^{z} p(x)dx$$
+            The PDF is the derivative of the CDF: \(p(x) = \frac{d}{dx}P(x)\).</p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.1, Eq 1.28; Murphy, Ch 2.2.5.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Define <strong>Expectation</strong> for discrete and continuous variables.</div>
+        <div class="answer">
+            <p>The expectation (average value) of a function \(f(x)\) under a probability distribution \(p(x)\) is denoted \(\mathbb{E}[f]\).
+            <br>For discrete variables:
+            $$\mathbb{E}[f] = \sum_x p(x)f(x)$$
+            For continuous variables:
+            $$\mathbb{E}[f] = \int p(x)f(x)dx$$
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.2, Eq 1.33-1.34; Murphy, Ch 2.2.7.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Define <strong>Variance</strong> and <strong>Covariance</strong>.</div>
+        <div class="answer">
+            <p>Variance measures the variability of \(f(x)\) around its mean:
+            $$\text{var}[f] = \mathbb{E}[(f(x) - \mathbb{E}[f(x)])^2] = \mathbb{E}[f(x)^2] - \mathbb{E}[f(x)]^2$$
+            Covariance measures the extent to which two variables \(x\) and \(y\) vary together:
+            $$\text{cov}[x, y] = \mathbb{E}_{x,y}[\{x - \mathbb{E}[x]\}\{y - \mathbb{E}[y]\}] = \mathbb{E}_{x,y}[xy] - \mathbb{E}[x]\mathbb{E}[y]$$
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.2, Eq 1.38-1.41; Murphy, Ch 2.5.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What does it mean for two random variables to be <strong>Independent</strong>?</div>
+        <div class="answer">
+            <p>Two random variables \(X\) and \(Y\) are independent, denoted \(X \perp Y\), if their joint distribution factorizes into the product of their marginals:
+            $$p(X, Y) = p(X)p(Y)$$
+            This implies that \(p(Y|X) = p(Y)\) and \(p(X|Y) = p(X)\). Covariance between independent variables is zero.</p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.4; Bishop, Ch 1.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Conditional Independence</strong>?</div>
+        <div class="answer">
+            <p>\(X\) and \(Y\) are conditionally independent given \(Z\) (denoted \(X \perp Y | Z\)) if the conditional joint distribution factorizes:
+            $$p(X, Y | Z) = p(X|Z)p(Y|Z)$$
+            This means that if we know \(Z\), knowing \(Y\) gives no extra information about \(X\).</p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.4, Eq 2.15; Bishop Ch 8.2.</div>
+    </div>
+
+    <!-- 2. Distributions -->
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Bernoulli Distribution</strong>.</div>
+        <div class="answer">
+            <p>A distribution for a single binary random variable \(x \in \{0, 1\}\). It is governed by a parameter \(\mu\) (probability of \(x=1\)):
+            $$\text{Bern}(x|\mu) = \mu^x (1-\mu)^{1-x}$$
+            Mean: \(\mathbb{E}[x] = \mu\)
+            <br>Variance: \(\text{var}[x] = \mu(1-\mu)\)
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.1, Eq 2.2; Murphy, Ch 2.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Binomial Distribution</strong>.</div>
+        <div class="answer">
+            <p>Models the number of observations \(m\) of \(x=1\) (heads) in a set of \(N\) independent Bernoulli trials.
+            $$\text{Bin}(m|N, \mu) = \binom{N}{m} \mu^m (1-\mu)^{N-m}$$
+            Mean: \(\mathbb{E}[m] = N\mu\)
+            <br>Variance: \(\text{var}[m] = N\mu(1-\mu)\)
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.1, Eq 2.9; Murphy, Ch 2.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Multinomial Distribution</strong>.</div>
+        <div class="answer">
+            <p>Generalization of the Binomial to \(K\) mutually exclusive states. For \(N\) trials, with \(x_k\) being the count of state \(k\):
+            $$\text{Mult}(m_1, ..., m_K|\boldsymbol{\mu}, N) = \frac{N!}{m_1! \dots m_K!} \prod_{k=1}^K \mu_k^{m_k}$$
+            where \(\sum \mu_k = 1\) and \(\sum m_k = N\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.2, Eq 2.34; Murphy, Ch 2.3.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Poisson Distribution</strong>.</div>
+        <div class="answer">
+            <p>Models counts of rare events over a fixed interval. Defined for \(x \in \{0, 1, 2, ...\}\) with rate parameter \(\lambda > 0\):
+            $$\text{Poi}(x|\lambda) = e^{-\lambda} \frac{\lambda^x}{x!}$$
+            Mean: \(\lambda\), Variance: \(\lambda\).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.3.3, Eq 2.39.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Gaussian (Normal) Distribution</strong> (Univariate)?</div>
+        <div class="answer">
+            <p>A continuous distribution defined by mean \(\mu\) and variance \(\sigma^2\):
+            $$\mathcal{N}(x|\mu, \sigma^2) = \frac{1}{(2\pi\sigma^2)^{1/2}} \exp\left\{ -\frac{1}{2\sigma^2}(x-\mu)^2 \right\}$$
+            It has maximum entropy for a given variance. Precision is defined as \(\beta = 1/\sigma^2\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.4, Eq 1.46; Murphy, Ch 2.4.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Multivariate Gaussian Distribution</strong>?</div>
+        <div class="answer">
+            <p>For a \(D\)-dimensional vector \(\mathbf{x}\):
+            $$\mathcal{N}(\mathbf{x}|\boldsymbol{\mu}, \mathbf{\Sigma}) = \frac{1}{(2\pi)^{D/2}|\mathbf{\Sigma}|^{1/2}} \exp\left\{ -\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T \mathbf{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu}) \right\}$$
+            where \(\boldsymbol{\mu}\) is the mean vector and \(\mathbf{\Sigma}\) is the \(D \times D\) covariance matrix. The term in the exponent is the squared Mahalanobis distance.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3, Eq 2.43; Murphy, Ch 2.5.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What are the properties of the <strong>Covariance Matrix</strong> \(\mathbf{\Sigma}\) in a Multivariate Gaussian?</div>
+        <div class="answer">
+            <p>\(\mathbf{\Sigma}\) must be symmetric and positive semi-definite (positive definite for the density to be well-defined). Its eigendecomposition \(\mathbf{\Sigma} = \sum \lambda_i \mathbf{u}_i \mathbf{u}_i^T\) defines the orientation (eigenvectors \(\mathbf{u}_i\)) and elongation (eigenvalues \(\lambda_i\)) of the elliptical constant-density contours.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3, Eq 2.45-2.48; Murphy, Ch 2.5.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Central Limit Theorem</strong>?</div>
+        <div class="answer">
+            <p>The theorem states that the sum (or average) of a large number of independent and identically distributed (i.i.d.) random variables (with finite mean and variance) tends to a Gaussian distribution, regardless of the original distribution of the variables.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3; Murphy, Ch 2.6.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Beta Distribution</strong>.</div>
+        <div class="answer">
+            <p>A continuous distribution over \(\mu \in [0, 1]\), often used as a prior for Bernoulli parameters.
+            $$\text{Beta}(\mu|a, b) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} \mu^{a-1} (1-\mu)^{b-1}$$
+            Mean: \(a/(a+b)\). It generalizes the uniform distribution (when \(a=b=1\)).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.1.1, Eq 2.13; Murphy, Ch 2.4.5.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Dirichlet Distribution</strong>.</div>
+        <div class="answer">
+            <p>A multivariate generalization of the Beta distribution over the \(K\)-dimensional probability simplex.
+            $$\text{Dir}(\boldsymbol{\mu}|\boldsymbol{\alpha}) = \frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)\dots\Gamma(\alpha_K)} \prod_{k=1}^K \mu_k^{\alpha_k - 1}$$
+            where \(\alpha_0 = \sum \alpha_k\). It is the conjugate prior for the Multinomial distribution.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.2.1, Eq 2.38; Murphy, Ch 2.5.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Describe the <strong>Gamma Distribution</strong>.</div>
+        <div class="answer">
+            <p>A flexible distribution for positive real variables \(\lambda > 0\).
+            $$\text{Gam}(\lambda|a, b) = \frac{1}{\Gamma(a)} b^a \lambda^{a-1} \exp(-b\lambda)$$
+            Often used as a conjugate prior for the precision (inverse variance) of a Gaussian.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.6, Eq 2.146; Murphy, Ch 2.4.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Student's t-distribution</strong> and why is it useful?</div>
+        <div class="answer">
+            <p>It is a heavy-tailed distribution derived by integrating out the precision of a Gaussian with a Gamma prior.
+            $$\text{St}(x|\mu, \lambda, \nu) \propto \left[ 1 + \frac{\lambda(x-\mu)^2}{\nu} \right]^{-(\nu+1)/2}$$
+            It provides <strong>robustness</strong> to outliers compared to the Gaussian because probability decays polynomially rather than exponentially.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.7, Eq 2.159; Murphy, Ch 2.5.3.</div>
+    </div>
+
+    <!-- 3. Inference & Estimation -->
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Maximum Likelihood Estimation (MLE)</strong>?</div>
+        <div class="answer">
+            <p>A frequentist method for parameter estimation. It chooses the parameters \(\boldsymbol{\theta}\) that maximize the likelihood function \(p(\mathcal{D}|\boldsymbol{\theta})\), i.e., making the observed data \(\mathcal{D}\) most probable.
+            $$\hat{\boldsymbol{\theta}}_{MLE} = \arg\max_{\boldsymbol{\theta}} \log p(\mathcal{D}|\boldsymbol{\theta})$$
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.5; Murphy, Ch 6.2.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the MLE for the mean \(\mu\) and variance \(\sigma^2\) of a Gaussian?</div>
+        <div class="answer">
+            <p>Given \(N\) data points \(x_n\):
+            $$\mu_{ML} = \frac{1}{N} \sum_{n=1}^N x_n \quad \text{(Sample Mean)}$$
+            $$\sigma^2_{ML} = \frac{1}{N} \sum_{n=1}^N (x_n - \mu_{ML})^2 \quad \text{(Sample Variance)}$$
+            Note: \(\sigma^2_{ML}\) is a <strong>biased</strong> estimator of the true variance.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.4, Eq 1.55-1.56; Murphy, Ch 4.1.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>bias</strong> in an estimator? Give an example.</div>
+        <div class="answer">
+            <p>Bias is the difference between the expected value of the estimator and the true parameter value: \(\text{bias}(\hat{\theta}) = \mathbb{E}[\hat{\theta}] - \theta\). 
+            The MLE for Gaussian variance is biased because \(\mathbb{E}[\sigma^2_{ML}] = \frac{N-1}{N}\sigma^2\). An unbiased estimator uses \(N-1\) in the denominator.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.4; Murphy, Ch 6.4.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Maximum A Posteriori (MAP)</strong> estimation?</div>
+        <div class="answer">
+            <p>A method that estimates parameters by maximizing the posterior distribution \(p(\boldsymbol{\theta}|\mathcal{D})\). It incorporates a prior \(p(\boldsymbol{\theta})\):
+            $$\hat{\boldsymbol{\theta}}_{MAP} = \arg\max_{\boldsymbol{\theta}} p(\boldsymbol{\theta}|\mathcal{D}) = \arg\max_{\boldsymbol{\theta}} [ \log p(\mathcal{D}|\boldsymbol{\theta}) + \log p(\boldsymbol{\theta}) ]$$
+            The log prior acts as a regularizer.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.5; Murphy, Ch 5.2.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is a <strong>Conjugate Prior</strong>?</div>
+        <div class="answer">
+            <p>A prior is conjugate to a likelihood function if the posterior distribution has the same functional form as the prior. This allows for closed-form Bayesian updates.
+            <br>Example: Beta prior + Bernoulli likelihood \(\rightarrow\) Beta posterior.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.4.2; Murphy, Ch 3.3.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Give the conjugate priors for the parameters of:
+        <br>1. Bernoulli
+        <br>2. Multinomial
+        <br>3. Gaussian Mean (known variance)
+        <br>4. Gaussian Variance (known mean)</div>
+        <div class="answer">
+            <p>1. Beta distribution
+            <br>2. Dirichlet distribution
+            <br>3. Gaussian distribution
+            <br>4. Gamma (or Inverse-Gamma) distribution
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2; Murphy, Ch 3 & 4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Bayesian Occam's Razor</strong>?</div>
+        <div class="answer">
+            <p>The principle that Bayesian model selection automatically penalizes complex models. Complex models spread their probability mass over a larger space of datasets. Thus, for a specific dataset, a simpler model (that puts more mass on that dataset) often has a higher <strong>marginal likelihood</strong> (evidence) \(p(\mathcal{D}|M)\).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 5.3.1; Bishop Ch 3.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Posterior Predictive Distribution</strong>?</div>
+        <div class="answer">
+            <p>The distribution of a new data point \(x_{new}\) given the observed data \(\mathcal{D}\), obtained by marginalizing out the parameters \(\boldsymbol{\theta}\):
+            $$p(x_{new}|\mathcal{D}) = \int p(x_{new}|\boldsymbol{\theta}) p(\boldsymbol{\theta}|\mathcal{D}) d\boldsymbol{\theta}$$
+            This averages predictions over all possible parameter settings weighted by their posterior probabilities.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.6; Murphy, Ch 3.2.4.</div>
+    </div>
+
+    <!-- 4. Information Theory -->
+    <div class="flashcard-data">
+        <div class="question">Define <strong>Entropy</strong> for a discrete random variable.</div>
+        <div class="answer">
+            <p>Entropy \(H[x]\) measures the average amount of information (or uncertainty) in a random variable \(x\):
+            $$H[x] = -\sum_x p(x) \ln p(x)$$
+            It is maximized by a uniform distribution.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.6, Eq 1.98; Murphy, Ch 2.8.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>KL Divergence</strong> (Relative Entropy)?</div>
+        <div class="answer">
+            <p>A measure of dissimilarity between two probability distributions \(p(x)\) and \(q(x)\):
+            $$\text{KL}(p||q) = -\int p(x) \ln \frac{q(x)}{p(x)} dx$$
+            Properties: \(\text{KL}(p||q) \ge 0\) (Gibbs' inequality), and \(\text{KL}(p||q) = 0\) iff \(p=q\). It is asymmetric.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.6.1, Eq 1.113; Murphy, Ch 2.8.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Define <strong>Mutual Information</strong>.</div>
+        <div class="answer">
+            <p>A measure of the dependence between two variables \(x\) and \(y\). It is the KL divergence between the joint distribution and the product of marginals:
+            $$I[x, y] = \text{KL}(p(x,y) || p(x)p(y)) = H[x] - H[x|y]$$
+            It represents the reduction in uncertainty about \(x\) given \(y\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.6.1, Eq 1.120; Murphy, Ch 2.8.3.</div>
+    </div>
+
+    <!-- 5. Gaussian Models & Linear Algebra -->
+    <div class="flashcard-data">
+        <div class="question">How do you compute the <strong>marginal</strong> distribution \(p(x_a)\) from a partitioned joint Gaussian \(p(x_a, x_b)\)?</div>
+        <div class="answer">
+            <p>If \(p(x_a, x_b) = \mathcal{N}\left( \begin{bmatrix} \mu_a \\ \mu_b \end{bmatrix}, \begin{bmatrix} \Sigma_{aa} & \Sigma_{ab} \\ \Sigma_{ba} & \Sigma_{bb} \end{bmatrix} \right)\), then the marginal is simply:
+            $$p(x_a) = \mathcal{N}(x_a | \mu_a, \Sigma_{aa})$$
+            Marginalization in Gaussians is trivial: just drop the other variables.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.2; Murphy, Ch 4.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">How do you compute the <strong>conditional</strong> distribution \(p(x_a|x_b)\) from a joint Gaussian?</div>
+        <div class="answer">
+            <p>For the joint Gaussian defined in the previous card, the conditional \(p(x_a|x_b)\) is also Gaussian with:
+            Mean: \(\mu_{a|b} = \mu_a + \Sigma_{ab}\Sigma_{bb}^{-1}(x_b - \mu_b)\)
+            <br>Covariance: \(\Sigma_{a|b} = \Sigma_{aa} - \Sigma_{ab}\Sigma_{bb}^{-1}\Sigma_{ba}\)
+            Note the mean depends linearly on \(x_b\), while the covariance is independent of \(x_b\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.1, Eq 2.81-2.82; Murphy, Ch 4.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Product of two Gaussians</strong>?</div>
+        <div class="answer">
+            <p>The product of two Gaussian PDFs is proportional to another Gaussian PDF.
+            \(\mathcal{N}(x|\mu_1, \Sigma_1)\mathcal{N}(x|\mu_2, \Sigma_2) \propto \mathcal{N}(x|\mu_{new}, \Sigma_{new})\).
+            This property is key for Bayesian updates where prior and likelihood are both Gaussian.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 4.3.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Linear Gaussian Model</strong>?</div>
+        <div class="answer">
+            <p>A system where:
+            $$p(x) = \mathcal{N}(x|\mu_x, \Sigma_x)$$
+            $$p(y|x) = \mathcal{N}(y|Ax + b, \Sigma_y)$$
+            The marginal \(p(y)\) and posterior \(p(x|y)\) are also Gaussian. This forms the basis for Factor Analysis, PCA, and Kalman Filters.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.3; Murphy, Ch 4.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Normal-Inverse-Wishart (NIW)</strong> distribution?</div>
+        <div class="answer">
+            <p>It is the conjugate prior for a multivariate Gaussian with unknown mean \(\mu\) and unknown covariance \(\Sigma\).
+            $$p(\mu, \Sigma) = \text{NIW}(\mu, \Sigma | m_0, \kappa_0, \nu_0, S_0) = \mathcal{N}(\mu | m_0, \frac{1}{\kappa_0}\Sigma) \times \text{IW}(\Sigma | S_0, \nu_0)$$
+            It combines a Gaussian prior on the mean (conditioned on \(\Sigma\)) and an Inverse-Wishart prior on the covariance.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 4.6.3.2, Eq 4.200.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Wishart Distribution</strong>?</div>
+        <div class="answer">
+            <p>A distribution over symmetric positive-definite matrices (like covariance matrices). It is the conjugate prior for the precision matrix (inverse covariance) of a Gaussian. If \(\mathbf{S} \sim \text{Wi}(\mathbf{\Sigma}, \nu)\), then \(\mathbf{S}\) is the distribution of the scatter matrix \(\sum_{i=1}^\nu \mathbf{x}_i \mathbf{x}_i^T\) where \(\mathbf{x}_i \sim \mathcal{N}(0, \mathbf{\Sigma})\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.6; Murphy, Ch 4.5.</div>
+    </div>
+
+    <!-- 6. More Concepts -->
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>"Curse of Dimensionality"</strong>?</div>
+        <div class="answer">
+            <p>In high-dimensional spaces, volume grows exponentially with dimension. Data becomes sparse, and distance measures become less meaningful (all points are roughly equidistant). For a Gaussian, probability mass is concentrated in a thin shell at a large radius from the mean.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.4; Murphy, Ch 1.4.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">Explain <strong>Decision Theory</strong> and the concept of <strong>Risk</strong>.</div>
+        <div class="answer">
+            <p>Decision theory combines probabilities with a <strong>Loss Function</strong> \(L(y, a)\) (cost of taking action \(a\) when truth is \(y\)). The goal is to minimize <strong>Risk</strong> (expected loss):
+            $$\mathbb{E}[L] = \sum_y \int L(y, a(x)) p(x, y) dx$$
+            For 0-1 loss, this leads to picking the class with the highest posterior probability.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.5; Murphy, Ch 5.7.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Naive Bayes Classifier</strong>?</div>
+        <div class="answer">
+            <p>A generative classifier that assumes features \(x_1, \dots, x_D\) are conditionally independent given the class label \(y\):
+            $$p(\mathbf{x}|y) = \prod_{j=1}^D p(x_j|y)$$
+            The classifier predicts \(y\) maximizing \(p(y)\prod p(x_j|y)\). "Naive" because features are rarely independent.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 3.5.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Log-Sum-Exp trick</strong>?</div>
+        <div class="answer">
+            <p>A numerical technique to compute \(\log \sum_i \exp(x_i)\) without underflow or overflow. Ideally:
+            $$\log \sum \exp(x_i) = m + \log \sum \exp(x_i - m)$$
+            where \(m = \max_i x_i\). Used in Naive Bayes and HMMs.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 3.5.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Exponential Family</strong> of distributions?</div>
+        <div class="answer">
+            <p>A class of distributions whose PDF can be written as:
+            $$p(\mathbf{x}|\boldsymbol{\eta}) = h(\mathbf{x}) g(\boldsymbol{\eta}) \exp\{ \boldsymbol{\eta}^T \mathbf{u}(\mathbf{x}) \}$$
+            where \(\boldsymbol{\eta}\) are natural parameters and \(\mathbf{u}(\mathbf{x})\) are sufficient statistics. Includes Gaussian, Exponential, Gamma, Beta, Bernoulli, etc.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.4, Eq 2.194; Murphy, Ch 9.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What are <strong>Sufficient Statistics</strong>?</div>
+        <div class="answer">
+            <p>A statistic \(\phi(D)\) is sufficient for a parameter \(\theta\) if \(p(D|\theta)\) depends on the data \(D\) only through \(\phi(D)\).
+            $$p(D|\theta) = g(\phi(D), \theta)h(D)$$
+            For exponential family, \(\sum \mathbf{u}(x_n)\) is sufficient.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.4.1; Murphy, Ch 3.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is a <strong>Gaussian Mixture Model (GMM)</strong>?</div>
+        <div class="answer">
+            <p>A probabilistic model that assumes data is generated from a mixture of \(K\) Gaussian distributions.
+            $$p(x) = \sum_{k=1}^K \pi_k \mathcal{N}(x|\mu_k, \Sigma_k)$$
+            where \(\pi_k\) are mixing coefficients (\(\sum \pi_k = 1\)). It is a latent variable model.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3.9; Murphy, Ch 11.2.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>EM (Expectation-Maximization)</strong> Algorithm?</div>
+        <div class="answer">
+            <p>An iterative algorithm to find MLE or MAP estimates in models with latent variables (like GMMs).
+            <br><strong>E-step:</strong> Compute posterior of latent variables given current parameters.
+            <br><strong>M-step:</strong> Update parameters to maximize expected log likelihood under distributions found in E-step.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 9; Murphy, Ch 11.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Bayesian Model Selection</strong> and the <strong>Evidence</strong>?</div>
+        <div class="answer">
+            <p>Choosing a model \(M_i\) based on the posterior \(p(M_i|\mathcal{D}) \propto p(\mathcal{D}|M_i)p(M_i)\). The term \(p(\mathcal{D}|M_i)\) is the <strong>Model Evidence</strong> (or Marginal Likelihood), computed by integrating out parameters:
+            $$p(\mathcal{D}|M_i) = \int p(\mathcal{D}|\theta, M_i)p(\theta|M_i)d\theta$$
+            It automatically penalizes model complexity (Bayesian Occam's Razor).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 3.4; Murphy, Ch 5.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What are <strong>BIC</strong> and <strong>AIC</strong>?</div>
+        <div class="answer">
+            <p>Criteria for model selection that approximate the model evidence.
+            <br><strong>BIC (Bayesian Information Criterion):</strong> \(\ln p(\mathcal{D}) \approx \ln p(\mathcal{D}|\hat{\theta}) - \frac{M}{2}\ln N\)
+            <br><strong>AIC (Akaike Information Criterion):</strong> \(\ln p(\mathcal{D}|\hat{\theta}) - M\)
+            where \(M\) is # of parameters, \(N\) is # of data points. BIC penalizes complexity more strongly for large \(N\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.3, 4.4.1; Murphy, Ch 5.3.2.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is a <strong>Non-informative Prior</strong>?</div>
+        <div class="answer">
+            <p>A prior intended to have minimal influence on the posterior, letting data dominate. Examples include the uniform distribution or Jeffreys Prior (which is invariant to re-parameterization). They are often "improper" (do not integrate to 1).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.4.3; Murphy, Ch 5.4.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Mahalanobis Distance</strong>?</div>
+        <div class="answer">
+            <p>A distance measure that accounts for correlations in data:
+            $$\Delta^2 = (\mathbf{x} - \boldsymbol{\mu})^T \mathbf{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})$$
+            It appears in the exponent of the Multivariate Gaussian. It reduces to Euclidean distance if \(\mathbf{\Sigma} = \mathbf{I}\).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.3, Eq 2.44; Murphy, Ch 4.1.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Inverse-Wishart Distribution</strong>?</div>
+        <div class="answer">
+            <p>A distribution over positive definite matrices, which acts as the conjugate prior for the covariance matrix of a Gaussian (when the mean is known). It generalizes the Inverse-Gamma distribution.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 4.5.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the relationship between <strong>Bernoulli</strong> and <strong>Binomial</strong> distributions?</div>
+        <div class="answer">
+            <p>The Bernoulli distribution models a single binary trial (0 or 1). The Binomial distribution models the sum of \(N\) independent Bernoulli trials. If \(N=1\), Binomial reduces to Bernoulli.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 2.1; Murphy, Ch 2.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Logistic Sigmoid Function</strong> and its derivative?</div>
+        <div class="answer">
+            <p>\(\sigma(x) = \frac{1}{1 + e^{-x}}\).
+            <br>It maps \((-\infty, \infty)\) to \((0, 1)\).
+            <br>Derivative: \(\sigma'(x) = \sigma(x)(1 - \sigma(x))\).
+            <br>Used in Logistic Regression and Neural Networks.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 4.3.2; Murphy, Ch 1.4.6.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Softmax Function</strong>?</div>
+        <div class="answer">
+            <p>A generalization of the sigmoid to \(K\) classes. It converts a vector of real numbers \(\mathbf{z}\) into a probability distribution:
+            $$\text{softmax}(\mathbf{z})_k = \frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}}$$
+            Used in Multiclass Logistic Regression and Neural Networks.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 4.3.4; Murphy, Ch 4.2.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Consistent Estimator</strong>?</div>
+        <div class="answer">
+            <p>An estimator \(\hat{\theta}_N\) is consistent if it converges in probability to the true parameter \(\theta\) as the sample size \(N \to \infty\). MLE is a consistent estimator.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 6.4.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Jacobian Matrix</strong>?</div>
+        <div class="answer">
+            <p>For a function \(\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m\), the Jacobian \(\mathbf{J}\) is an \(m \times n\) matrix of all first-order partial derivatives: \(J_{ij} = \frac{\partial f_i}{\partial x_j}\).
+            It is used in the Change of Variables formula for probability densities.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.1; Murphy, Ch 2.6.2.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Change of Variables Formula</strong> for PDFs?</div>
+        <div class="answer">
+            <p>If \(\mathbf{y} = f(\mathbf{x})\) is a bijective transformation, the PDF of \(\mathbf{y}\) is:
+            $$p_y(\mathbf{y}) = p_x(\mathbf{x}) \left| \det \frac{\partial \mathbf{x}}{\partial \mathbf{y}} \right|$$
+            where the term in absolute values is the Jacobian determinant of the inverse transformation.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.1; Murphy, Ch 2.6.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Bias-Variance Decomposition</strong>?</div>
+        <div class="answer">
+            <p>The expected squared error of an estimator can be decomposed into:
+            $$\text{Error} = \text{Bias}^2 + \text{Variance} + \text{Noise}$$
+            High bias implies underfitting (model too simple). High variance implies overfitting (model too complex).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 3.2; Murphy, Ch 6.4.4.</div>
+    </div>
+
+    <!-- New Introductory Flashcards -->
+    <div class="flashcard-data">
+        <div class="question">What is a <strong>Sample Space</strong> (\(\Omega\))?</div>
+        <div class="answer">
+            <p>The set of all possible outcomes of a random experiment. For example, in a coin toss \(\Omega = \{H, T\}\); for a die roll \(\Omega = \{1, 2, 3, 4, 5, 6\}
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is an <strong>Event</strong>?</div>
+        <div class="answer">
+            <p>A subset of the sample space \(\Omega\). An event \(A\) occurs if the outcome of the experiment is an element of \(A\). For example, "rolling an even number" is the event \(A = \{2, 4, 6\}
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What are the <strong>Axioms of Probability</strong>?</div>
+        <div class="answer">
+            <p>1. <strong>Non-negativity</strong>: \(P(A) \ge 0\) for any event \(A\).
+            <br>2. <strong>Normalization</strong>: \(P(\Omega) = 1\).
+            <br>3. <strong>Additivity</strong>: If \(A_1, A_2, \dots\) are disjoint (mutually exclusive) events, then \(P(\cup_i A_i) = \sum_i P(A_i)\).
+            </p>
+        </div>
+        <div class="source">Source: Standard Probability Theory.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">How do you calculate the probability of the <strong>Union</strong> of two events?</div>
+        <div class="answer">
+            <p>For any two events \(A\) and \(B\):
+            $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+            If \(A\) and \(B\) are mutually exclusive (\(A \cap B = \emptyset\)), then \(P(A \cup B) = P(A) + P(B)\).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.2.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Conditional Probability</strong>?</div>
+        <div class="answer">
+            <p>The probability of event \(A\) occurring given that event \(B\) has occurred, denoted \(P(A|B)\).
+            $$P(A|B) = \frac{P(A \cap B)}{P(B)}$$
+            Defined only when \(P(B) > 0\).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.2.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Marginal Probability</strong>?</div>
+        <div class="answer">
+            <p>The probability of a single event occurring, independent of other events. For discrete variables \(X, Y\):
+            $$P(X=x) = \sum_y P(X=x, Y=y)$$
+            It is obtained by "summing out" the other variables from the joint distribution.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is <strong>Linearity of Expectation</strong>?</div>
+        <div class="answer">
+            <p>For any random variables \(X\) and \(Y\) (dependent or independent) and constants \(a, b\):
+            $$\mathbb{E}[aX + bY] = a\mathbb{E}[X] + b\mathbb{E}[Y]$$
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.6.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Variance Sum Law</strong> for independent variables?</div>
+        <div class="answer">
+            <p>If \(X\) and \(Y\) are independent random variables:
+            $$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$$
+            If they are dependent: \(\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2\text{Cov}(X, Y)\).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Exercise 2.3.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Standard Deviation</strong>?</div>
+        <div class="answer">
+            <p>The square root of the variance:
+            $$\sigma_X = \sqrt{\text{Var}(X)}$$
+            It measures the spread of the distribution in the same units as the random variable itself.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.7.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Correlation Coefficient</strong>?</div>
+        <div class="answer">
+            <p>A normalized measure of linear dependence between two variables \(X\) and \(Y\), denoted \(\rho_{XY}\):
+            $$\rho_{XY} = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y}$$
+            It ranges from -1 to 1. \(\rho=0\) means uncorrelated.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.5.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What does <strong>Uncorrelated</strong> mean vs. <strong>Independent</strong>?</div>
+        <div class="answer">
+            <p>Two variables are uncorrelated if \(\text{Cov}(X, Y) = 0\). They are independent if \(P(X, Y) = P(X)P(Y)\). Independence implies uncorrelatedness, but uncorrelatedness does <strong>not</strong> imply independence (unless variables are jointly Gaussian).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.5.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What does <strong>I.I.D.</strong> stand for?</div>
+        <div class="answer">
+            <p><strong>Independent and Identically Distributed</strong>. A sequence of random variables is i.i.d. if each variable has the same probability distribution and is mutually independent of the others. This is a common assumption for data points in machine learning.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.6.3; Bishop, Ch 1.2.4.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Likelihood Function</strong>?</div>
+        <div class="answer">
+            <p>The probability of the observed data \(\mathcal{D}\) viewed as a function of the parameters \(\theta\):
+            $$L(\theta) = p(\mathcal{D}|\theta)$$
+            It is not a probability distribution over \(\theta\) (does not integrate to 1).
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.3; Murphy, Ch 2.2.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Posterior Probability</strong>?</div>
+        <div class="answer">
+            <p>The probability of the parameters \(\theta\) after observing data \(\mathcal{D}\):
+            $$p(\theta|\mathcal{D}) = \frac{p(\mathcal{D}|\theta)p(\theta)}{p(\mathcal{D})}$$
+            It combines the prior belief with the likelihood of the observed data.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.3; Murphy, Ch 2.2.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Prior Probability</strong>?</div>
+        <div class="answer">
+            <p>The probability distribution \(p(\theta)\) over parameters \(\theta\) before any data is observed. It expresses initial beliefs or assumptions about the parameters.
+            </p>
+        </div>
+        <div class="source">Source: Bishop, Ch 1.2.3; Murphy, Ch 2.2.3.1.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Mode</strong> of a distribution?</div>
+        <div class="answer">
+            <p>The value of the random variable that has the highest probability (discrete) or probability density (continuous). For a unimodal distribution like Gaussian, it coincides with the mean.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.7.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Median</strong> of a distribution?</div>
+        <div class="answer">
+            <p>The value \(m\) such that the probability of being less than or equal to \(m\) is 0.5. For a symmetric distribution like Gaussian, median = mean = mode.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.6.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Categorical Distribution</strong>?</div>
+        <div class="answer">
+            <p>A discrete distribution describing the result of a single trial with \(K\) possible outcomes (e.g., rolling a K-sided die once). Often represented using a 1-of-K encoding vector \(\mathbf{x}\) where \(p(\mathbf{x}|\boldsymbol{\mu}) = \prod \mu_k^{x_k}\). It is a special case of the Multinomial with \(N=1\).
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.3.2.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Uniform Distribution</strong>?</div>
+        <div class="answer">
+            <p><strong>Continuous:</strong> \(p(x) = \frac{1}{b-a}\) for \(a \le x \le b\), 0 otherwise.
+            <br><strong>Discrete:</strong> \(p(x=k) = \frac{1}{K}\) for \(k=1 \dots K\).
+            It represents maximum ignorance (maximum entropy) over a bounded interval or finite set.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.5.</div>
+    </div>
+
+    <div class="flashcard-data">
+        <div class="question">What is the <strong>Chain Rule of Probability</strong>?</div>
+        <div class="answer">
+            <p>Allows expressing a joint distribution as a product of conditional distributions:
+            $$p(X_1, X_2, \dots, X_N) = p(X_1) p(X_2|X_1) p(X_3|X_1, X_2) \dots p(X_N|X_1, \dots, X_{N-1})$$
+            Valid for any ordering of variables.
+            </p>
+        </div>
+        <div class="source">Source: Murphy, Ch 2.2.2.2.</div>
+    </div>
+
+</div>
+
+<script>
+    let flashcards = [];
+    let currentIndex = 0;
+    let isFlipped = false;
+
+    // Load flashcard data from HTML elements
+    function loadFlashcards() {
+        const dataElements = document.querySelectorAll('.flashcard-data');
+        dataElements.forEach(el => {
+            flashcards.push({
+                question: el.querySelector('.question').innerHTML,
+                answer: el.querySelector('.answer').innerHTML,
+                source: el.querySelector('.source').innerHTML
+            });
+        });
+        updateCard();
+    }
+
+    function updateCard() {
+        // Reset flip state
+        if (isFlipped) {
+            document.querySelector('.card').classList.remove('is-flipped');
+            isFlipped = false;
+            // Delay content update slightly to hide transition
+            setTimeout(() => setContent(), 300);
+        } else {
+            setContent();
+        }
+    }
+
+    function setContent() {
+        if (flashcards.length === 0) return;
+        
+        const currentCard = flashcards[currentIndex];
+        document.getElementById('card-question').innerHTML = currentCard.question;
+        document.getElementById('card-answer').innerHTML = currentCard.answer;
+        document.getElementById('card-source').innerHTML = currentCard.source;
+        document.getElementById('progress-display').innerText = `Card ${currentIndex + 1} of ${flashcards.length}`;
+        
+        // Disable buttons if at ends
+        document.getElementById('prev-btn').disabled = currentIndex === 0;
+        document.getElementById('next-btn').disabled = currentIndex === flashcards.length - 1;
+
+        // Re-render MathJax
+        if (window.MathJax) {
+            MathJax.typesetPromise();
+        }
+        
+        // Save progress
+        setCookie('flashcardIndex', currentIndex, 7);
+    }
+
+    function flipCard() {
+        const card = document.querySelector('.card');
+        card.classList.toggle('is-flipped');
+        isFlipped = !isFlipped;
+    }
+
+    function nextCard() {
+        if (currentIndex < flashcards.length - 1) {
+            currentIndex++;
+            updateCard();
+        }
+    }
+
+    function prevCard() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateCard();
+        }
+    }
+
+    // Cookie helpers
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        let nameEQ = name + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // Initialization
+    window.onload = function() {
+        loadFlashcards();
+        
+        // Restore progress
+        const savedIndex = getCookie('flashcardIndex');
+        if (savedIndex) {
+            currentIndex = parseInt(savedIndex);
+            if (currentIndex >= flashcards.length) currentIndex = 0;
+            updateCard();
+        }
+    };
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "ArrowRight") {
+            nextCard();
+        } else if (event.key === "ArrowLeft") {
+            prevCard();
+        } else if (event.key === " " || event.key === "Enter") {
+            flipCard();
+        }
+    });
+
+</script>
+
+</body>
+</html>
