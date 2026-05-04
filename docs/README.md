@@ -5,6 +5,7 @@
 * [Probability](flashcards/ch0-flashcards-1.html)
 * [Linear Regression](flashcards/ch1-flashcards-1.html)
 * [Bayesian Inference and Learning](flashcards/ch2-flashcards-1.html)
+* [Linear Regression: Model Selection and Shrinkage Methods](flashcards/ch3-flashcards-1.html)
 
 ## Quizzes
 

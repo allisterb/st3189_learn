@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ST3189 Flashcards: Model Selection and Shrinkage</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #2c3e50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+        }
+        .slideshow-container {
+            position: relative;
+            width: 700px;
+            height: 450px;
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+            display: none;
+        }
+        .flashcard.active {
+            display: block;
+        }
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            box-sizing: border-box;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 2px solid #34495e;
+        }
+        .front {
+            background-color: #ffffff;
+            color: #2c3e50;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        .back {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            transform: rotateY(180deg);
+            font-size: 1.1em;
+            overflow-y: auto;
+            display: block;
+            text-align: left;
+        }
+        .back-content {
+            padding: 10px;
+        }
+        .source {
+            font-size: 0.85em;
+            color: #7f8c8d;
+            margin-top: 20px;
+            border-top: 1px solid #bdc3c7;
+            padding-top: 10px;
+            font-style: italic;
+        }
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #3498db;
+            color: white;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 4px #2980b9;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 0 #2980b9;
+        }
+        #progress {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .clear-btn {
+            background-color: #e74c3c;
+            box-shadow: 0 4px #c0392b;
+            margin-top: 20px;
+        }
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
+        .math-block {
+            display: block;
+            margin: 10px 0;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress">Card 1 of 100</div>
+
+    <div class="slideshow-container" id="slideshow">
+        <!-- 1-10: Fundamentals -->
+        <div class="flashcard active" id="card-1">
+            <div class="card-face front">What is the fundamental trade-off in model selection according to the ST3189 guide?</div>
+            <div class="card-face back"><div class="back-content">The trade-off between <b>Bias</b> (how wrong the model is) and <b>Variance</b> (estimation error). Choosing a useful model involves sacrificing a little bit of bias to significantly reduce variance. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-2">
+            <div class="card-face front">What are the two main reasons we are often not satisfied with Maximum Likelihood Estimates (MLE)?</div>
+            <div class="card-face back"><div class="back-content">1. <b>Prediction accuracy:</b> LSE/MLE often have low bias but large variance; shrinkage can improve accuracy.<br>2. <b>Interpretation:</b> With many predictors, subset selection helps identify the strongest effects for a "big picture" view. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-3">
+            <div class="card-face front">Why is comparing models based on log-likelihood alone problematic?</div>
+            <div class="card-face back"><div class="back-content">The log-likelihood evaluated at the MLE always favors models with more parameters ($M$), which inevitably leads to over-fitting. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-4">
+            <div class="card-face front">Define the Akaike Information Criterion (AIC).</div>
+            <div class="card-face back"><div class="back-content">A metric for model comparison that penalizes model complexity: <br>$AIC = -2\log f(y|\hat{\beta}, \hat{\sigma}^2) + 2p$<br>where $p$ is the number of parameters. Slower values indicate better models. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-5">
+            <div class="card-face front">Define the Bayesian Information Criterion (BIC).</div>
+            <div class="card-face back"><div class="back-content">Also known as the Schwarz criterion: <br>$BIC = -2\log f(y|\hat{\beta}, \hat{\sigma}^2) + p\log n$<br>where $n$ is the number of observations. It uses a heavier penalty than AIC for large $n$. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-6">
+            <div class="card-face front">What is the "Size Principle" in Bayesian concept learning?</div>
+            <div class="card-face back"><div class="back-content">The model favors the smallest (simplest) hypothesis consistent with the data. This is a mathematical embodiment of Occam's Razor. <div class="source">Source: Murphy, Machine Learning, p. 98</div></div></div>
+        </div>
+        <div class="flashcard" id="card-7">
+            <div class="card-face front">What is "Bayesian Occam's Razor"?</div>
+            <div class="card-face back"><div class="back-content">The effect where the marginal likelihood naturally favors simpler models because complex models must spread their probability mass more thinly over a larger space of possible datasets. <div class="source">Source: Murphy, Machine Learning, p. 187</div></div></div>
+        </div>
+        <div class="flashcard" id="card-8">
+            <div class="card-face front">Define Mallow's $C_p$.</div>
+            <div class="card-face back"><div class="back-content">An estimate of the test MSE: <br>$C_p = \frac{1}{n}(RSS + 2d\hat{\sigma}^2)$<br>where $d$ is the number of predictors and $\hat{\sigma}^2$ is an estimate of the error variance. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-9">
+            <div class="card-face front">What is Adjusted $R^2$?</div>
+            <div class="card-face back"><div class="back-content">A version of $R^2$ that penalizes unnecessary variables: <br>$Adjusted R^2 = 1 - \frac{RSS/(n-d-1)}{TSS/(n-1)}$. <br>Unlike $R^2$, it does not automatically increase with more variables. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-10">
+            <div class="card-face front">What does the "No Free Lunch Theorem" state?</div>
+            <div class="card-face back"><div class="back-content">There is no universally best model; a set of assumptions that works well in one domain may perform poorly in another. Empirical validation (like CV) is required to find the best method for a specific problem. <div class="source">Source: Murphy, Machine Learning, p. 55</div></div></div>
+        </div>
+
+        <!-- 11-30: Subset Selection -->
+        <div class="flashcard" id="card-11">
+            <div class="card-face front">Describe the first step of Best Subset Selection.</div>
+            <div class="card-face back"><div class="back-content">For each $k \in \{1, \dots, p\}$, fit all $\binom{p}{k}$ models with exactly $k$ predictors. Identify the "best" model $M_k$ (usually smallest RSS). <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-12">
+            <div class="card-face front">What is the second step of Best Subset Selection?</div>
+            <div class="card-face back"><div class="back-content">Choose a single best model from $M_0, \dots, M_p$ using cross-validated prediction error, $C_p$, BIC, or Adjusted $R^2$. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-13">
+            <div class="card-face front">Why is Best Subset Selection computationally demanding?</div>
+            <div class="card-face back"><div class="back-content">The number of possible models is $2^p$. For 20 predictors, there are over 1 million models; for 40, it is over 1 trillion. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-14">
+            <div class="card-face front">Define Forward Stepwise Selection.</div>
+            <div class="card-face back"><div class="back-content">A greedy approach that starts with the null model and sequentially adds the predictor that results in the greatest additional improvement to the fit. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-15">
+            <div class="card-face front">Define Backward Stepwise Selection.</div>
+            <div class="card-face back"><div class="back-content">Starts with the full model containing all $p$ predictors and sequentially removes the predictor that is least useful (least impact on RSS). <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-16">
+            <div class="card-face front">What is a statistical advantage of Forward Stepwise over Best Subset?</div>
+            <div class="card-face back"><div class="back-content">Forward stepwise is a more constrained search. While it might have slightly more bias, it often results in lower variance for the selected model. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-17">
+            <div class="card-face front">Can Backward Stepwise Selection be used if $p > n$?</div>
+            <div class="card-face back"><div class="back-content">No. It requires fitting the full model initially, which cannot be done with LSE when the number of parameters exceeds the number of observations. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-18">
+            <div class="card-face front">What is "Hybrid Stepwise Selection"?</div>
+            <div class="card-face back"><div class="back-content">A method where variables are added sequentially (like forward selection), but after adding each new variable, the algorithm also checks if any existing variables can be removed without significantly worsening the fit. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-19">
+            <div class="card-face front">How does the <code>nvmax</code> parameter in <code>regsubsets()</code> work?</div>
+            <div class="card-face back"><div class="back-content">It specifies the maximum size of the subsets to be examined. If <code>nvmax=20</code>, the algorithm will return the best models of sizes 1 through 20. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-20">
+            <div class="card-face front">What is the "One-Standard-Error Rule" for model selection?</div>
+            <div class="card-face back"><div class="back-content">Calculate the standard error of the estimated test error for each model size. Then, select the simplest model whose error is no more than one standard error above the lowest point on the curve. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-21">
+            <div class="card-face front">In Best Subset Selection, is the best model of size $k$ guaranteed to contain the best model of size $k-1$?</div>
+            <div class="card-face back"><div class="back-content"><b>No.</b> This is a key difference from Stepwise selection. The variables in the optimal subset of size $k$ may be completely different from those in the subset of size $k-1$. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-22">
+            <div class="card-face front">What is the computational complexity (number of models) of Forward Stepwise?</div>
+            <div class="card-face back"><div class="back-content">Approximately $1 + p(p+1)/2$ models. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-23">
+            <div class="card-face front">How does one use <code>regsubsets</code> for Forward selection in R?</div>
+            <div class="card-face back"><div class="back-content">By setting the <code>method="forward"</code> argument in the <code>regsubsets()</code> function. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-24">
+            <div class="card-face front">What R package is required for the <code>regsubsets()</code> function?</div>
+            <div class="card-face back"><div class="back-content">The <b>leaps</b> package. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-25">
+            <div class="card-face front">Why use indirect estimates (AIC/BIC) instead of direct CV error for subset selection?</div>
+            <div class="card-face back"><div class="back-content">Computational cost. Directly estimating test error via CV for every possible model in a search procedure is often too demanding. Indirect criteria are faster to compute. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-26">
+            <div class="card-face front">In the ST3189 guide, what quote is used to emphasize model utility?</div>
+            <div class="card-face back"><div class="back-content">"All models are wrong but some are useful!" by George Box. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-27">
+            <div class="card-face front">What is the "Validation Set" approach?</div>
+            <div class="card-face back"><div class="back-content">Randomly dividing the available data into a <b>Training set</b> (to fit models) and a <b>Validation set</b> (to select model complexity/parameters). <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-28">
+            <div class="card-face front">What is the formula for RSS in Matrix notation?</div>
+            <div class="card-face back"><div class="back-content">$RSS = (y - X\beta)^T(y - X\beta)$. <div class="source">Source: Rogers & Girolami, FCIML, p. 19</div></div></div>
+        </div>
+        <div class="flashcard" id="card-29">
+            <div class="card-face front">What is the "Null Model" RSS equal to?</div>
+            <div class="card-face back"><div class="back-content">The <b>Total Sum of Squares (TSS)</b>: $\sum (y_i - \bar{y})^2$. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-30">
+            <div class="card-face front">How does $R^2$ behave as more variables are added in Best Subset Selection?</div>
+            <div class="card-face back"><div class="back-content">It increases <b>monotonically</b>. This is why it is useless for comparing models of different sizes; it will always favor the largest model. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+
+        <!-- 31-60: Shrinkage Methods -->
+        <div class="flashcard" id="card-31">
+            <div class="card-face front">What is the Ridge Regression penalty term?</div>
+            <div class="card-face back"><div class="back-content">The <b>$L_2$ norm</b> of the coefficients: $\lambda \sum_{j=1}^p \beta_j^2$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-32">
+            <div class="card-face front">What is the Lasso Regression penalty term?</div>
+            <div class="card-face back"><div class="back-content">The <b>$L_1$ norm</b> of the coefficients: $\lambda \sum_{j=1}^p |\beta_j|$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-33">
+            <div class="card-face front">Compare the mathematical constraint of Ridge vs. Lasso.</div>
+            <div class="card-face back"><div class="back-content">Ridge: $\sum \beta_j^2 \leq s$ (circular constraint).<br>Lasso: $\sum |\beta_j| \leq s$ (diamond/pointy constraint). <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-34">
+            <div class="card-face front">What is the "Ridge Estimator" formula?</div>
+            <div class="card-face back"><div class="back-content">$\hat{\beta}_{R} = (X^T X + \lambda I)^{-1} X^T y$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-35">
+            <div class="card-face front">Why is Ridge regression stable even if $X^T X$ is singular?</div>
+            <div class="card-face back"><div class="back-content">Adding $\lambda$ to the diagonal elements of $X^T X$ ensures the resulting matrix $(X^T X + \lambda I)$ is invertible, even when $p > n$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-36">
+            <div class="card-face front">Define "Soft Thresholding" in Lasso.</div>
+            <div class="card-face back"><div class="back-content">In the orthonormal case, Lasso translates each coefficient by $\lambda/2$ towards zero, and sets it exactly to zero if its absolute value is less than $\lambda/2$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-37">
+            <div class="card-face front">Define "Proportional Shrinkage" in Ridge.</div>
+            <div class="card-face back"><div class="back-content">In the orthonormal case, Ridge divides each least squares coefficient by a constant factor $(1 + \lambda)$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-38">
+            <div class="card-face front">What is the effect of scaling on Ridge and Lasso?</div>
+            <div class="card-face back"><div class="back-content">They are <b>not</b> scale-invariant. Predictors must be standardized (mean 0, variance 1) so that the penalty is applied fairly across all variables. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-39">
+            <div class="card-face front">What happens to Lasso coefficients as $\lambda$ increases?</div>
+            <div class="card-face back"><div class="back-content">They shrink towards zero, and eventually, many are set to <b>exactly zero</b>, effectively performing variable selection. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-40">
+            <div class="card-face front">Define Elastic Net.</div>
+            <div class="card-face back"><div class="back-content">A method minimizing: $RSS + \lambda_1 \sum |\beta_j| + \lambda_2 \sum \beta_j^2$. It bridges Lasso and Ridge, useful for handling groups of correlated variables. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-41">
+            <div class="card-face front">When does Ridge regression tend to outperform Lasso?</div>
+            <div class="card-face back"><div class="back-content">When there are many predictors, all of which have a non-zero effect on the response, or when variables are highly correlated. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-42">
+            <div class="card-face front">When does Lasso tend to outperform Ridge regression?</div>
+            <div class="card-face back"><div class="back-content">When the true model is <b>sparse</b> (only a small number of predictors have a large effect, and others are close to zero). <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-43">
+            <div class="card-face front">How does <code>glmnet</code> handle categorical variables?</div>
+            <div class="card-face back"><div class="back-content">It requires numerical matrices. You should use <code>model.matrix()</code> first to convert factors into dummy variables. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-44">
+            <div class="card-face front">What is the "Lambda Grid"?</div>
+            <div class="card-face back"><div class="back-content">A range of $\lambda$ values (e.g., $10^{10}$ down to $10^{-2}$) tested via CV to find the optimal shrinkage level. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-45">
+            <div class="card-face front">What is <code>lambda.min</code> in <code>cv.glmnet</code>?</div>
+            <div class="card-face back"><div class="back-content">The value of $\lambda$ that results in the smallest cross-validated mean squared error. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-46">
+            <div class="card-face front">What is <code>lambda.1se</code> in <code>cv.glmnet</code>?</div>
+            <div class="card-face back"><div class="back-content">The largest $\lambda$ such that the error is within one standard error of the minimum. It typically provides a more regularized (simpler) model. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-47">
+            <div class="card-face front">In <code>glmnet</code>, what does <code>alpha=0</code> signify?</div>
+            <div class="card-face back"><div class="back-content">It specifies the <b>Ridge Regression</b> model ($L_2$ penalty only). <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-48">
+            <div class="card-face front">In <code>glmnet</code>, what does <code>alpha=1</code> signify?</div>
+            <div class="card-face back"><div class="back-content">It specifies the <b>Lasso Regression</b> model ($L_1$ penalty only). <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-49">
+            <div class="card-face front">Does Ridge regression produce a "sparse" model?</div>
+            <div class="card-face back"><div class="back-content"><b>No.</b> It includes all variables in the final model, though their coefficients may be very small. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-50">
+            <div class="card-face front">What is the "Bias-Variance Trade-off" in Ridge regression?</div>
+            <div class="card-face back"><div class="back-content">As $\lambda$ increases, model complexity and <b>Variance</b> decrease, but <b>Bias</b> increases. The goal is to find $\lambda$ where the Total Error (MSE) is minimized. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-51">
+            <div class="card-face front">Define "L1 Norm" ($\|\beta\|_1$).</div>
+            <div class="card-face back"><div class="back-content">The sum of the absolute values of the coefficients: $\sum_{j=1}^p |\beta_j|$. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-52">
+            <div class="card-face front">Define "L2 Norm" ($\|\beta\|_2$).</div>
+            <div class="card-face back"><div class="back-content">The square root of the sum of the squares of the coefficients: $\sqrt{\sum \beta_j^2}$. (The penalty in Ridge uses the square of this norm). <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-53">
+            <div class="card-face front">What is a "Bayesian Interpretation" of Ridge Regression?</div>
+            <div class="card-face back"><div class="back-content">Ridge regression is the MAP (Maximum A Posteriori) estimate for a linear model with a <b>Gaussian prior</b> (centered at zero) on the coefficients. <div class="source">Source: Bishop, Pattern Recognition, p. 30</div></div></div>
+        </div>
+        <div class="flashcard" id="card-54">
+            <div class="card-face front">What is a "Bayesian Interpretation" of Lasso?</div>
+            <div class="card-face back"><div class="back-content">Lasso is the MAP estimate for a linear model with a <b>Laplace prior</b> (centered at zero) on the coefficients. <div class="source">Source: Murphy, Machine Learning, p. 440</div></div></div>
+        </div>
+        <div class="flashcard" id="card-55">
+            <div class="card-face front">What is "Data Leaking"?</div>
+            <div class="card-face back"><div class="back-content">Using information from the test set (e.g., its mean or variance for scaling) during the training phase. This leads to overly optimistic performance estimates. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-56">
+            <div class="card-face front">What is a "Pipeline" in <code>mlr3</code>?</div>
+            <div class="card-face back"><div class="back-content">A sequence of data processing steps (like scaling) and learning algorithms bundled together to ensure valid cross-validation and prevent data leaking. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-57">
+            <div class="card-face front">In <code>mlr3</code>, what does <code>po('scale')</code> do?</div>
+            <div class="card-face back"><div class="back-content">It is a "PipeOp" (Pipe Operator) that performs data scaling (centering and scaling to unit variance). <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-58">
+            <div class="card-face front">What is the "James-Stein Estimator"?</div>
+            <div class="card-face back"><div class="back-content">A shrinkage estimator for the mean of a Gaussian that is proven to have lower MSE than the sample mean for $N \geq 4$. <div class="source">Source: Murphy, Machine Learning, p. 230</div></div></div>
+        </div>
+        <div class="flashcard" id="card-59">
+            <div class="card-face front">Define "Stein's Paradox".</div>
+            <div class="card-face back"><div class="back-content">The counter-intuitive result that the best estimate of a vector of means is NOT the vector of individual sample means, but rather a shrunken version. <div class="source">Source: Murphy, Machine Learning, p. 230</div></div></div>
+        </div>
+        <div class="flashcard" id="card-60">
+            <div class="card-face front">Is Ridge regression suitable for "High-Dimensional" data ($p > n$)?</div>
+            <div class="card-face back"><div class="back-content"><b>Yes.</b> It is specifically designed to handle ill-conditioned matrices where LSE fails. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+
+        <!-- 61-80: Advanced Mathematical Concepts -->
+        <div class="flashcard" id="card-61">
+            <div class="card-face front">How does Lasso behave when variables are perfectly correlated?</div>
+            <div class="card-face back"><div class="back-content">The solution is not unique; it may pick any of the variables or a combination, but it will typically drop all but one. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-62">
+            <div class="card-face front">How does Ridge behave when variables are perfectly correlated?</div>
+            <div class="card-face back"><div class="back-content">It assigns them identical coefficients, effectively averaging their effects. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-63">
+            <div class="card-face front">Define "Hard-Thresholding".</div>
+            <div class="card-face back"><div class="back-content">The model selection strategy used in subset selection: coefficients for excluded variables are set to zero, and others are left at their LSE values. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-64">
+            <div class="card-face front">What is the "L1 Penalty" shape in 3D?</div>
+            <div class="card-face back"><div class="back-content">An octahedron (dual of a cube). It has sharp edges and vertices on the coordinate axes. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-65">
+            <div class="card-face front">What is the "L2 Penalty" shape in 3D?</div>
+            <div class="card-face back"><div class="back-content">A sphere. It is smooth and lacks the axis-aligning "corners" of L1. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-66">
+            <div class="card-face front">What is "Coordinate Descent"?</div>
+            <div class="card-face back"><div class="back-content">A numerical optimization algorithm used to fit Lasso models by optimizing one coefficient at a time while holding others fixed. <div class="source">Source: Murphy, Machine Learning, p. 441</div></div></div>
+        </div>
+        <div class="flashcard" id="card-67">
+            <div class="card-face front">Define "Total Sum of Squares" (TSS).</div>
+            <div class="card-face back"><div class="back-content">The total variability in the response: $TSS = \sum (y_i - \bar{y})^2$. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-68">
+            <div class="card-face front">What is the formula for the "Full LSE" in matrix notation?</div>
+            <div class="card-face back"><div class="back-content">$\hat{\beta} = (X^T X)^{-1} X^T y$. <div class="source">Source: Rogers & Girolami, FCIML, p. 22</div></div></div>
+        </div>
+        <div class="flashcard" id="card-69">
+            <div class="card-face front">What is "Mahalanobis Distance"?</div>
+            <div class="card-face back"><div class="back-content">A distance measure that accounts for the correlation between variables: $\sqrt{(x-\mu)^T \Sigma^{-1}(x-\mu)}$. <div class="source">Source: Bishop, Pattern Recognition, p. 129</div></div></div>
+        </div>
+        <div class="flashcard" id="card-70">
+            <div class="card-face front">How does "Trace Trick" apply to log-likelihood?</div>
+            <div class="card-face back"><div class="back-content">It allows rewriting scalar quadratic forms as traces of matrices: $x^T A x = \text{tr}(A x x^T)$. Useful for MVN parameter estimation. <div class="source">Source: Murphy, Machine Learning, p. 130</div></div></div>
+        </div>
+        <div class="flashcard" id="card-71">
+            <div class="card-face front">What is "Shrinkage Factor" ($B$)?</div>
+            <div class="card-face back"><div class="back-content">In Empirical Bayes, the value $B = \frac{\sigma^2}{\sigma^2 + \tau^2}$ that determines how much the local estimate is pulled toward the global mean. <div class="source">Source: Murphy, Machine Learning, p. 176</div></div></div>
+        </div>
+        <div class="flashcard" id="card-72">
+            <div class="card-face front">Define "Standard Error" of the mean.</div>
+            <div class="card-face back"><div class="back-content">$SE(\bar{x}) = \frac{s}{\sqrt{n}}$. It quantifies the uncertainty in the sample mean estimate. <div class="source">Source: Murphy, Machine Learning, p. 137</div></div></div>
+        </div>
+        <div class="flashcard" id="card-73">
+            <div class="card-face front">What is a "Credible Interval"?</div>
+            <div class="card-face back"><div class="back-content">A Bayesian interval containing $1-\alpha$ of the posterior probability mass. <div class="source">Source: Murphy, Machine Learning, p. 183</div></div></div>
+        </div>
+        <div class="flashcard" id="card-74">
+            <div class="card-face front">What is the "Highest Posterior Density" (HPD) region?</div>
+            <div class="card-face back"><div class="back-content">The narrowest possible interval containing $1-\alpha$ of the posterior mass; every point inside has higher density than points outside. <div class="source">Source: Murphy, Machine Learning, p. 184</div></div></div>
+        </div>
+        <div class="flashcard" id="card-75">
+            <div class="card-face front">Define "Degrees of Freedom" in the context of AIC.</div>
+            <div class="card-face back"><div class="back-content">The number of free parameters ($p$) used to fit the model. It represents the "cost" paid for complexity. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-76">
+            <div class="card-face front">What is the "Bayes Factor"?</div>
+            <div class="card-face back"><div class="back-content">The ratio of the marginal likelihoods of two competing models: $BF_{10} = \frac{p(D|M_1)}{p(D|M_0)}$. <div class="source">Source: Murphy, Machine Learning, p. 194</div></div></div>
+        </div>
+        <div class="flashcard" id="card-77">
+            <div class="card-face front">How does "Bias" change as model complexity decreases?</div>
+            <div class="card-face back"><div class="back-content">Bias <b>increases</b> as the model becomes simpler and potentially under-fits the true underlying pattern. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-78">
+            <div class="card-face front">How does "Variance" change as model complexity decreases?</div>
+            <div class="card-face back"><div class="back-content">Variance <b>decreases</b> as the model becomes less sensitive to specific training data points. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-79">
+            <div class="card-face front">What is "Consensus Sequence"?</div>
+            <div class="card-face back"><div class="back-content">In biosequence analysis, the sequence formed by picking the most probable letter at each location. <div class="source">Source: Murphy, Machine Learning, p. 67</div></div></div>
+        </div>
+        <div class="flashcard" id="card-80">
+            <div class="card-face front">What is "Sifting Property" of Dirac delta?</div>
+            <div class="card-face back"><div class="back-content">$\int f(x)\delta(x-\mu)dx = f(\mu)$. It extracts the value of a function at a specific point. <div class="source">Source: Murphy, Machine Learning, p. 70</div></div></div>
+        </div>
+
+        <!-- 81-100: Practical Applications and R Code -->
+        <div class="flashcard" id="card-81">
+            <div class="card-face front">How do you plot the BIC values for models from <code>regsubsets</code>?</div>
+            <div class="card-face back"><div class="back-content"><code>plot(summary(regfit.full)$bic, type='l')</code>. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-82">
+            <div class="card-face front">What is the "Elbow" in a BIC plot?</div>
+            <div class="card-face back"><div class="back-content">The point where the curve starts to flatten out or increase, indicating that additional variables are no longer providing significant improvement relative to the penalty. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-83">
+            <div class="card-face front">How do you extract coefficients from a <code>glmnet</code> model at a specific $\lambda$?</div>
+            <div class="card-face back"><div class="back-content"><code>coef(fit, s=0.01)</code>. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-84">
+            <div class="card-face front">What is the purpose of <code>TaskRegr$new()</code> in <code>mlr3</code>?</div>
+            <div class="card-face back"><div class="back-content">To create a new regression task, specifying the task ID, the backend data, and the target variable name. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-85">
+            <div class="card-face front">What is <code>po('scale') %>>% po(learner)</code>?</div>
+            <div class="card-face back"><div class="back-content">An <code>mlr3</code> pipeline that scales the data first and then passes it to the learner. <div class="source">Source: ST3189 Subject Guide - Subset Selection Shrinkage Methods R</div></div></div>
+        </div>
+        <div class="flashcard" id="card-86">
+            <div class="card-face front">Why is LSE unbiased?</div>
+            <div class="card-face back"><div class="back-content">Because $E(\hat{\beta}_{LSE}) = \beta$, meaning on average, the estimator hits the true parameter value. <div class="source">Source: ST3189 Subject Guide - Subset Selection Linear Regression</div></div></div>
+        </div>
+        <div class="flashcard" id="card-87">
+            <div class="card-face front">Is Ridge regression biased?</div>
+            <div class="card-face back"><div class="back-content"><b>Yes.</b> It intentionally introduces bias (pulling coefficients toward zero) to achieve a larger reduction in variance. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-88">
+            <div class="card-face front">Is Lasso regression biased?</div>
+            <div class="card-face back"><div class="back-content"><b>Yes.</b> Like Ridge, it trades bias for a reduction in variance and the benefit of variable selection. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-89">
+            <div class="card-face front">What is "MSE Decomposition"?</div>
+            <div class="card-face back"><div class="back-content">$MSE = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$. <div class="source">Source: Murphy, Machine Learning, p. 233</div></div></div>
+        </div>
+        <div class="flashcard" id="card-90">
+            <div class="card-face front">Define "Consistent Estimator".</div>
+            <div class="card-face back"><div class="back-content">An estimator $\hat{\theta}$ such that $\hat{\theta} \to \theta^*$ as $n \to \infty$. MLE is a consistent estimator. <div class="source">Source: Murphy, Machine Learning, p. 231</div></div></div>
+        </div>
+        <div class="flashcard" id="card-91">
+            <div class="card-face front">What is the "Cramer-Rao Lower Bound"?</div>
+            <div class="card-face back"><div class="back-content">A lower bound on the variance of any unbiased estimator. MLE achieves this bound asymptotically. <div class="source">Source: Murphy, Machine Learning, p. 232</div></div></div>
+        </div>
+        <div class="flashcard" id="card-92">
+            <div class="card-face front">What is "Minimax Risk"?</div>
+            <div class="card-face back"><div class="back-content">A decision rule that minimizes the maximum possible risk (worst-case scenario). It is often very pessimistic. <div class="source">Source: Murphy, Machine Learning, p. 227</div></div></div>
+        </div>
+        <div class="flashcard" id="card-93">
+            <div class="card-face front">Define "Admissible Estimator".</div>
+            <div class="card-face back"><div class="back-content">An estimator that is not "strictly dominated" by any other estimator (i.e., there's no other estimator with lower risk for all possible values of $\theta$). <div class="source">Source: Murphy, Machine Learning, p. 228</div></div></div>
+        </div>
+        <div class="flashcard" id="card-94">
+            <div class="card-face front">What is the "Mode" of a distribution?</div>
+            <div class="card-face back"><div class="back-content">The point at which the probability density (or mass) function reaches its maximum value. In Bayesian context, it is the MAP estimate. <div class="source">Source: Murphy, Machine Learning, p. 181</div></div></div>
+        </div>
+        <div class="flashcard" id="card-95">
+            <div class="card-face front">Why might the Mode be an "untypical" point?</div>
+            <div class="card-face back"><div class="back-content">In skewed or multimodal distributions, the mode may be at an extreme or far from the bulk of the probability mass. Mean or Median are often better summaries. <div class="source">Source: Murphy, Machine Learning, p. 181</div></div></div>
+        </div>
+        <div class="flashcard" id="card-96">
+            <div class="card-face front">What is "Type II Maximum Likelihood"?</div>
+            <div class="card-face back"><div class="back-content">Also called Empirical Bayes: optimizing the hyperparameters by maximizing the marginal likelihood (evidence) instead of integrating them out. <div class="source">Source: Murphy, Machine Learning, p. 173</div></div></div>
+        </div>
+        <div class="flashcard" id="card-97">
+            <div class="card-face front">Define "Sufficient Statistic".</div>
+            <div class="card-face back"><div class="back-content">A function of the data $s(D)$ that contains all the information needed to infer the parameter $\theta$. <div class="source">Source: Murphy, Machine Learning, p. 105</div></div></div>
+        </div>
+        <div class="flashcard" id="card-98">
+            <div class="card-face front">What is "Conjugate Prior"?</div>
+            <div class="card-face back"><div class="back-content">A prior distribution that, when combined with a specific likelihood, results in a posterior distribution of the same functional form. <div class="source">Source: Murphy, Machine Learning, p. 105</div></div></div>
+        </div>
+        <div class="flashcard" id="card-99">
+            <div class="card-face front">How does "Ridge Regression" handle Multi-collinearity?</div>
+            <div class="card-face back"><div class="back-content">By adding $\lambda$ to the diagonal of $X^T X$, it effectively "breaks" the perfect correlation, allowing for stable coefficient estimates. <div class="source">Source: ST3189 Subject Guide - Shrinkage Methods</div></div></div>
+        </div>
+        <div class="flashcard" id="card-100">
+            <div class="card-face front">Final check: What is the primary mission of this scaffolding?</div>
+            <div class="card-face back"><div class="back-content">To deconstruct raw educational materials into structured interactive tools for mastery-level exam preparation. <div class="source">Project Persona</div></div></div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">Previous</button>
+        <button id="flipBtn">Flip Card</button>
+        <button id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        const cards = document.querySelectorAll('.flashcard');
+        let currentCardIndex = 0;
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        const savedIndex = getCookie('st3189_flashcard_idx');
+        if (savedIndex !== null) {
+            cards[currentCardIndex].classList.remove('active');
+            currentCardIndex = parseInt(savedIndex);
+            cards[currentCardIndex].classList.add('active');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            document.getElementById('progress').innerText = `Card ${currentCardIndex + 1} of ${cards.length}`;
+            setCookie('st3189_flashcard_idx', currentCardIndex, 30);
+        }
+
+        function showNext() {
+            cards[currentCardIndex].classList.remove('active', 'flipped');
+            currentCardIndex = (currentCardIndex + 1) % cards.length;
+            cards[currentCardIndex].classList.add('active');
+            updateProgress();
+        }
+
+        function showPrev() {
+            cards[currentCardIndex].classList.remove('active', 'flipped');
+            currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
+            cards[currentCardIndex].classList.add('active');
+            updateProgress();
+        }
+
+        function flipCard() {
+            cards[currentCardIndex].classList.toggle('flipped');
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', showNext);
+        document.getElementById('prevBtn').addEventListener('click', showPrev);
+        document.getElementById('flipBtn').addEventListener('click', flipCard);
+
+        cards.forEach(card => {
+            card.addEventListener('click', flipCard);
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') showPrev();
+            if (e.key === ' ' || e.key === 'Enter') flipCard();
+        });
+    </script>
+    
+    <button class="clear-btn" id="clearBtn">Clear Progress</button>
+    <script>
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            setCookie('st3189_flashcard_idx', 0, -1);
+            location.reload();
+        });
+    </script>
+</body>
+</html>
